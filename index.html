@@ -273,10 +273,10 @@ function calcScores(text) {
   var frac = (h1 % 65521) / 65521 + (h2 % 65537) / (65521 * 65537);
   frac = frac - Math.floor(frac);
 
-  // ── 总分区间随质量提升（高分段充分拉宽） ──
-  // q=0 → [30, 50)，q=5 → [54, 72)，q=10 → [78, 100]
+  // ── 总分区间随质量提升（高分段充分拉宽减少同分） ──
+  // q=0 → [30, 55)，q=5 → [54, 78)，q=10 → [78, 100]
   var lo = 30 + q * 4.8;
-  var hi = 50 + q * 5.0;
+  var hi = 55 + q * 4.5;
   var total = Math.round(lo + frac * (hi - lo));
   total = Math.min(100, Math.max(30, total));
 
