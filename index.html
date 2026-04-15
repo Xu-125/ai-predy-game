@@ -229,6 +229,12 @@ textarea.inp{resize:none;min-height:80px;line-height:1.6}
 </div>
 
 <script>
+// ── 清除数据（URL 加 ?clear=1 即可） ──
+if (location.search.indexOf('clear=1') !== -1) {
+  localStorage.clear();
+  location.href = location.pathname;
+}
+
 var _user = null;
 var _result = null;
 var _played = false;
