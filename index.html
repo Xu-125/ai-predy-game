@@ -239,10 +239,12 @@ var D = [
   {k:'vibe',       l:'Vibe 感',    w:0.2}
 ];
 
+// 双哈希：两个独立 seed 组合，碰撞率极低
 function strHash(s, seed) {
-  var h = seed || 0;
+  var h = seed >>> 0;
   for (var i = 0; i < s.length; i++) {
-    h = ((h << 5) - h + s.charCodeAt(i)) | 0;
+    h = Math.imul(h ^ s.charCodeAt(i), 0x9e3779b1) >>> 0;
+    h = ((h << 13) | (h >>> 19)) >>> 0;
   }
   return h;
 }
@@ -251,47 +253,54 @@ function calcScores(text) {
   var t = text.trim();
   var len = t.length;
 
-  var c = 30;
-  if (/做|生成|创建|写|设计|实现|帮我|给我|开发|制作/.test(t)) c += 25;
-  if (/游戏|页面|动画|效果|组件|界面|功能|系统/.test(t)) c += 25;
-  if (len > 30) c += 10;
-  if (len > 80) c += 10;
-  c = Math.min(c, 100);
+  // ── 质量分 (0~10) ──
+  var q = 0;
+  if (/做|生成|创建|写|设计|实现|帮我|给我|开发|制作/.test(t)) q += 2;
+  if (/游戏|页面|动画|效果|组件|界面|功能|系统/.test(t)) q += 2;
+  if (/粒子|物理|弹射|碎裂|颜色|大小|速度|动效|渐变|阴影|圆角|响应式|流畅|丝滑/.test(t)) q += 2;
+  if (/薯队长|大富翁|打砖块|跑酷|消消乐|弹幕|烟花|vibe|魔法|赛博|像素|复古/.test(t)) q += 2;
+  if (/牛逼|炸裂|爆炸|超酷|惊艳|完美|绝了|好玩|有趣|震撼/.test(t)) q += 1;
+  if (/\u5427|\u5462|\u54e6|\uff5e|\uff01|!/.test(t)) q += 1;
+  if (/\d+/.test(t)) q += 1;
+  if (len > 20) q += 1;
+  if (len > 50) q += 1;
+  if (len > 100) q += 1;
+  q = Math.min(q, 10);
 
-  var d = 20;
-  if (/粒子|物理|弹射|碎裂|颜色|大小|速度|动效|渐变|阴影|圆角|响应式|流畅|丝滑/.test(t)) d += 40;
-  if (/\d+/.test(t)) d += 20;
-  if (len > 50) d += 15;
-  if (len > 100) d += 5;
-  d = Math.min(d, 100);
+  // ── 双 hash 组合成高精度 0~1 浮点 ──
+  var h1 = strHash(t, 0xdeadbeef);
+  var h2 = strHash(t, 0xbeefdead);
+  var frac = (h1 % 65521) / 65521 + (h2 % 65537) / (65521 * 65537);
+  frac = frac - Math.floor(frac);
 
-  var cr = 25;
-  if (/薯队长|大富翁|打砖块|跑酷|消消乐|弹幕|烟花|vibe|魔法|赛博|像素|复古/.test(t)) cr += 45;
-  if (t.indexOf('\uff0c') >= 0 || t.indexOf(',') >= 0) cr += 15;
-  if (len > 60) cr += 15;
-  cr = Math.min(cr, 100);
+  // ── 总分区间随质量提升（整体拉宽避免同分） ──
+  // q=0 → [60, 76)，q=10 → [87, 100]
+  var lo = 60 + q * 2.7;
+  var hi = 76 + q * 2.4;
+  var total = Math.round(lo + frac * (hi - lo));
+  total = Math.min(100, Math.max(60, total));
 
-  var v = 30;
-  if (/牛逼|炸裂|爆炸|超酷|惊艳|漂亮|完美|绝了|好玩|有趣|震撼/.test(t)) v += 35;
-  if (/\u5427|\u5462|\u54e6|\uff5e|\uff01|!/.test(t)) v += 20;
-  if (len > 50) v += 15;
-  v = Math.min(v, 100);
-
-  function jitter(dim) {
-    var h = strHash(t + dim, 42);
-    return ((h % 17) - 8);
+  // ── 四维分各自独立 hash 派生 ──
+  function dimScore(seed) {
+    var dh = strHash(t, seed);
+    var df = (dh % 200003) / 200003;
+    var center = total * 0.88 + 11;
+    return Math.min(100, Math.max(15, Math.round(center + (df - 0.5) * 20)));
   }
 
   return {
-    clarity:    Math.min(100, Math.max(10, c  + jitter('clarity'))),
-    detail:     Math.min(100, Math.max(10, d  + jitter('detail'))),
-    creativity: Math.min(100, Math.max(10, cr + jitter('creativity'))),
-    vibe:       Math.min(100, Math.max(10, v  + jitter('vibe')))
+    clarity:    dimScore(0x11111111),
+    detail:     dimScore(0x22222222),
+    creativity: dimScore(0x33333333),
+    vibe:       dimScore(0x44444444),
+    _total:     total  // 直接保存原始总分，避免四维加权回算误差
   };
 }
 
 function calcTotal(s) {
-  return Math.round(D.reduce(function(a, dim) { return a + s[dim.k] * dim.w; }, 0));
+  // 直接用原始 total，无任何精度损失
+  if (typeof s._total === 'number') return s._total;
+  return Math.min(100, Math.max(60, Math.round(D.reduce(function(a, dim) { return a + s[dim.k] * dim.w; }, 0))));
 }
 
 var RANKS = [
