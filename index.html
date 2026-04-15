@@ -426,8 +426,23 @@ function doEvaluate() {
     var cmt = getCmt(total, text);
     _result = {text: text, scores: scores, total: total, rank: rank, cmt: cmt};
     renderResult(_result);
-    btn.style.display = 'none';
-    _played = true;
+
+    // 评估不锁定，可以改 prompt 重新评估；只有提交后才锁定
+    btn.textContent = '🔄 改 prompt，重新测';
+    btn.style.background = 'linear-gradient(135deg,#059669,#10b981)';
+    btn.onclick = function() {
+      document.getElementById('resultCard').classList.remove('show');
+      document.getElementById('promptInput').value = '';
+      document.getElementById('promptInput').focus();
+      document.getElementById('charCount').textContent = '0';
+      btn.textContent = '看看我的段位 ⚡';
+      btn.style.background = 'linear-gradient(135deg,#7c3aed,#2563eb)';
+      btn.onclick = doEvaluate;
+      document.getElementById('postBtn').style.display = 'none';
+      _result = null;
+    };
+
+    document.getElementById('resultCard').scrollIntoView({behavior: 'smooth', block: 'nearest'});
   }, 1200);
 }
 
