@@ -273,12 +273,12 @@ function calcScores(text) {
   var frac = (h1 % 65521) / 65521 + (h2 % 65537) / (65521 * 65537);
   frac = frac - Math.floor(frac);
 
-  // ── 总分区间随质量提升（整体拉宽避免同分） ──
-  // q=0 → [60, 76)，q=10 → [87, 100]
-  var lo = 60 + q * 2.7;
-  var hi = 76 + q * 2.4;
+  // ── 总分区间随质量提升（高分段充分拉宽） ──
+  // q=0 → [30, 50)，q=5 → [54, 72)，q=10 → [78, 100]
+  var lo = 30 + q * 4.8;
+  var hi = 50 + q * 5.0;
   var total = Math.round(lo + frac * (hi - lo));
-  total = Math.min(100, Math.max(60, total));
+  total = Math.min(100, Math.max(30, total));
 
   // ── 四维分各自独立 hash 派生 ──
   function dimScore(seed) {
@@ -298,9 +298,8 @@ function calcScores(text) {
 }
 
 function calcTotal(s) {
-  // 直接用原始 total，无任何精度损失
   if (typeof s._total === 'number') return s._total;
-  return Math.min(100, Math.max(60, Math.round(D.reduce(function(a, dim) { return a + s[dim.k] * dim.w; }, 0))));
+  return Math.min(100, Math.max(30, Math.round(D.reduce(function(a, dim) { return a + s[dim.k] * dim.w; }, 0))));
 }
 
 var RANKS = [
