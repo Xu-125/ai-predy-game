@@ -100,6 +100,7 @@ textarea.inp{resize:none;min-height:80px;line-height:1.6}
 .bar-fill{height:100%;border-radius:3px;width:0;transition:width 1s cubic-bezier(.34,1.56,.64,1)}
 
 .cmt-box{background:rgba(255,255,255,.03);border-left:2px solid;border-radius:0 10px 10px 0;padding:12px 14px;font-size:13px;line-height:1.7;color:rgba(255,255,255,.55);margin-bottom:16px}
+.rule{font-size:11px;color:rgba(255,255,255,.25);margin-top:8px;line-height:1.6}
 
 /* ── 已完成 ── */
 .done{text-align:center;padding:32px 20px;background:rgba(255,255,255,.03);border-radius:16px;border:1px solid rgba(255,255,255,.06);margin-bottom:16px}
@@ -195,6 +196,7 @@ textarea.inp{resize:none;min-height:80px;line-height:1.6}
       <label>💡 写一句 prompt，让 AI 帮你做点什么</label>
       <textarea class="inp" id="promptInput" placeholder="比如：帮我做一个打砖块小游戏，砖块碎裂时有粒子炸裂的效果..." maxlength="300"></textarea>
       <div class="cnt"><span id="charCount">0</span> / 300</div>
+      <div class="rule">评分将从 指令清晰度、细节丰富度、创意指数、Vibe 感 四个维度综合判断。写得越具体、越有创意，分数越高哦 ✨</div>
       <div class="tags">
         <span class="tag" onclick="fillEx(this)">打砖块小游戏</span>
         <span class="tag" onclick="fillEx(this)">登录页面</span>
@@ -253,34 +255,43 @@ function calcScores(text) {
   var t = text.trim();
   var len = t.length;
 
-  // ── 质量分 (0~10) ──
+  // ── 质量分（0~40） — 写得多、写得具体就分高 ──
   var q = 0;
-  if (/做|生成|创建|写|设计|实现|帮我|给我|开发|制作/.test(t)) q += 2;
-  if (/游戏|页面|动画|效果|组件|界面|功能|系统/.test(t)) q += 2;
-  if (/粒子|物理|弹射|碎裂|颜色|大小|速度|动效|渐变|阴影|圆角|响应式|流畅|丝滑/.test(t)) q += 2;
-  if (/薯队长|大富翁|打砖块|跑酷|消消乐|弹幕|烟花|vibe|魔法|赛博|像素|复古/.test(t)) q += 2;
-  if (/牛逼|炸裂|爆炸|超酷|惊艳|完美|绝了|好玩|有趣|震撼/.test(t)) q += 1;
-  if (/\u5427|\u5462|\u54e6|\uff5e|\uff01|!/.test(t)) q += 1;
-  if (/\d+/.test(t)) q += 1;
-  if (len > 20) q += 1;
-  if (len > 50) q += 1;
-  if (len > 100) q += 1;
-  q = Math.min(q, 10);
+  // 有明确指令意图（+5）
+  if (/做|生成|创建|写|设计|实现|帮我|给我|开发|制作/.test(t)) q += 5;
+  // 有具体目标对象（+5）
+  if (/游戏|页面|动画|效果|组件|界面|功能|系统/.test(t)) q += 5;
+  // 有技术/设计细节关键词（+5）
+  if (/粒子|物理|弹射|碎裂|颜色|大小|速度|动效|渐变|阴影|圆角|响应式|流畅|丝滑/.test(t)) q += 5;
+  // 有创意元素/主题词（+5）
+  if (/薯队长|大富翁|打砖块|跑酷|消消乐|弹幕|烟花|vibe|魔法|赛博|像素|复古/.test(t)) q += 5;
+  // 有情绪/氛围词（+3）
+  if (/牛逼|炸裂|爆炸|超酷|惊艳|漂亮|完美|绝了|好玩|有趣|震撼/.test(t)) q += 3;
+  // 有标点/语气词（+2）
+  if (/\u5427|\u5462|\u54e6|\uff5e|\uff01|!/.test(t)) q += 2;
+  // 有数字/参数（+3）
+  if (/\d+/.test(t)) q += 3;
+  // 长度加分 — 写得越长越详细，分越高
+  if (len > 10) q += 2;
+  if (len > 20) q += 2;
+  if (len > 40) q += 2;
+  if (len > 60) q += 2;
+  if (len > 100) q += 2;
+  if (len > 150) q += 2;
+  if (len > 200) q += 2;
+  q = Math.min(q, 40);
 
-  // ── 双 hash 组合成高精度 0~1 浮点 ──
+  // ── 基础分 = 30 + 质量分（30~70） ──
+  var base = 30 + q;
+
+  // ── Hash 微调 ±5（仅做差异化，不主导分数） ──
   var h1 = strHash(t, 0xdeadbeef);
   var h2 = strHash(t, 0xbeefdead);
-  var frac = (h1 % 65521) / 65521 + (h2 % 65537) / (65521 * 65537);
-  frac = frac - Math.floor(frac);
-
-  // ── 总分区间随质量提升（高分段充分拉宽减少同分） ──
-  // q=0 → [30, 55)，q=5 → [54, 78)，q=10 → [78, 100]
-  var lo = 30 + q * 4.8;
-  var hi = 55 + q * 4.5;
-  var total = Math.round(lo + frac * (hi - lo));
+  var jitter = ((h1 + h2) % 1000003) / 1000003 * 10 - 5; // -5 ~ +5
+  var total = Math.round(base + jitter);
   total = Math.min(100, Math.max(30, total));
 
-  // ── 四维分各自独立 hash 派生 ──
+  // ── 四维分从各自独立 hash 派生 ──
   function dimScore(seed) {
     var dh = strHash(t, seed);
     var df = (dh % 200003) / 200003;
@@ -293,7 +304,7 @@ function calcScores(text) {
     detail:     dimScore(0x22222222),
     creativity: dimScore(0x33333333),
     vibe:       dimScore(0x44444444),
-    _total:     total  // 直接保存原始总分，避免四维加权回算误差
+    _total:     total
   };
 }
 
