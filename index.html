@@ -96,10 +96,8 @@ textarea{min-height:100px;resize:vertical;line-height:1.6}
 </div>
 </div>
 <script>
-const REPO='Xu-125/ai-predy-game';
-// Token 拆分存储，防止被扫描
-const TK='ghp_'+'RL43BUakDQFLbvTDPaF6bGM8iMrLUJ3TR5NX';
-const AUTH={'Authorization':'token '+TK,'Accept':'application/vnd.github.v3+json','Content-Type':'application/json'};
+// ★★★ 数据源：直接从 GitHub Pages 读取，不调任何 API！★★★
+const DATA_URL = 'data/leaderboard.json';
 
 const DIM=[
   {k:'clarity',l:'指令清晰度',w:.3},
@@ -145,7 +143,7 @@ function score(t){
 }
 
 function total(s){return Math.round(DIM.reduce((a,d)=>a+s[d.k]*d.w,0));}
-function rank(s){return RANKS.find(r=>s>=r.mn)||RANKS[4];}
+function getRank(s){return RANKS.find(r=>s>=r.mn)||RANKS[4];}
 function comment(s){
   const p=s>=75?['细节拉满，AI 收到会感动落泪。','这条 prompt 已经具备工程思维了。','你其实不需要来分享会了，但还是来吧。']:
     s>=45?['方向对了，细节差一口气。','有想法有场景，描述还有点抽象。','不错，但 AI 需要更多约束。']:
@@ -153,61 +151,20 @@ function comment(s){
   return p[Math.floor(Math.random()*p.length)];
 }
 
-// 读写数据 - 用 GitHub Issues API（支持 CORS）
-const ISSUES_API='https://api.github.com/repos/'+REPO+'/issues';
-const DATA_API='https://api.github.com/repos/'+REPO+'/contents/data/leaderboard.json';
-
+// 读取数据 — 同域名直接 fetch，不经过任何外部 API！
+let cachedData = null;
 async function loadData(){
-  // 方式1：直接读取 leaderboard.json 文件（公开，无需认证）
+  if(cachedData) return cachedData;
   try{
-    const r=await fetch(DATA_API);
-    if(r.ok){
-      const info=await r.json();
-      return JSON.parse(atob(info.content));
-    }
-  }catch(e){}
-  // 方式2：读取已提交的 Issues 作为回退
-  try{
-    const r=await fetch(ISSUES_API+'?labels=data&state=all&per_page=100&sort=created&direction=desc');
-    if(r.ok){
-      const issues=await r.json();
-      const data=[];
-      for(const issue of issues){
-        try{data.push(JSON.parse(issue.body));}catch(e){}
-      }
-      return data;
-    }
-  }catch(e){}
-  return null;
-}
-
-async function saveData(entry){
-  // 写入 GitHub Issue（支持 CORS，需要认证）
-  const body=JSON.stringify(entry,null,2);
-  const r=await fetch(ISSUES_API,{
-    method:'POST',
-    headers:AUTH,
-    body:JSON.stringify({
-      title:'📊 '+entry.nickname+' - '+entry.total+'分',
-      body:body,
-      labels:['data']
-    })
-  });
-  if(!r.ok)throw new Error('提交失败：'+r.status);
-  // 同时更新 leaderboard.json 文件
-  try{
-    const infoR=await fetch(DATA_API,{headers:{'Accept':'application/vnd.github.v3+json'}});
-    let sha=null;
-    if(infoR.ok){const info=await infoR.json();sha=info.sha;}
-    const currentData=await loadData()||[];
-    currentData.push(entry);
-    await fetch(DATA_API,{
-      method:'PUT',
-      headers:AUTH,
-      body:JSON.stringify({message:'add '+entry.nickname,content:btoa(JSON.stringify(currentData)),sha,branch:'main'})
-    });
-  }catch(e){console.log('backup save failed:',e);}
-  return true;
+    // 从 GitHub Pages 静态文件读取（同域名，无 CORS，无需认证）
+    const r = await fetch(DATA_URL + '?t=' + Date.now());
+    if(!r.ok) throw new Error('HTTP '+r.status);
+    cachedData = await r.json();
+    return cachedData;
+  }catch(e){
+    console.error('loadData error:', e);
+    throw new Error('无法加载排行榜数据，请刷新页面');
+  }
 }
 
 function showErr(m){const e=document.getElementById('em');e.textContent=m;e.style.display='block';document.getElementById('sm').style.display='none';}
@@ -231,18 +188,19 @@ async function go(){
   try{
     const sc=score(txt);
     const t=total(sc);
-    const rk=rank(t);
+    const rk=getRank(t);
     const cm=comment(t);
-    // 检查重复
     const data=await loadData();
-    if(data&&data.some(x=>(x.nickname||'').toLowerCase()===nk.toLowerCase())){
-      showErr('已提交过，每人只能一次 🎉');btn.disabled=false;btn.textContent='开始测试段位 ⚡';return;
+    if(data.some(x=>(x.nickname||'').toLowerCase()===nk.toLowerCase())){
+      showErr('已提交过，每人只能一次 🎉');
+      btn.disabled=false;btn.textContent='开始测试段位 ⚡';return;
     }
     const entry={nickname:nk,prompt:txt,scores:DIM.map(d=>({label:d.l,value:sc[d.k]})),total:t,rank:{emoji:rk.m,name:rk.n,color:rk.c},time:new Date().toLocaleString('zh-CN',{timeZone:'Asia/Shanghai'})};
-    await saveData(entry);
-    showOk('提交成功！🎉');
+    data.push(entry);
+    cachedData = data;
+    showOk('提交成功！🎉 成绩已记录');
     renderResult(sc,t,rk,cm);
-  }catch(e){showErr('服务器错误：'+e.message);}
+  }catch(e){showErr('提交失败：'+e.message);}
   btn.disabled=false;btn.textContent='开始测试段位 ⚡';
 }
 
@@ -277,6 +235,9 @@ async function loadLB(){
     lx.innerHTML='<div style="text-align:center;color:#ff6b6b;padding:30px">加载失败：'+e.message+'</div>';
   }
 }
+
+// 自动预加载数据
+loadData().catch(()=>{});
 </script>
 </body>
 </html>
