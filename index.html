@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<title>Prompt 段位测试 · AI predy 分享会 v6</title>
+<title>Prompt 段位测试 · AI predy 分享会 v7</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{--bg:#0f0f1a;--card:rgba(255,255,255,.06);--border:rgba(255,255,255,.08);--accent:#7c3aed;--accent2:#2563eb}
@@ -70,14 +70,13 @@ textarea{min-height:90px;resize:vertical;line-height:1.6}
 #view-lb{display:none}
 #view-lb.show{display:block;animation:fadeUp .4s ease}
 footer{text-align:center;padding:30px 0 20px;color:rgba(255,255,255,.2);font-size:11px}
-.toast{position:fixed;top:20px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,.9);border:1px solid var(--border);border-radius:12px;padding:12px 20px;font-size:14px;animation:fadeUp .3s ease;z-index:999}
 </style>
 </head>
 <body>
 <div class="c">
   <h1>🤖 Prompt 段位测试</h1>
   <p class="sub">AI predy 分享会 · 测测你的 Prompt 水平</p>
-  <div class="pills"><span class="pill" id="countPill">🎮 0人已参与</span><span class="pill">☁️ Supabase 云端存储</span></div>
+  <div class="pills"><span class="pill" id="countPill">🎮 加载中...</span><span class="pill">☁️ Supabase 云端</span></div>
   <div class="tb">
     <div class="tt a" id="tab-test" onclick="switchTab('test')">⚡ 测试</div>
     <div class="tt" id="tab-lb" onclick="switchTab('lb')">🏆 排行榜</div>
@@ -120,18 +119,12 @@ footer{text-align:center;padding:30px 0 20px;color:rgba(255,255,255,.2);font-siz
       <div id="lbList"></div>
     </div>
   </div>
-  <footer>v6.0 · Supabase 云端持久化 · 数据不丢失</footer>
+  <footer>v7.0 · Supabase 云端持久化</footer>
 </div>
 <script>
-// ★★★ Supabase 配置 ★★★
 const SB_URL = 'https://hwsgawbvpkizpgwoybme.supabase.co';
 const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh3c2dhd2J2cGtpenBnd295Ym1lIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYxNjU1NzgsImV4cCI6MjA5MTc0MTU3OH0.6AveHSFyHlBprWFaKp112TElHpdVQHXCx5rFOc2KUmw';
-const SB_HEADERS = {
-  'apikey': SB_KEY,
-  'Authorization': 'Bearer ' + SB_KEY,
-  'Content-Type': 'application/json',
-  'Prefer': 'resolution=merge-duplicates'
-};
+const SB_H = {'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY,'Content-Type':'application/json'};
 
 const DIMS=[{k:'clarity',l:'指令清晰度',w:.3},{k:'detail',l:'细节丰富度',w:.25},{k:'creativity',l:'创意指数',w:.25},{k:'vibe',l:'Vibe 感',w:.2}];
 const RANKS=[
@@ -142,116 +135,91 @@ const RANKS=[
   {m:'🐣',n:'青铜 Coder',c:'#fbbf24',mn:0,s:'万事开头难'}
 ];
 
-function calcScore(text){
-  const s=text.trim(),len=s.length;
-  let cl=40;
-  if(/做|生成|创建|写|设计|实现|帮我|给我/.test(s))cl+=20;
-  if(/游戏|页面|动画|效果|组件|界面|功能|系统/.test(s))cl+=20;
+function calcScore(t){
+  const s=t.trim(),len=s.length;
+  let cl=40;if(/做|生成|创建|写|设计|实现|帮我|给我/.test(s))cl+=20;if(/游戏|页面|动画|效果|组件|界面|功能|系统/.test(s))cl+=20;
   if(len>20)cl+=5;if(len>40)cl+=5;if(len>60)cl+=5;if(len>80)cl+=5;cl=Math.min(cl,100);
-  let dt=30;
-  if(/粒子|物理|弹射|颜色|大小|速度|动效|渐变|阴影|圆角|响应式|移动端|流畅|丝滑|炫酷|动画|切换|主题|风格|布局|交互|拖拽|点击|滚动|悬浮|淡入|弹出|旋转|自适应|背景|按钮|输入/.test(s))dt+=30;
+  let dt=30;if(/粒子|物理|弹射|颜色|大小|速度|动效|渐变|阴影|圆角|响应式|移动端|流畅|丝滑|炫酷|动画|切换|主题|风格|布局|交互|拖拽|点击|滚动|悬浮|淡入|弹出|旋转|自适应|背景|按钮|输入/.test(s))dt+=30;
   if(/\d/.test(s))dt+=10;
   if(len>30)dt+=5;if(len>50)dt+=5;if(len>80)dt+=5;if(len>100)dt+=5;if(len>150)dt+=5;dt=Math.min(dt,100);
-  let cr=35;
-  if(/薯队长|大富翁|打砖块|跑酷|消消乐|弹幕|烟花|随机|赛博|像素|复古|贪吃蛇|俄罗斯方块|2048|塔防|模拟|RPG/.test(s))cr+=30;
+  let cr=35;if(/薯队长|大富翁|打砖块|跑酷|消消乐|弹幕|烟花|随机|赛博|像素|复古|贪吃蛇|俄罗斯方块|2048|塔防|模拟|RPG/.test(s))cr+=30;
   if(s.includes('，')||s.includes(','))cr+=10;
   if(len>40)cr+=10;if(len>80)cr+=10;if(len>120)cr+=5;cr=Math.min(cr,100);
-  let vb=40;
-  if(/炸裂|爆炸|超酷|惊艳|漂亮|完美|绝了|有趣|好玩|丝滑|酷炫/.test(s))vb+=25;
+  let vb=40;if(/炸裂|爆炸|超酷|惊艳|漂亮|完美|绝了|有趣|好玩|丝滑|酷炫/.test(s))vb+=25;
   if(/[吧呢哦呀嘛～！!✨🎉🔥]/.test(s))vb+=15;
   if(len>30)vb+=5;if(len>60)vb+=5;if(len>100)vb+=5;vb=Math.min(vb,100);
   const j=()=>Math.round((Math.random()-.5)*10);
   return{clarity:Math.min(100,Math.max(10,cl+j())),detail:Math.min(100,Math.max(10,dt+j())),creativity:Math.min(100,Math.max(10,cr+j())),vibe:Math.min(100,Math.max(10,vb+j()))};
 }
-
 function calcTotal(s){return Math.round(DIMS.reduce((a,d)=>a+s[d.k]*d.w,0));}
 function getRank(t){return RANKS.find(r=>t>=r.mn)||RANKS[4];}
-function getComment(t){
-  if(t>=75)return'🎯 细节拉满，AI 收到这条 prompt 会感动落泪。';
-  if(t>=45)return'💡 方向对了，细节差一口气，再加点约束就完美。';
-  return'🤔 好消息：有想法。坏消息：AI 不会读心术。';
+function getComment(t){return t>=75?'🎯 细节拉满，AI 收到这条 prompt 会感动落泪。':t>=45?'💡 方向对了，细节差一口气。':'🤔 AI 不会读心术，再加点细节吧。';}
+
+// 安全的 fetch 封装
+async function sbFetch(url, opts){
+  const r = await fetch(url, {...opts, headers:{...SB_H,...(opts&&opts.headers||{})}});
+  if(!r.ok) throw new Error('网络请求失败('+r.status+')');
+  const text = await r.text();
+  if(!text) return [];
+  return JSON.parse(text);
 }
 
-// ★★★ Supabase 读写 ★★★
-async function loadFromCloud(){
-  const r=await fetch(SB_URL+'/rest/v1/submissions?select=*&order=total.desc&limit=1000',{headers:SB_HEADERS});
-  if(!r.ok)throw new Error('读取失败('+r.status+')');
-  return await r.json();
+async function loadData(){
+  return sbFetch(SB_URL+'/rest/v1/submissions?select=*&order=total.desc');
 }
 
-async function submitToCloud(entry){
-  const r=await fetch(SB_URL+'/rest/v1/submissions',{
+async function checkPlayed(nk){
+  try{
+    const r = await sbFetch(SB_URL+'/rest/v1/submissions?select=nickname&nickname=eq.'+encodeURIComponent(nk)+'&limit=1');
+    return r.length > 0;
+  }catch(e){ return false; }
+}
+
+async function submitData(entry){
+  const r = await fetch(SB_URL+'/rest/v1/submissions',{
     method:'POST',
-    headers:SB_HEADERS,
-    body:JSON.stringify({
-      nickname:entry.nickname,
-      prompt:entry.prompt,
-      total:entry.total,
-      rank_emoji:entry.rank.emoji,
-      rank_name:entry.rank.name,
-      rank_color:entry.rank.color,
-      scores:entry.scores,
-      time:entry.time
-    })
+    headers:SB_H,
+    body:JSON.stringify({nickname:entry.nickname,prompt:entry.prompt,total:entry.total,rank_emoji:entry.rank.emoji,rank_name:entry.rank.name,rank_color:entry.rank.color,scores:entry.scores,time:entry.time})
   });
   if(!r.ok){
-    const err=await r.text();
-    if(r.status===409||err.includes('unique'))throw new Error('你已经提交过啦，每人只能玩一次 🎉');
-    throw new Error('提交失败('+r.status+')');
+    const t=await r.text();
+    if(r.status===409||t.includes('unique'))throw new Error('你已经提交过啦 🎉');
+    throw new Error('提交失败('+r.status+')：'+(t.slice(0,80)));
   }
-  return r.json();
+  return r.text().then(t=>t?JSON.parse(t):null);
 }
 
-async function checkIfPlayed(nickname){
-  const r=await fetch(SB_URL+'/rest/v1/submissions?select=nickname&nickname=eq.'+encodeURIComponent(nickname)+'&limit=1',{headers:SB_HEADERS});
-  if(!r.ok)return false;
-  const data=await r.json();
-  return data.length>0;
-}
-
-function showErr(m){const e=document.getElementById('errorMsg');e.textContent='⚠️ '+m;e.style.display='block';document.getElementById('successMsg').style.display='none';}
-function showOk(m){const e=document.getElementById('successMsg');e.textContent='✅ '+m;e.style.display='block';document.getElementById('errorMsg').style.display='none';}
-
+function showErr(m){document.getElementById('errorMsg').textContent='⚠️ '+m;document.getElementById('errorMsg').style.display='block';document.getElementById('successMsg').style.display='none';}
+function showOk(m){document.getElementById('successMsg').textContent='✅ '+m;document.getElementById('successMsg').style.display='block';document.getElementById('errorMsg').style.display='none';}
 function switchTab(tab){
   document.getElementById('tab-test').classList.toggle('a',tab==='test');
   document.getElementById('tab-lb').classList.toggle('a',tab==='lb');
   document.getElementById('view-test').style.display=tab==='test'?'':'none';
-  const v=document.getElementById('view-lb');
-  v.style.display=tab==='lb'?'':'none';
-  if(tab==='lb')loadLeaderboard();
+  const v=document.getElementById('view-lb');v.style.display=tab==='lb'?'':'none';
+  if(tab==='lb')loadLB();
 }
-
 function updateCount(){document.getElementById('charCount').textContent=document.getElementById('prompt').value.length;}
 function fillPrompt(el){document.getElementById('prompt').value=el.textContent;updateCount();}
-
 function doConfetti(){
   const colors=['#7c3aed','#2563eb','#06b6d4','#f59e0b','#ef4444','#10b981','#ec4899'];
-  for(let i=0;i<40;i++){
-    setTimeout(()=>{
-      const c=document.createElement('div');c.className='confetti';
-      c.style.left=Math.random()*100+'vw';c.style.background=colors[Math.floor(Math.random()*colors.length)];
-      c.style.animationDuration=(1.5+Math.random()*2)+'s';
-      c.style.width=(6+Math.random()*6)+'px';c.style.height=c.style.width;
-      document.body.appendChild(c);setTimeout(()=>c.remove(),4000);
-    },i*50);
-  }
+  for(let i=0;i<40;i++){setTimeout(()=>{const c=document.createElement('div');c.className='confetti';c.style.left=Math.random()*100+'vw';c.style.background=colors[Math.floor(Math.random()*colors.length)];c.style.animationDuration=(1.5+Math.random()*2)+'s';c.style.width=(6+Math.random()*6)+'px';c.style.height=c.style.width;document.body.appendChild(c);setTimeout(()=>c.remove(),4000);},i*50);}
 }
 
 async function submitScore(){
   const nk=document.getElementById('nickname').value.trim();
   const txt=document.getElementById('prompt').value.trim();
-  if(!nk){showErr('请输入你的薯名');return;}
-  if(!txt||txt.length<5){showErr('Prompt 太短了，至少写 5 个字');return;}
+  if(!nk){showErr('请输入薯名');return;}
+  if(!txt||txt.length<5){showErr('Prompt 太短，至少 5 个字');return;}
   const btn=document.getElementById('submitBtn');
   btn.disabled=true;btn.innerHTML='<span class="loader"></span>AI 评估中...';
   document.getElementById('errorMsg').style.display='none';
   try{
     const sc=calcScore(txt);const t=calcTotal(sc);const rk=getRank(t);const cm=getComment(t);
-    const played=await checkIfPlayed(nk);
-    if(played){showErr('你已经提交过啦，每人只能玩一次 🎉');btn.disabled=false;btn.textContent='开始测试段位 ⚡';return;}
+    const played=await checkPlayed(nk);
+    if(played){showErr('你已经提交过啦，每人只能一次 🎉');btn.disabled=false;btn.textContent='开始测试段位 ⚡';return;}
     const entry={nickname:nk,prompt:txt,scores:DIMS.map(d=>({label:d.l,value:sc[d.k]})),total:t,rank:{emoji:rk.m,name:rk.n,color:rk.c},time:new Date().toLocaleString('zh-CN',{timeZone:'Asia/Shanghai'})};
-    await submitToCloud(entry);
-    showOk('测试完成并已上传到云端！段位：'+rk.m+' '+rk.n);
+    await submitData(entry);
+    showOk('提交成功！段位：'+rk.m+' '+rk.n);
     document.getElementById('rankEmoji').textContent=rk.m;
     document.getElementById('rankName').textContent=rk.n;
     document.getElementById('rankName').style.color=rk.c;
@@ -265,27 +233,21 @@ async function submitScore(){
   btn.disabled=false;btn.textContent='开始测试段位 ⚡';
 }
 
-async function loadLeaderboard(){
+async function loadLB(){
   const ld=document.getElementById('lbLoading');const ll=document.getElementById('lbList');
   ld.style.display='';ll.innerHTML='';
   try{
-    const data=await loadFromCloud();
+    const data=await loadData();
     document.getElementById('countPill').textContent='🎮 '+data.length+'人已参与';
-    if(!data.length){ld.style.display='none';ll.innerHTML='<div class="lo">还没有人参与，来做第一个吧！</div>';return;}
-    const best={};
-    data.forEach(x=>{const k=(x.nickname||'').toLowerCase();if(!best[k]||x.total>best[k].total)best[k]=x;});
+    if(!data.length){ld.style.display='none';ll.innerHTML='<div class="lo">还没有人参与</div>';return;}
+    const best={};data.forEach(x=>{const k=(x.nickname||'').toLowerCase();if(!best[k]||x.total>best[k].total)best[k]=x;});
     const sorted=Object.values(best).sort((a,b)=>b.total-a.total).slice(0,50);
     ld.style.display='none';
-    ll.innerHTML=sorted.map((x,i)=>{
-      const r=i<3?['🥇','🥈','🥉'][i]:(i+1);
-      return '<div class="li"><div class="li-header"><div class="lr">'+r+'</div><div class="ln">'+(x.rank_emoji||'')+' '+(x.nickname||'匿名')+'</div><div class="ls" style="color:'+(x.rank_color||'#fff')+'">'+x.total+'分</div></div><div class="li-prompt">'+(x.prompt||'').replace(/</g,'&lt;').replace(/>/g,'&gt;')+'</div><div class="li-time">🕐 '+(x.time||'')+'</div></div>';
-    }).join('');
-  }catch(e){
-    ld.style.display='none';
-    ll.innerHTML='<div class="lo" style="color:#ff6b6b">加载失败：'+e.message+'</div>';
-  }
+    ll.innerHTML=sorted.map((x,i)=>{const r=i<3?['🥇','🥈','🥉'][i]:(i+1);return '<div class="li"><div class="li-header"><div class="lr">'+r+'</div><div class="ln">'+(x.rank_emoji||'')+' '+(x.nickname||'匿名')+'</div><div class="ls" style="color:'+(x.rank_color||'#fff')+'">'+x.total+'分</div></div><div class="li-prompt">'+(x.prompt||'').replace(/</g,'&lt;').replace(/>/g,'&gt;')+'</div><div class="li-time">🕐 '+(x.time||'')+'</div></div>';}).join('');
+  }catch(e){ld.style.display='none';ll.innerHTML='<div class="lo" style="color:#ff6b6b">加载失败：'+e.message+'</div>';}
 }
-loadFromCloud().then(d=>{if(d)document.getElementById('countPill').textContent='🎮 '+d.length+'人已参与';}).catch(()=>{});
+
+loadData().then(d=>{document.getElementById('countPill').textContent='🎮 '+d.length+'人已参与';}).catch(()=>{document.getElementById('countPill').textContent='🎮 0人已参与';});
 </script>
 </body>
 </html>
