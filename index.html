@@ -15,6 +15,8 @@ h1{text-align:center;font-size:26px;font-weight:900;margin:24px 0 6px;background
 .sub{text-align:center;color:rgba(255,255,255,.5);font-size:13px;margin-bottom:20px}
 .pills{display:flex;justify-content:center;gap:8px;margin-bottom:20px}
 .pill{padding:4px 14px;border-radius:20px;font-size:12px;font-weight:600;background:linear-gradient(135deg,rgba(124,58,237,.2),rgba(37,99,235,.2));border:1px solid rgba(124,58,237,.3);color:rgba(255,255,255,.8)}
+.notice{background:linear-gradient(135deg,rgba(251,191,36,.08),rgba(245,158,11,.06));border:1px solid rgba(251,191,36,.2);border-radius:14px;padding:14px 16px;margin-bottom:18px;font-size:12.5px;line-height:1.8;color:rgba(255,255,255,.75)}
+.notice strong{color:#fbbf24;font-weight:700}
 .tb{display:flex;gap:6px;margin-bottom:20px;background:rgba(255,255,255,.04);border-radius:12px;padding:4px}
 .tt{flex:1;padding:10px;text-align:center;border-radius:10px;color:rgba(255,255,255,.5);font-size:14px;font-weight:600;cursor:pointer;transition:all .3s cubic-bezier(.4,0,.2,1)}
 .tt.a{background:linear-gradient(135deg,#7c3aed,#2563eb);color:#fff;box-shadow:0 4px 15px rgba(124,58,237,.4)}
@@ -72,7 +74,10 @@ footer{text-align:center;padding:30px 0 20px;color:rgba(255,255,255,.2);font-siz
 <div class="c">
 <h1>🤖 Prompt 段位测试</h1>
 <p class="sub">AI predy 分享会 · 测测你的 Prompt 水平</p>
-<div class="pills"><span class="pill">🎮 10人已参与</span><span class="pill">☁️ Supabase</span></div>
+<div class="pills"><span class="pill" id="pill">🎮 0人已参与</span></div>
+<div class="notice">
+<strong>⚠️ 提醒：</strong>请填写<strong>真实薯名</strong>，奖品将在报名分享会的同学中产生。如遇分数相同，则优先选取<strong>发布时间较早</strong>的同学送出礼物。
+</div>
 <div class="tb">
 <div class="tt a" id="t1" onclick="sw('t')">⚡ 测试</div>
 <div class="tt" id="t2" onclick="sw('l')">🏆 排行榜</div>
@@ -95,10 +100,10 @@ footer{text-align:center;padding:30px 0 20px;color:rgba(255,255,255,.2);font-siz
 </div>
 <div id="vl" style="display:none">
 <div class="lb"><h2>🏆 排行榜 · TOP 50</h2>
-<div class="li"><div class="li-header"><div class="lr">🥇</div><div class="ln"> 测试7</div><div class="ls" style="color:#fff">69分</div></div><div class="li-prompt">帮我做一个打砖块游戏，带粒子特效和音效</div><div class="li-time">🕐 2026/4/16 12:20:48</div></div><div class="li"><div class="li-header"><div class="lr">🥈</div><div class="ln">⚡ 测试1</div><div class="ls" style="color:#a78bfa">69分</div></div><div class="li-prompt">帮我做一个打砖块游戏，带粒子特效和音效</div><div class="li-time">🕐 2026/4/16 11:57:36</div></div><div class="li"><div class="li-header"><div class="lr">🥉</div><div class="ln">⚡ 测试2</div><div class="ls" style="color:#a78bfa">67分</div></div><div class="li-prompt">帮我做一个打砖块游戏，带粒子特效和音效</div><div class="li-time">🕐 2026/4/16 12:00:53</div></div><div class="li"><div class="li-header"><div class="lr">4</div><div class="ln">⚡ 测试</div><div class="ls" style="color:#a78bfa">67分</div></div><div class="li-prompt">帮我做一个打砖块游戏，带粒子特效和音效</div><div class="li-time">🕐 2026/4/16 11:54:44</div></div><div class="li"><div class="li-header"><div class="lr">5</div><div class="ln"> 测试0</div><div class="ls" style="color:#fff">67分</div></div><div class="li-prompt">帮我做一个打砖块游戏，带粒子特效和音效</div><div class="li-time">🕐 2026/4/16 12:29:40</div></div><div class="li"><div class="li-header"><div class="lr">6</div><div class="ln"> 测试90</div><div class="ls" style="color:#fff">66分</div></div><div class="li-prompt">帮我做一个打砖块游戏，带粒子特效和音效</div><div class="li-time">🕐 2026/4/16 12:38:53</div></div><div class="li"><div class="li-header"><div class="lr">7</div><div class="ln">⚡ 测试6</div><div class="ls" style="color:#a78bfa">64分</div></div><div class="li-prompt">帮我做一个打砖块游戏���带粒子特效和音效</div><div class="li-time">🕐 2026/4/16 12:12:01</div></div><div class="li"><div class="li-header"><div class="lr">8</div><div class="ln">⚡ 测试3</div><div class="ls" style="color:#a78bfa">64分</div></div><div class="li-prompt">帮我做一个打砖块游戏，带粒子特效和音效</div><div class="li-time">🕐 2026/4/16 12:01:11</div></div><div class="li"><div class="li-header"><div class="lr">9</div><div class="ln">⚡ 测试5</div><div class="ls" style="color:#a78bfa">60分</div></div><div class="li-prompt">生成赛博朋克风格个人主页，带霓虹灯动效</div><div class="li-time">🕐 2026/4/16 12:01:37</div></div><div class="li"><div class="li-header"><div class="lr">10</div><div class="ln"> 测试8</div><div class="ls" style="color:#fff">49分</div></div><div class="li-prompt">打砖块游戏</div><div class="li-time">🕐 2026/4/16 12:26:33</div></div>
+<div class="lo">还没有人参与</div>
 </div>
 </div>
-<footer>v15.0</footer>
+<footer>AI predy 分享会</footer>
 </div>
 <script>
 var S={u:'https://hwsgawbvpkizpgwoybme.supabase.co',k:'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh3c2dhd2J2cGtpenBnd295Ym1lIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYxNjU1NzgsImV4cCI6MjA5MTc0MTU3OH0.6AveHSFyHlBprWFaKp112TElHpdVQHXCx5rFOc2KUmw'};
