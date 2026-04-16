@@ -74,7 +74,7 @@ footer{text-align:center;padding:30px 0 20px;color:rgba(255,255,255,.2);font-siz
 <div class="c">
 <h1>🤖 Prompt 段位测试</h1>
 <p class="sub">AI predy 分享会 · 测测你的 Prompt 水平</p>
-<div class="pills"><span class="pill" id="pill">🎮 2人已参与</span></div>
+<div class="pills"><span class="pill" id="pill">🎮 加载中...</span></div>
 <div class="notice">
 <strong>⚠️ 提醒：</strong>请填写<strong>真实薯名</strong>，奖品将在报名分享会的同学中产生。如遇分数相同，则优先选取<strong>发布时间较早</strong>的同学送出礼物。
 </div>
@@ -100,7 +100,8 @@ footer{text-align:center;padding:30px 0 20px;color:rgba(255,255,255,.2);font-siz
 </div>
 <div id="vl" style="display:none">
 <div class="lb"><h2>🏆 排行榜 · TOP 50</h2>
-<div class="li"><div class="li-header"><div class="lr">🥇</div><div class="ln">⚡ 徐皓萱</div><div class="ls" style="color:#a78bfa">65分</div></div><div class="li-prompt">帮我做一个打砖块游戏，带粒子特效和音效</div><div class="li-time">🕐 2026/4/16 12:55:58</div></div><div class="li"><div class="li-header"><div class="lr">🥈</div><div class="ln">⚡ a</div><div class="ls" style="color:#a78bfa">64分</div></div><div class="li-prompt">帮我做一个打砖块游戏，带粒子特效和音效</div><div class="li-time">🕐 2026/4/16 12:57:12</div></div>
+<div id="ld" class="lo"><div class="sp"></div><br/>加载中...</div>
+<div id="lx"></div>
 </div>
 </div>
 <footer>AI predy 分享会</footer>
@@ -115,6 +116,7 @@ function sw(t){
   document.getElementById('t2').className='tt'+(t==='l'?' a':'');
   document.getElementById('vt').style.display=t==='t'?'block':'none';
   document.getElementById('vl').style.display=t==='l'?'block':'none';
+  if(t==='l') loadLB();
 }
 
 function uc(){document.getElementById('cc').textContent=document.getElementById('pi').value.length;}
@@ -125,6 +127,48 @@ function tot(s){return Math.round(D.reduce(function(a,x){return a+s[x.k]*x.w;},0
 function getr(t){for(var i=0;i<R.length;i++){if(t>=R[i].mn)return R[i];}return R[4];}
 function confetti(){var colors=['#7c3aed','#2563eb','#06b6d4','#f59e0b','#ef4444','#10b981','#ec4899'];for(var i=0;i<40;i++){(function(idx){setTimeout(function(){var c=document.createElement('div');c.className='confetti';c.style.left=Math.random()*100+'vw';c.style.background=colors[Math.floor(Math.random()*colors.length)];c.style.animationDuration=(1.5+Math.random()*2)+'s';c.style.width=(6+Math.random()*6)+'px';c.style.height=c.style.width;document.body.appendChild(c);setTimeout(function(){c.remove();},4000);},idx*50);})(i);}}
 
+// ★★★ 动态加载排行榜 ★★★
+function loadLB(){
+  var ld=document.getElementById('ld');
+  var lx=document.getElementById('lx');
+  if(lx.innerHTML && lx.innerHTML !== '') return; // 已加载过不重复
+  ld.style.display='';
+  var xhr=new XMLHttpRequest();
+  xhr.open('GET',S.u+'/rest/v1/submissions?select=*&order=total.desc',true);
+  xhr.setRequestHeader('apikey',S.k);
+  xhr.setRequestHeader('Authorization','Bearer '+S.k);
+  xhr.setRequestHeader('Content-Type','application/json');
+  xhr.onload=function(){
+    ld.style.display='none';
+    if(xhr.status>=400||!xhr.responseText){lx.innerHTML='<div class="lo">加载失败</div>';return;}
+    try{
+      var data=JSON.parse(xhr.responseText);
+      document.getElementById('pill').textContent='🎮 '+data.length+'人已参与';
+      if(!data.length){lx.innerHTML='<div class="lo">还没有人参与</div>';return;}
+      var best={};data.forEach(function(x){var k=(x.nickname||'').toLowerCase();if(!best[k]||x.total>best[k].total)best[k]=x;});
+      var arr=[];for(var k in best)arr.push(best[k]);
+      arr.sort(function(a,b){return b.total-a.total;});
+      arr=arr.slice(0,50);
+      var html='';
+      arr.forEach(function(x,i){
+        var r=i<3?['🥇','🥈','🥉'][i]:(i+1);
+        var p=(x.prompt||'').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+        var c=x.rank_color||'#fff';
+        var emoji=x.rank_emoji||'';
+        var nick=x.nickname||'匿名';
+        var score=x.total||0;
+        var time=x.time||'';
+        html+='<div class="li"><div class="li-header"><div class="lr">'+r+'</div><div class="ln">'+emoji+' '+nick+'</div><div class="ls" style="color:'+c+'">'+score+'分</div></div><div class="li-prompt">'+p+'</div><div class="li-time">🕐 '+time+'</div></div>';
+      });
+      lx.innerHTML=html;
+    }catch(e){lx.innerHTML='<div class="lo">解析失败</div>';}
+  };
+  xhr.onerror=function(){ld.style.display='none';lx.innerHTML='<div class="lo">网络错误</div>';};
+  xhr.ontimeout=function(){ld.style.display='none';lx.innerHTML='<div class="lo">超时</div>';};
+  xhr.timeout=10000;
+  xhr.send();
+}
+
 function go(){
   var nk=document.getElementById('nk').value.trim();
   var txt=document.getElementById('pi').value.trim();
@@ -134,8 +178,6 @@ function go(){
   var btn=document.getElementById('sb');
   btn.disabled=true;btn.innerHTML='<span class="loader"></span>AI 评估中...';
   var s=calc(txt),t=tot(s),r=getr(t);
-  
-  // ★★★ 修复：用平铺字段，不用嵌套对象 ★★★
   var entry={
     nickname:nk,
     prompt:txt,
@@ -146,7 +188,6 @@ function go(){
     scores:D.map(function(d){return{label:d.l,value:s[d.k]};}),
     time:new Date().toLocaleString('zh-CN',{timeZone:'Asia/Shanghai'})
   };
-  
   var xhr=new XMLHttpRequest();
   xhr.open('POST',S.u+'/rest/v1/submissions',true);
   xhr.setRequestHeader('apikey',S.k);
@@ -164,7 +205,10 @@ function go(){
     document.getElementById('cx').textContent=t>=75?'\ud83c\udfaf 细节拉满！':t>=45?'\ud83d\udca1 方向对了，加细节。':'\ud83e\udd14 再加细节吧。';
     document.getElementById('rc').classList.add('show');
     confetti();
-    setTimeout(function(){location.reload();},2000);
+    // 清空排行榜缓存，下次打开时重新加载
+    document.getElementById('lx').innerHTML='';
+    // 2秒后自动切到排行榜
+    setTimeout(function(){sw('l');},2000);
   };
   xhr.onerror=function(){btn.disabled=false;btn.textContent='开始测试段位 \u26a1';document.getElementById('em').textContent='\u26a0\ufe0f 网络错误';document.getElementById('em').style.display='block';};
   xhr.ontimeout=function(){btn.disabled=false;btn.textContent='开始测试段位 \u26a1';document.getElementById('em').textContent='\u26a0\ufe0f 超时';document.getElementById('em').style.display='block';};
