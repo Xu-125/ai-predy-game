@@ -4,9 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-<meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Expires" content="0">
-<title>Prompt 段位测试 · AI predy 分享会 v3</title>
+<title>Prompt 段位测试 · AI predy 分享会 v4</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{--bg:#0f0f1a;--card:rgba(255,255,255,.06);--border:rgba(255,255,255,.08);--accent:#7c3aed;--accent2:#2563eb}
@@ -22,15 +20,13 @@ h1{text-align:center;font-size:26px;font-weight:900;margin:24px 0 6px;background
 .tb{display:flex;gap:6px;margin-bottom:20px;background:rgba(255,255,255,.04);border-radius:12px;padding:4px}
 .tt{flex:1;padding:10px;text-align:center;border-radius:10px;color:rgba(255,255,255,.5);font-size:14px;font-weight:600;cursor:pointer;transition:all .3s cubic-bezier(.4,0,.2,1)}
 .tt.a{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;box-shadow:0 4px 15px rgba(124,58,237,.4)}
-.sec{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:18px;margin-bottom:14px;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);transition:all .3s}
-.sec:hover{border-color:rgba(124,58,237,.3)}
+.sec{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:18px;margin-bottom:14px;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
 label{font-size:13px;color:rgba(255,255,255,.6);margin-bottom:8px;display:block;font-weight:500}
 input,textarea{width:100%;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:13px;color:#fff;font-size:15px;font-family:inherit;outline:none;transition:all .3s}
 input:focus,textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(124,58,237,.15);background:rgba(255,255,255,.06)}
 textarea{min-height:90px;resize:vertical;line-height:1.6}
 .cc{text-align:right;font-size:11px;color:rgba(255,255,255,.3);margin-top:6px}
-.ep{margin-top:10px}
-.ep span{font-size:12px;color:rgba(255,255,255,.35)}
+.ep{margin-top:10px}.ep span{font-size:12px;color:rgba(255,255,255,.35)}
 .ec{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
 .ch{padding:5px 10px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:16px;font-size:11px;color:rgba(255,255,255,.6);cursor:pointer;transition:all .2s;white-space:nowrap}
 .ch:hover{background:rgba(124,58,237,.15);border-color:rgba(124,58,237,.3);color:#fff}
@@ -42,8 +38,7 @@ textarea{min-height:90px;resize:vertical;line-height:1.6}
 .btn:disabled{opacity:.4;cursor:not-allowed;transform:none!important;box-shadow:none!important}
 .btn .loader{display:inline-block;width:18px;height:18px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .6s linear infinite;vertical-align:middle;margin-right:8px}
 @keyframes spin{to{transform:rotate(360deg)}}
-.rc{display:none}
-.rc.show{display:block;animation:fadeUp .5s ease}
+.rc{display:none}.rc.show{display:block;animation:fadeUp .5s ease}
 @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
 .rd{text-align:center;padding:24px;background:linear-gradient(135deg,rgba(124,58,237,.08),rgba(37,99,235,.08));border-radius:16px;margin-bottom:16px;border:1px solid rgba(124,58,237,.15)}
 .re{font-size:60px;animation:bounce 2s ease infinite}
@@ -60,21 +55,21 @@ textarea{min-height:90px;resize:vertical;line-height:1.6}
 .sm{background:rgba(60,255,60,.08);border:1px solid rgba(60,255,60,.2);border-radius:12px;padding:12px;color:#6bff6b;font-size:13px;margin-top:12px;display:none}
 .lb{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:16px}
 .lb h2{font-size:16px;font-weight:800;margin-bottom:14px;text-align:center}
-.li{display:flex;align-items:center;padding:10px 6px;border-bottom:1px solid rgba(255,255,255,.04);animation:slideIn .4s ease both}
-.li:nth-child(1){animation-delay:.05s}.li:nth-child(2){animation-delay:.1s}
-.li:nth-child(3){animation-delay:.15s}.li:nth-child(4){animation-delay:.2s}
-.li:nth-child(n+5){animation-delay:calc(.2s + .03s * var(--i,0))}
+.li{padding:14px 10px;border-bottom:1px solid rgba(255,255,255,.04);animation:slideIn .4s ease both}
 .li:last-child{border-bottom:none}
+.li-header{display:flex;align-items:center;gap:8px;margin-bottom:6px}
 @keyframes slideIn{from{opacity:0;transform:translateX(-15px)}to{opacity:1;transform:translateX(0)}}
-.lr{width:32px;font-size:14px;font-weight:800;text-align:center;color:rgba(255,255,255,.4)}
-.ln{flex:1;font-size:13px}
-.ls{font-size:16px;font-weight:800}
+.lr{width:30px;font-size:14px;font-weight:800;text-align:center;color:rgba(255,255,255,.4);flex-shrink:0}
+.ln{flex:1;font-size:14px;font-weight:600}
+.ls{font-size:16px;font-weight:800;flex-shrink:0}
+.li-prompt{font-size:12px;color:rgba(255,255,255,.45);line-height:1.5;margin-top:6px;padding:8px 10px;background:rgba(255,255,255,.03);border-radius:8px;border-left:2px solid rgba(124,58,237,.3);word-break:break-word}
+.li-time{font-size:11px;color:rgba(255,255,255,.25);margin-top:4px;text-align:right}
 .lo{text-align:center;padding:24px;color:rgba(255,255,255,.4)}
 .sp{display:inline-block;width:20px;height:20px;border:2px solid rgba(255,255,255,.15);border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite}
 .confetti{position:fixed;top:-10px;width:8px;height:8px;border-radius:2px;animation:fall linear forwards;pointer-events:none;z-index:999}
 @keyframes fall{to{transform:translateY(105vh) rotate(720deg);opacity:0}}
-#lt{display:none}
-#lt.show{display:block;animation:fadeUp .4s ease}
+#view-lb{display:none}
+#view-lb.show{display:block;animation:fadeUp .4s ease}
 footer{text-align:center;padding:30px 0 20px;color:rgba(255,255,255,.2);font-size:11px}
 </style>
 </head>
@@ -82,13 +77,11 @@ footer{text-align:center;padding:30px 0 20px;color:rgba(255,255,255,.2);font-siz
 <div class="c">
   <h1>🤖 Prompt 段位测试</h1>
   <p class="sub">AI predy 分享会 · 测测你的 Prompt 水平</p>
-  <div class="pills"><span class="pill">🎮 200人已参与</span><span class="pill">🔥 实时更新</span></div>
+  <div class="pills"><span class="pill" id="countPill">🎮 0人已参与</span><span class="pill">🔥 实时更新</span></div>
   <div class="tb">
     <div class="tt a" id="tab-test" onclick="switchTab('test')">⚡ 测试</div>
     <div class="tt" id="tab-lb" onclick="switchTab('lb')">🏆 排行榜</div>
   </div>
-  
-  <!-- 测试页面 -->
   <div id="view-test">
     <div class="sec">
       <label>你的薯名</label>
@@ -120,8 +113,6 @@ footer{text-align:center;padding:30px 0 20px;color:rgba(255,255,255,.2);font-siz
       <div class="cm" id="comment"></div>
     </div>
   </div>
-  
-  <!-- 排行榜 -->
   <div id="view-lb">
     <div class="lb">
       <h2>🏆 排行榜 · TOP 50</h2>
@@ -129,14 +120,10 @@ footer{text-align:center;padding:30px 0 20px;color:rgba(255,255,255,.2);font-siz
       <div id="lbList"></div>
     </div>
   </div>
-  
-  <footer>v3.0 · 数据实时共享</footer>
+  <footer>v4.0 · 数据已清空，重新开始</footer>
 </div>
-
 <script>
-// 评分维度
 const DIMS=[{k:'clarity',l:'指令清晰度',w:.3},{k:'detail',l:'细节丰富度',w:.25},{k:'creativity',l:'创意指数',w:.25},{k:'vibe',l:'Vibe 感',w:.2}];
-// 段位
 const RANKS=[
   {m:'🔥',n:'Vibe 大神',c:'#ff6b35',mn:80,s:'超越 99% 的用户'},
   {m:'⚡',n:'Prompt 工程师',c:'#a78bfa',mn:60,s:'专业级别'},
@@ -145,36 +132,26 @@ const RANKS=[
   {m:'🐣',n:'青铜 Coder',c:'#fbbf24',mn:0,s:'万事开头难'}
 ];
 
-// 评分算法
 function calcScore(text){
   const s=text.trim(),len=s.length;
   let cl=40;
   if(/做|生成|创建|写|设计|实现|帮我|给我/.test(s))cl+=20;
   if(/游戏|页面|动画|效果|组件|界面|功能|系统/.test(s))cl+=20;
-  if(len>20)cl+=5;if(len>40)cl+=5;if(len>60)cl+=5;if(len>80)cl+=5;
-  cl=Math.min(cl,100);
+  if(len>20)cl+=5;if(len>40)cl+=5;if(len>60)cl+=5;if(len>80)cl+=5;cl=Math.min(cl,100);
   let dt=30;
   if(/粒子|物理|弹射|颜色|大小|速度|动效|渐变|阴影|圆角|响应式|移动端|流畅|丝滑|炫酷|动画|切换|主题|风格|布局|交互|拖拽|点击|滚动|悬浮|淡入|弹出|旋转|自适应|背景|按钮|输入/.test(s))dt+=30;
   if(/\d/.test(s))dt+=10;
-  if(len>30)dt+=5;if(len>50)dt+=5;if(len>80)dt+=5;if(len>100)dt+=5;if(len>150)dt+=5;
-  dt=Math.min(dt,100);
+  if(len>30)dt+=5;if(len>50)dt+=5;if(len>80)dt+=5;if(len>100)dt+=5;if(len>150)dt+=5;dt=Math.min(dt,100);
   let cr=35;
   if(/薯队长|大富翁|打砖块|跑酷|消消乐|弹幕|烟花|随机|赛博|像素|复古|贪吃蛇|俄罗斯方块|2048|塔防|模拟|RPG/.test(s))cr+=30;
   if(s.includes('，')||s.includes(','))cr+=10;
-  if(len>40)cr+=10;if(len>80)cr+=10;if(len>120)cr+=5;
-  cr=Math.min(cr,100);
+  if(len>40)cr+=10;if(len>80)cr+=10;if(len>120)cr+=5;cr=Math.min(cr,100);
   let vb=40;
   if(/炸裂|爆炸|超酷|惊艳|漂亮|完美|绝了|有趣|好玩|丝滑|酷炫/.test(s))vb+=25;
   if(/[吧呢哦呀嘛～！!✨🎉🔥]/.test(s))vb+=15;
-  if(len>30)vb+=5;if(len>60)vb+=5;if(len>100)vb+=5;
-  vb=Math.min(vb,100);
+  if(len>30)vb+=5;if(len>60)vb+=5;if(len>100)vb+=5;vb=Math.min(vb,100);
   const j=()=>Math.round((Math.random()-.5)*10);
-  return{
-    clarity:Math.min(100,Math.max(10,cl+j())),
-    detail:Math.min(100,Math.max(10,dt+j())),
-    creativity:Math.min(100,Math.max(10,cr+j())),
-    vibe:Math.min(100,Math.max(10,vb+j()))
-  };
+  return{clarity:Math.min(100,Math.max(10,cl+j())),detail:Math.min(100,Math.max(10,dt+j())),creativity:Math.min(100,Math.max(10,cr+j())),vibe:Math.min(100,Math.max(10,vb+j()))};
 }
 
 function calcTotal(s){return Math.round(DIMS.reduce((a,d)=>a+s[d.k]*d.w,0));}
@@ -185,34 +162,27 @@ function getComment(t){
   return'🤔 好消息：有想法。坏消息：AI 不会读心术。';
 }
 
-// 数据加载 - 双备份机制
 let appData=null;
 async function loadData(){
-  if(appData)return appData;
-  // 方式1：GitHub Pages 静态文件（推荐，无需认证）
+  if(appData!==null)return appData;
   try{
     const r=await fetch('data/leaderboard.json?v='+Date.now(),{cache:'no-store'});
     if(!r.ok)throw new Error('HTTP '+r.status);
     appData=await r.json();
-    console.log('✅ 从 GitHub Pages 加载 '+appData.length+' 条数据');
     return appData;
   }catch(e){
-    console.warn('GitHub Pages 加载失败:',e.message);
+    console.warn('Pages fetch failed:',e.message);
   }
-  // 方式2：GitHub API（备用）
   try{
-    const r=await fetch('https://api.github.com/repos/Xu-125/ai-predy-game/contents/data/leaderboard.json',{
-      headers:{'Accept':'application/vnd.github.v3+json'},cache:'no-store'
-    });
+    const r=await fetch('https://api.github.com/repos/Xu-125/ai-predy-game/contents/data/leaderboard.json?v='+Date.now(),{headers:{'Accept':'application/vnd.github.v3+json'},cache:'no-store'});
     if(!r.ok)throw new Error('HTTP '+r.status);
     const info=await r.json();
     appData=JSON.parse(atob(info.content));
-    console.log('✅ 从 GitHub API 加载 '+appData.length+' 条数据');
     return appData;
   }catch(e){
-    console.warn('GitHub API 加载失败:',e.message);
+    console.warn('API fetch failed:',e.message);
   }
-  throw new Error('无法加载排行榜数据，请刷新页面重试');
+  throw new Error('无法加载数据，请刷新页面');
 }
 
 function showErr(m){const e=document.getElementById('errorMsg');e.textContent='⚠️ '+m;e.style.display='block';document.getElementById('successMsg').style.display='none';}
@@ -222,32 +192,23 @@ function switchTab(tab){
   document.getElementById('tab-test').classList.toggle('a',tab==='test');
   document.getElementById('tab-lb').classList.toggle('a',tab==='lb');
   document.getElementById('view-test').style.display=tab==='test'?'':'none';
-  const lbView=document.getElementById('view-lb');
-  lbView.style.display=tab==='lb'?'':'none';
+  const v=document.getElementById('view-lb');
+  v.style.display=tab==='lb'?'':'none';
   if(tab==='lb')loadLeaderboard();
 }
 
-function updateCount(){
-  document.getElementById('charCount').textContent=document.getElementById('prompt').value.length;
-}
-
-function fillPrompt(el){
-  document.getElementById('prompt').value=el.textContent;
-  updateCount();
-}
+function updateCount(){document.getElementById('charCount').textContent=document.getElementById('prompt').value.length;}
+function fillPrompt(el){document.getElementById('prompt').value=el.textContent;updateCount();}
 
 function doConfetti(){
   const colors=['#7c3aed','#2563eb','#06b6d4','#f59e0b','#ef4444','#10b981','#ec4899'];
   for(let i=0;i<40;i++){
     setTimeout(()=>{
       const c=document.createElement('div');c.className='confetti';
-      c.style.left=Math.random()*100+'vw';
-      c.style.background=colors[Math.floor(Math.random()*colors.length)];
+      c.style.left=Math.random()*100+'vw';c.style.background=colors[Math.floor(Math.random()*colors.length)];
       c.style.animationDuration=(1.5+Math.random()*2)+'s';
-      c.style.width=(6+Math.random()*6)+'px';
-      c.style.height=c.style.width;
-      document.body.appendChild(c);
-      setTimeout(()=>c.remove(),4000);
+      c.style.width=(6+Math.random()*6)+'px';c.style.height=c.style.width;
+      document.body.appendChild(c);setTimeout(()=>c.remove(),4000);
     },i*50);
   }
 }
@@ -263,15 +224,11 @@ async function submitScore(){
   try{
     const sc=calcScore(txt);const t=calcTotal(sc);const rk=getRank(t);const cm=getComment(t);
     const data=await loadData();
-    // 查重
     if(data.some(x=>(x.nickname||'').toLowerCase()===nk.toLowerCase())){
-      showErr('你已经提交过啦，每人只能玩一次 🎉');
-      btn.disabled=false;btn.textContent='开始测试段位 ⚡';return;
+      showErr('你已经提交过啦，每人只能玩一次 🎉');btn.disabled=false;btn.textContent='开始测试段位 ⚡';return;
     }
-    // 保存数据
     const entry={nickname:nk,prompt:txt,scores:DIMS.map(d=>({label:d.l,value:sc[d.k]})),total:t,rank:{emoji:rk.m,name:rk.n,color:rk.c},time:new Date().toLocaleString('zh-CN',{timeZone:'Asia/Shanghai'})};
     data.push(entry);appData=data;
-    // 显示结果
     showOk('测试完成！你的段位是 '+rk.m+' '+rk.n);
     document.getElementById('rankEmoji').textContent=rk.m;
     document.getElementById('rankName').textContent=rk.n;
@@ -281,6 +238,7 @@ async function submitScore(){
     document.getElementById('comment').textContent=cm;
     document.getElementById('comment').style.borderLeftColor=rk.c;
     document.getElementById('resultCard').classList.add('show');
+    document.getElementById('countPill').textContent='🎮 '+data.length+'人已参与';
     doConfetti();
   }catch(e){showErr(e.message);}
   btn.disabled=false;btn.textContent='开始测试段位 ⚡';
@@ -291,23 +249,21 @@ async function loadLeaderboard(){
   ld.style.display='';ll.innerHTML='';
   try{
     const data=await loadData();
-    if(!data||!data.length){ld.style.display='none';ll.innerHTML='<div class="lo">还没有人参与，来做第一个吧！</div>';return;}
-    // 去重取最高分
+    document.getElementById('countPill').textContent='🎮 '+data.length+'人已参与';
+    if(!data.length){ld.style.display='none';ll.innerHTML='<div class="lo">还没有人参与，来做第一个吧！</div>';return;}
     const best={};
     data.forEach(x=>{const k=(x.nickname||'').toLowerCase();if(!best[k]||x.total>best[k].total)best[k]=x;});
     const sorted=Object.values(best).sort((a,b)=>b.total-a.total).slice(0,50);
     ld.style.display='none';
     ll.innerHTML=sorted.map((x,i)=>{
       const r=i<3?['🥇','🥈','🥉'][i]:(i+1);
-      return '<div class="li" style="--i:'+i+'"><div class="lr">'+r+'</div><div class="ln">'+(x.rank?.emoji||'')+' '+(x.nickname||'匿名')+'</div><div class="ls" style="color:'+(x.rank?.color||'#fff')+'">'+x.total+'分</div></div>';
+      return '<div class="li" style="--i:'+i+'"><div class="li-header"><div class="lr">'+r+'</div><div class="ln">'+(x.rank?.emoji||'')+' '+(x.nickname||'匿名')+'</div><div class="ls" style="color:'+(x.rank?.color||'#fff')+'">'+x.total+'分</div></div><div class="li-prompt">'+(x.prompt||'').replace(/</g,'&lt;').replace(/>/g,'&gt;')+'</div><div class="li-time">🕐 '+(x.time||'')+'</div></div>';
     }).join('');
   }catch(e){
     ld.style.display='none';
     ll.innerHTML='<div class="lo" style="color:#ff6b6b">加载失败：'+e.message+'</div>';
   }
 }
-
-// 预加载数据
 loadData().catch(()=>{});
 </script>
 </body>
