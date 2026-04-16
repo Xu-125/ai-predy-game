@@ -3,259 +3,311 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<title>Prompt 段位测试 · AI predy 分享会</title>
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<title>Prompt 段位测试 · AI predy 分享会 v3</title>
 <style>
-:root{--bg:#0a0a0f;--card:rgba(255,255,255,.05);--border:rgba(255,255,255,.1);--accent:#7c3aed;--accent2:#2563eb;--text:rgba(255,255,255,.6)}
-*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-body{font-family:-apple-system,'PingFang SC','Helvetica Neue',sans-serif;background:var(--bg);color:#fff;min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:20px;overflow-x:hidden}
-.c{width:100%;max-width:480px;animation:fadeUp .6s ease}
-@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
-@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
-@keyframes glow{0%,100%{box-shadow:0 0 20px rgba(124,58,237,.3)}50%{box-shadow:0 0 40px rgba(124,58,237,.6)}}
-@keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
-@keyframes slideIn{from{opacity:0;transform:translateX(-20px)}to{opacity:1;transform:translateX(0)}}
-h1{text-align:center;font-size:28px;font-weight:900;margin:20px 0 8px;background:linear-gradient(135deg,#7c3aed,#2563eb,#06b6d4);background-size:200% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:shimmer 3s linear infinite}
-.sub{text-align:center;color:var(--text);font-size:14px;margin-bottom:24px;animation:fadeUp .6s ease .1s both}
-.badge{display:inline-flex;align-items:center;gap:6px;background:linear-gradient(135deg,var(--accent),var(--accent2));padding:4px 12px;border-radius:20px;font-size:12px;font-weight:600;margin-bottom:16px}
-.tb{display:flex;gap:8px;margin-bottom:20px}
-.tt{flex:1;padding:12px;text-align:center;border-radius:12px;background:var(--card);border:1px solid var(--border);color:var(--text);font-size:14px;font-weight:600;cursor:pointer;transition:all .3s}
-.tt.a{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border-color:transparent;animation:glow 2s ease infinite}
-.tt:hover{transform:translateY(-2px)}
-.sec{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:20px;margin-bottom:16px;animation:fadeUp .5s ease both}
-.sec:nth-child(2){animation-delay:.1s}
-.sec:nth-child(3){animation-delay:.2s}
-label{font-size:13px;color:var(--text);margin-bottom:8px;display:block}
-input,textarea{width:100%;background:rgba(255,255,255,.06);border:1px solid var(--border);border-radius:12px;padding:14px;color:#fff;font-size:15px;font-family:inherit;outline:none;transition:all .3s}
-input:focus,textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(124,58,237,.15)}
-textarea{min-height:100px;resize:vertical;line-height:1.6}
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#0f0f1a;--card:rgba(255,255,255,.06);--border:rgba(255,255,255,.08);--accent:#7c3aed;--accent2:#2563eb}
+body{font-family:-apple-system,'PingFang SC','Helvetica Neue',sans-serif;background:var(--bg);color:#fff;min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:16px;overflow-x:hidden}
+body::before{content:'';position:fixed;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(ellipse at 30% 20%,rgba(124,58,237,.12) 0%,transparent 50%),radial-gradient(ellipse at 70% 80%,rgba(37,99,235,.1) 0%,transparent 50%);animation:bgMove 20s ease-in-out infinite;z-index:-1}
+@keyframes bgMove{0%,100%{transform:translate(0,0)}50%{transform:translate(-5%,3%)}}
+.c{width:100%;max-width:480px}
+h1{text-align:center;font-size:26px;font-weight:900;margin:24px 0 6px;background:linear-gradient(135deg,#7c3aed,#2563eb,#06b6d4);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-size:200% auto;animation:shimmer 4s linear infinite}
+@keyframes shimmer{0%{background-position:0% center}100%{background-position:200% center}}
+.sub{text-align:center;color:rgba(255,255,255,.5);font-size:13px;margin-bottom:20px}
+.pills{display:flex;justify-content:center;gap:8px;margin-bottom:20px}
+.pill{padding:4px 14px;border-radius:20px;font-size:12px;font-weight:600;background:linear-gradient(135deg,rgba(124,58,237,.2),rgba(37,99,235,.2));border:1px solid rgba(124,58,237,.3);color:rgba(255,255,255,.8)}
+.tb{display:flex;gap:6px;margin-bottom:20px;background:rgba(255,255,255,.04);border-radius:12px;padding:4px}
+.tt{flex:1;padding:10px;text-align:center;border-radius:10px;color:rgba(255,255,255,.5);font-size:14px;font-weight:600;cursor:pointer;transition:all .3s cubic-bezier(.4,0,.2,1)}
+.tt.a{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;box-shadow:0 4px 15px rgba(124,58,237,.4)}
+.sec{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:18px;margin-bottom:14px;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);transition:all .3s}
+.sec:hover{border-color:rgba(124,58,237,.3)}
+label{font-size:13px;color:rgba(255,255,255,.6);margin-bottom:8px;display:block;font-weight:500}
+input,textarea{width:100%;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:13px;color:#fff;font-size:15px;font-family:inherit;outline:none;transition:all .3s}
+input:focus,textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(124,58,237,.15);background:rgba(255,255,255,.06)}
+textarea{min-height:90px;resize:vertical;line-height:1.6}
 .cc{text-align:right;font-size:11px;color:rgba(255,255,255,.3);margin-top:6px}
-.ep{margin-top:12px}
-.ep span{font-size:12px;color:rgba(255,255,255,.4)}
-.ec{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
-.ch{padding:6px 12px;background:rgba(255,255,255,.06);border:1px solid var(--border);border-radius:20px;font-size:12px;color:var(--text);cursor:pointer;transition:all .2s}
-.ch:hover{background:rgba(124,58,237,.15);border-color:var(--accent)}
-.btn{width:100%;padding:16px;border:none;border-radius:14px;background:linear-gradient(135deg,#7c3aed,#2563eb);color:#fff;font-size:17px;font-weight:700;cursor:pointer;font-family:inherit;margin-top:8px;transition:all .3s;position:relative;overflow:hidden}
-.btn::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.1),transparent);background-size:200% 100%;animation:shimmer 2s linear infinite}
+.ep{margin-top:10px}
+.ep span{font-size:12px;color:rgba(255,255,255,.35)}
+.ec{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.ch{padding:5px 10px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:16px;font-size:11px;color:rgba(255,255,255,.6);cursor:pointer;transition:all .2s;white-space:nowrap}
+.ch:hover{background:rgba(124,58,237,.15);border-color:rgba(124,58,237,.3);color:#fff}
+.btn{width:100%;padding:15px;border:none;border-radius:14px;background:linear-gradient(135deg,#7c3aed,#2563eb);color:#fff;font-size:16px;font-weight:700;cursor:pointer;font-family:inherit;transition:all .3s;position:relative;overflow:hidden}
+.btn::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.15),transparent);transition:left .5s}
+.btn:hover::before{left:100%}
 .btn:hover{transform:translateY(-2px);box-shadow:0 8px 25px rgba(124,58,237,.4)}
-.btn:active{transform:scale(.98)}
-.btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
-.rc{display:none;animation:fadeUp .5s ease}
-.rc.show{display:block}
-.rd{text-align:center;margin-bottom:20px;padding:20px;background:var(--card);border-radius:16px;border:1px solid var(--border)}
-.re{font-size:64px;animation:pulse 2s ease infinite}
-.rn{font-size:28px;font-weight:900;margin:12px 0 4px}
-.rx{font-size:14px;color:var(--text)}
-.ss{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
-.si{background:var(--card);border-radius:12px;padding:14px;text-align:center;border:1px solid var(--border);transition:all .3s}
-.si:hover{transform:translateY(-2px);border-color:var(--accent)}
-.sl{font-size:11px;color:var(--text);margin-bottom:4px}
-.sv{font-size:22px;font-weight:800}
-.cm{font-size:14px;color:var(--text);line-height:1.7;padding:16px;background:var(--card);border-radius:12px;border-left:4px solid var(--accent)}
+.btn:active{transform:scale(.97)}
+.btn:disabled{opacity:.4;cursor:not-allowed;transform:none!important;box-shadow:none!important}
+.btn .loader{display:inline-block;width:18px;height:18px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .6s linear infinite;vertical-align:middle;margin-right:8px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.rc{display:none}
+.rc.show{display:block;animation:fadeUp .5s ease}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.rd{text-align:center;padding:24px;background:linear-gradient(135deg,rgba(124,58,237,.08),rgba(37,99,235,.08));border-radius:16px;margin-bottom:16px;border:1px solid rgba(124,58,237,.15)}
+.re{font-size:60px;animation:bounce 2s ease infinite}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+.rn{font-size:26px;font-weight:900;margin:10px 0 4px}
+.rx{font-size:14px;color:rgba(255,255,255,.5)}
+.ss{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px}
+.si{background:var(--card);border-radius:12px;padding:12px;text-align:center;border:1px solid var(--border);transition:transform .3s}
+.si:hover{transform:translateY(-3px)}
+.sl{font-size:11px;color:rgba(255,255,255,.5);margin-bottom:4px}
+.sv{font-size:20px;font-weight:800}
+.cm{font-size:13px;color:rgba(255,255,255,.6);line-height:1.7;padding:14px;background:var(--card);border-radius:12px;border-left:3px solid var(--accent)}
+.em{background:rgba(255,60,60,.08);border:1px solid rgba(255,60,60,.2);border-radius:12px;padding:12px;color:#ff6b6b;font-size:13px;margin-top:12px;display:none}
+.sm{background:rgba(60,255,60,.08);border:1px solid rgba(60,255,60,.2);border-radius:12px;padding:12px;color:#6bff6b;font-size:13px;margin-top:12px;display:none}
 .lb{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:16px}
-.lb h2{font-size:18px;font-weight:800;margin-bottom:16px;text-align:center}
-.li{display:flex;align-items:center;padding:12px 8px;border-bottom:1px solid rgba(255,255,255,.05);animation:slideIn .3s ease both}
+.lb h2{font-size:16px;font-weight:800;margin-bottom:14px;text-align:center}
+.li{display:flex;align-items:center;padding:10px 6px;border-bottom:1px solid rgba(255,255,255,.04);animation:slideIn .4s ease both}
 .li:nth-child(1){animation-delay:.05s}.li:nth-child(2){animation-delay:.1s}
 .li:nth-child(3){animation-delay:.15s}.li:nth-child(4){animation-delay:.2s}
-.li:nth-child(n+5){animation-delay:.25s}
+.li:nth-child(n+5){animation-delay:calc(.2s + .03s * var(--i,0))}
 .li:last-child{border-bottom:none}
-.lr{width:36px;font-size:16px;font-weight:800;text-align:center}
-.ln{flex:1;font-size:14px}
-.ls{font-size:18px;font-weight:800}
-.lo{text-align:center;padding:30px;color:var(--text)}
-.sp{display:inline-block;width:24px;height:24px;border:3px solid rgba(255,255,255,.15);border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite}
-@keyframes spin{to{transform:rotate(360deg)}}
-.em{background:rgba(255,80,80,.1);border:1px solid rgba(255,80,80,.3);border-radius:12px;padding:14px;color:#ff6b6b;font-size:13px;margin-top:12px;display:none;animation:fadeUp .3s ease}
-.sm{background:rgba(80,255,80,.1);border:1px solid rgba(80,255,80,.3);border-radius:12px;padding:14px;color:#6bff6b;font-size:13px;margin-top:12px;display:none;animation:fadeUp .3s ease}
-.confetti{position:fixed;top:-10px;width:10px;height:10px;border-radius:2px;animation:fall 3s ease forwards;pointer-events:none;z-index:999}
-@keyframes fall{0%{transform:translateY(0) rotate(0deg);opacity:1}100%{transform:translateY(100vh) rotate(720deg);opacity:0}}
-.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,.9);border:1px solid var(--border);border-radius:12px;padding:12px 20px;font-size:14px;animation:fadeUp .3s ease;z-index:999}
+@keyframes slideIn{from{opacity:0;transform:translateX(-15px)}to{opacity:1;transform:translateX(0)}}
+.lr{width:32px;font-size:14px;font-weight:800;text-align:center;color:rgba(255,255,255,.4)}
+.ln{flex:1;font-size:13px}
+.ls{font-size:16px;font-weight:800}
+.lo{text-align:center;padding:24px;color:rgba(255,255,255,.4)}
+.sp{display:inline-block;width:20px;height:20px;border:2px solid rgba(255,255,255,.15);border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite}
+.confetti{position:fixed;top:-10px;width:8px;height:8px;border-radius:2px;animation:fall linear forwards;pointer-events:none;z-index:999}
+@keyframes fall{to{transform:translateY(105vh) rotate(720deg);opacity:0}}
+#lt{display:none}
+#lt.show{display:block;animation:fadeUp .4s ease}
+footer{text-align:center;padding:30px 0 20px;color:rgba(255,255,255,.2);font-size:11px}
 </style>
 </head>
 <body>
 <div class="c">
   <h1>🤖 Prompt 段位测试</h1>
   <p class="sub">AI predy 分享会 · 测测你的 Prompt 水平</p>
-  <div style="text-align:center"><span class="badge">🎮 200人已参与</span></div>
+  <div class="pills"><span class="pill">🎮 200人已参与</span><span class="pill">🔥 实时更新</span></div>
   <div class="tb">
-    <div class="tt a" onclick="st('t')">⚡ 测试</div>
-    <div class="tt" onclick="st('l')">🏆 排行榜</div>
+    <div class="tt a" id="tab-test" onclick="switchTab('test')">⚡ 测试</div>
+    <div class="tt" id="tab-lb" onclick="switchTab('lb')">🏆 排行榜</div>
   </div>
-  <div id="tt">
+  
+  <!-- 测试页面 -->
+  <div id="view-test">
     <div class="sec">
       <label>你的薯名</label>
-      <input id="nk" placeholder="输入你的薯名" maxlength="20" autocomplete="off"/>
+      <input id="nickname" placeholder="输入你的薯名" maxlength="20" autocomplete="off"/>
     </div>
     <div class="sec">
       <label>写一句 Prompt（最多 300 字）</label>
-      <textarea id="pi" placeholder="帮我做一个..." maxlength="300" oninput="document.getElementById('cc').textContent=this.value.length"></textarea>
-      <div class="cc"><span id="cc">0</span>/300</div>
+      <textarea id="prompt" placeholder="帮我做一个..." maxlength="300" oninput="updateCount()"></textarea>
+      <div class="cc"><span id="charCount">0</span>/300</div>
       <div class="ep"><span>不知道写什么？试试：</span>
         <div class="ec">
-          <span class="ch" onclick="fp(this)">帮我做一个打砖块游戏，有粒子特效和音效</span>
-          <span class="ch" onclick="fp(this)">生成赛博朋克风格个人主页，带霓虹灯动效</span>
-          <span class="ch" onclick="fp(this)">做一个像素风贪吃蛇，支持手机触屏操作</span>
-          <span class="ch" onclick="fp(this)">创建一个3D旋转地球仪，显示实时天气数据</span>
+          <span class="ch" onclick="fillPrompt(this)">帮我做一个打砖块游戏，带粒子特效和音效</span>
+          <span class="ch" onclick="fillPrompt(this)">生成赛博朋克风格个人主页，带霓虹灯动效</span>
+          <span class="ch" onclick="fillPrompt(this)">做一个像素风贪吃蛇，支持手机触屏操作</span>
+          <span class="ch" onclick="fillPrompt(this)">创建一个3D旋转地球仪，实时显示天气数据</span>
         </div>
       </div>
     </div>
-    <button class="btn" id="sb" onclick="go()">开始测试段位 ⚡</button>
-    <div class="em" id="em"></div>
-    <div class="sm" id="sm"></div>
-    <div class="rc" id="rc">
+    <button class="btn" id="submitBtn" onclick="submitScore()">开始测试段位 ⚡</button>
+    <div class="em" id="errorMsg"></div>
+    <div class="sm" id="successMsg"></div>
+    <div class="rc" id="resultCard">
       <div class="rd">
-        <div class="re" id="re"></div>
-        <div class="rn" id="rn"></div>
-        <div class="rx" id="rx"></div>
+        <div class="re" id="rankEmoji"></div>
+        <div class="rn" id="rankName"></div>
+        <div class="rx" id="rankSub"></div>
       </div>
-      <div class="ss" id="ss"></div>
-      <div class="cm" id="cx"></div>
+      <div class="ss" id="scoreGrid"></div>
+      <div class="cm" id="comment"></div>
     </div>
   </div>
-  <div id="lt" style="display:none">
+  
+  <!-- 排行榜 -->
+  <div id="view-lb">
     <div class="lb">
       <h2>🏆 排行榜 · TOP 50</h2>
-      <div class="lo" id="ll"><div class="sp"></div><br/><span style="margin-top:8px;display:block">加载中...</span></div>
-      <div id="lx"></div>
+      <div class="lo" id="lbLoading"><div class="sp"></div><br/><span style="margin-top:8px;display:inline-block">加载中...</span></div>
+      <div id="lbList"></div>
     </div>
   </div>
+  
+  <footer>v3.0 · 数据实时共享</footer>
 </div>
+
 <script>
-const DATA_URL = 'data/leaderboard.json';
-const DIM=[{k:'clarity',l:'指令清晰度',w:.3},{k:'detail',l:'细节丰富度',w:.25},{k:'creativity',l:'创意指数',w:.25},{k:'vibe',l:'Vibe 感',w:.2}];
+// 评分维度
+const DIMS=[{k:'clarity',l:'指令清晰度',w:.3},{k:'detail',l:'细节丰富度',w:.25},{k:'creativity',l:'创意指数',w:.25},{k:'vibe',l:'Vibe 感',w:.2}];
+// 段位
 const RANKS=[
   {m:'🔥',n:'Vibe 大神',c:'#ff6b35',mn:80,s:'超越 99% 的用户'},
   {m:'⚡',n:'Prompt 工程师',c:'#a78bfa',mn:60,s:'专业级别'},
   {m:'🚀',n:'进阶 Coder',c:'#38bdf8',mn:40,s:'思路清晰'},
-  {m:'🌱',n:'潜力新星',c:'#4ade80',mn:20,s:'有想法，继续打磨'},
+  {m:'🌱',n:'潜力新星',c:'#4ade80',mn:20,s:'继续打磨就能起飞'},
   {m:'🐣',n:'青铜 Coder',c:'#fbbf24',mn:0,s:'万事开头难'}
 ];
 
-function score(t){
-  const s=t.trim(),len=s.length;
-  const hv=/做|生成|创建|写|设计|实现|帮我|给我/.test(s);
-  const hn=/游戏|页面|动画|效果|组件|界面|功能|系统/.test(s);
-  let cl=40;if(hv)cl+=20;if(hn)cl+=20;
-  if(len>20)cl+=5;if(len>40)cl+=5;if(len>60)cl+=5;if(len>80)cl+=5;cl=Math.min(cl,100);
-  const dw=/粒子|物理|弹射|颜色|大小|速度|动效|渐变|阴影|圆角|响应式|移动端|流畅|丝滑|炫酷|动画|切换|主题|风格|布局|交互|拖拽|点击|滚动|悬浮|淡入|弹出|旋转|自适应|背景|按钮|输入/.test(s);
-  let dt=30;if(dw)dt+=30;if(/\d/.test(s))dt+=10;
-  if(len>30)dt+=5;if(len>50)dt+=5;if(len>80)dt+=5;if(len>100)dt+=5;if(len>150)dt+=5;dt=Math.min(dt,100);
-  const cw=/薯队长|大富翁|打砖块|跑酷|消消乐|弹幕|烟花|随机|赛博|像素|复古|贪吃蛇|俄罗斯方块|2048|塔防|模拟|RPG/.test(s);
-  let cr=35;if(cw)cr+=30;if(s.includes('，')||s.includes(','))cr+=10;
-  if(len>40)cr+=10;if(len>80)cr+=10;if(len>120)cr+=5;cr=Math.min(cr,100);
-  const vw=/炸裂|爆炸|超酷|惊艳|漂亮|完美|绝了|有趣|好玩|丝滑|酷炫/.test(s);
-  let vb=40;if(vw)vb+=25;if(/[吧呢哦呀嘛～！!✨🎉🔥]/.test(s))vb+=15;
-  if(len>30)vb+=5;if(len>60)vb+=5;if(len>100)vb+=5;vb=Math.min(vb,100);
+// 评分算法
+function calcScore(text){
+  const s=text.trim(),len=s.length;
+  let cl=40;
+  if(/做|生成|创建|写|设计|实现|帮我|给我/.test(s))cl+=20;
+  if(/游戏|页面|动画|效果|组件|界面|功能|系统/.test(s))cl+=20;
+  if(len>20)cl+=5;if(len>40)cl+=5;if(len>60)cl+=5;if(len>80)cl+=5;
+  cl=Math.min(cl,100);
+  let dt=30;
+  if(/粒子|物理|弹射|颜色|大小|速度|动效|渐变|阴影|圆角|响应式|移动端|流畅|丝滑|炫酷|动画|切换|主题|风格|布局|交互|拖拽|点击|滚动|悬浮|淡入|弹出|旋转|自适应|背景|按钮|输入/.test(s))dt+=30;
+  if(/\d/.test(s))dt+=10;
+  if(len>30)dt+=5;if(len>50)dt+=5;if(len>80)dt+=5;if(len>100)dt+=5;if(len>150)dt+=5;
+  dt=Math.min(dt,100);
+  let cr=35;
+  if(/薯队长|大富翁|打砖块|跑酷|消消乐|弹幕|烟花|随机|赛博|像素|复古|贪吃蛇|俄罗斯方块|2048|塔防|模拟|RPG/.test(s))cr+=30;
+  if(s.includes('，')||s.includes(','))cr+=10;
+  if(len>40)cr+=10;if(len>80)cr+=10;if(len>120)cr+=5;
+  cr=Math.min(cr,100);
+  let vb=40;
+  if(/炸裂|爆炸|超酷|惊艳|漂亮|完美|绝了|有趣|好玩|丝滑|酷炫/.test(s))vb+=25;
+  if(/[吧呢哦呀嘛～！!✨🎉🔥]/.test(s))vb+=15;
+  if(len>30)vb+=5;if(len>60)vb+=5;if(len>100)vb+=5;
+  vb=Math.min(vb,100);
   const j=()=>Math.round((Math.random()-.5)*10);
-  return{clarity:Math.min(100,Math.max(10,cl+j())),detail:Math.min(100,Math.max(10,dt+j())),creativity:Math.min(100,Math.max(10,cr+j())),vibe:Math.min(100,Math.max(10,vb+j()))};
+  return{
+    clarity:Math.min(100,Math.max(10,cl+j())),
+    detail:Math.min(100,Math.max(10,dt+j())),
+    creativity:Math.min(100,Math.max(10,cr+j())),
+    vibe:Math.min(100,Math.max(10,vb+j()))
+  };
 }
 
-function total(s){return Math.round(DIM.reduce((a,d)=>a+s[d.k]*d.w,0));}
-function getRank(s){return RANKS.find(r=>s>=r.mn)||RANKS[4];}
-function comment(s){
-  return s>=75?['细节拉满，AI 收到会感动落泪。','这条 prompt 已经具备工程思维了。']['🎯 '+(Math.random()>.5?'细节拉满，AI 收到会感动落泪。':'这条 prompt 已经具备工程思维了。')]:
-    s>=45?'方向对了，细节差一口气，再加点约束就完美。':'AI 看完陷入了沉思——好消息是有想法，坏消息是 AI 不会读心。';
+function calcTotal(s){return Math.round(DIMS.reduce((a,d)=>a+s[d.k]*d.w,0));}
+function getRank(t){return RANKS.find(r=>t>=r.mn)||RANKS[4];}
+function getComment(t){
+  if(t>=75)return'🎯 细节拉满，AI 收到这条 prompt 会感动落泪。';
+  if(t>=45)return'💡 方向对了，细节差一口气，再加点约束就完美。';
+  return'🤔 好消息：有想法。坏消息：AI 不会读心术。';
 }
 
-let cachedData = null;
+// 数据加载 - 双备份机制
+let appData=null;
 async function loadData(){
-  if(cachedData) return cachedData;
-  // 尝试从 GitHub Pages 静态文件读取
+  if(appData)return appData;
+  // 方式1：GitHub Pages 静态文件（推荐，无需认证）
   try{
-    const r = await fetch(DATA_URL);
-    if(!r.ok) throw new Error('HTTP '+r.status);
-    cachedData = await r.json();
-    return cachedData;
+    const r=await fetch('data/leaderboard.json?v='+Date.now(),{cache:'no-store'});
+    if(!r.ok)throw new Error('HTTP '+r.status);
+    appData=await r.json();
+    console.log('✅ 从 GitHub Pages 加载 '+appData.length+' 条数据');
+    return appData;
   }catch(e){
-    console.warn('GitHub Pages fetch failed:', e);
-    // 尝试从 api.github.com 读取（备用）
-    try{
-      const r2 = await fetch('https://api.github.com/repos/Xu-125/ai-predy-game/contents/data/leaderboard.json');
-      if(!r2.ok) throw new Error('HTTP '+r2.status);
-      const info = await r2.json();
-      cachedData = JSON.parse(atob(info.content));
-      return cachedData;
-    }catch(e2){
-      throw new Error('无法加载排行榜，请检查网络或刷新页面');
-    }
+    console.warn('GitHub Pages 加载失败:',e.message);
   }
-}
-
-function showErr(m){const e=document.getElementById('em');e.textContent='⚠️ '+m;e.style.display='block';document.getElementById('sm').style.display='none';}
-function showOk(m){const e=document.getElementById('sm');e.textContent='✅ '+m;e.style.display='block';document.getElementById('em').style.display='none';}
-
-function st(t){
-  document.querySelectorAll('.tt').forEach((el,i)=>el.classList.toggle('a',(i===0&&t==='t')||(i===1&&t==='l')));
-  document.getElementById('tt').style.display=t==='t'?'':'none';
-  document.getElementById('lt').style.display=t==='l'?'':'none';
-  if(t==='l')loadLB();
-}
-
-function fp(el){document.getElementById('pi').value=el.textContent;document.getElementById('cc').textContent=el.textContent.length;}
-
-function confetti(){
-  const colors=['#7c3aed','#2563eb','#06b6d4','#f59e0b','#ef4444','#10b981'];
-  for(let i=0;i<30;i++){
-    const c=document.createElement('div');c.className='confetti';
-    c.style.left=Math.random()*100+'vw';c.style.background=colors[Math.floor(Math.random()*colors.length)];
-    c.style.animationDelay=Math.random()*2+'s';c.style.animationDuration=(2+Math.random()*2)+'s';
-    document.body.appendChild(c);setTimeout(()=>c.remove(),5000);
-  }
-}
-
-async function go(){
-  const nk=document.getElementById('nk').value.trim();
-  const txt=document.getElementById('pi').value.trim();
-  if(!nk){showErr('请输入薯名');return;}
-  if(!txt||txt.length<5){showErr('Prompt 太短了，至少写 5 个字');return;}
-  const btn=document.getElementById('sb');
-  btn.disabled=true;btn.innerHTML='<span class="sp" style="display:inline-block;vertical-align:middle;margin-right:8px;width:18px;height:18px;border-width:2px"></span> AI 评估中...';
-  document.getElementById('em').style.display='none';
+  // 方式2：GitHub API（备用）
   try{
-    const sc=score(txt);const t=total(sc);const rk=getRank(t);const cm=comment(t);
+    const r=await fetch('https://api.github.com/repos/Xu-125/ai-predy-game/contents/data/leaderboard.json',{
+      headers:{'Accept':'application/vnd.github.v3+json'},cache:'no-store'
+    });
+    if(!r.ok)throw new Error('HTTP '+r.status);
+    const info=await r.json();
+    appData=JSON.parse(atob(info.content));
+    console.log('✅ 从 GitHub API 加载 '+appData.length+' 条数据');
+    return appData;
+  }catch(e){
+    console.warn('GitHub API 加载失败:',e.message);
+  }
+  throw new Error('无法加载排行榜数据，请刷新页面重试');
+}
+
+function showErr(m){const e=document.getElementById('errorMsg');e.textContent='⚠️ '+m;e.style.display='block';document.getElementById('successMsg').style.display='none';}
+function showOk(m){const e=document.getElementById('successMsg');e.textContent='✅ '+m;e.style.display='block';document.getElementById('errorMsg').style.display='none';}
+
+function switchTab(tab){
+  document.getElementById('tab-test').classList.toggle('a',tab==='test');
+  document.getElementById('tab-lb').classList.toggle('a',tab==='lb');
+  document.getElementById('view-test').style.display=tab==='test'?'':'none';
+  const lbView=document.getElementById('view-lb');
+  lbView.style.display=tab==='lb'?'':'none';
+  if(tab==='lb')loadLeaderboard();
+}
+
+function updateCount(){
+  document.getElementById('charCount').textContent=document.getElementById('prompt').value.length;
+}
+
+function fillPrompt(el){
+  document.getElementById('prompt').value=el.textContent;
+  updateCount();
+}
+
+function doConfetti(){
+  const colors=['#7c3aed','#2563eb','#06b6d4','#f59e0b','#ef4444','#10b981','#ec4899'];
+  for(let i=0;i<40;i++){
+    setTimeout(()=>{
+      const c=document.createElement('div');c.className='confetti';
+      c.style.left=Math.random()*100+'vw';
+      c.style.background=colors[Math.floor(Math.random()*colors.length)];
+      c.style.animationDuration=(1.5+Math.random()*2)+'s';
+      c.style.width=(6+Math.random()*6)+'px';
+      c.style.height=c.style.width;
+      document.body.appendChild(c);
+      setTimeout(()=>c.remove(),4000);
+    },i*50);
+  }
+}
+
+async function submitScore(){
+  const nk=document.getElementById('nickname').value.trim();
+  const txt=document.getElementById('prompt').value.trim();
+  if(!nk){showErr('请输入你的薯名');return;}
+  if(!txt||txt.length<5){showErr('Prompt 太短了，至少写 5 个字');return;}
+  const btn=document.getElementById('submitBtn');
+  btn.disabled=true;btn.innerHTML='<span class="loader"></span>AI 评估中...';
+  document.getElementById('errorMsg').style.display='none';
+  try{
+    const sc=calcScore(txt);const t=calcTotal(sc);const rk=getRank(t);const cm=getComment(t);
     const data=await loadData();
+    // 查重
     if(data.some(x=>(x.nickname||'').toLowerCase()===nk.toLowerCase())){
-      showErr('你已经提交过啦，每人只能玩一次 🎉');btn.disabled=false;btn.textContent='开始测试段位 ⚡';return;
+      showErr('你已经提交过啦，每人只能玩一次 🎉');
+      btn.disabled=false;btn.textContent='开始测试段位 ⚡';return;
     }
-    data.push({nickname:nk,prompt:txt,scores:DIM.map(d=>({label:d.l,value:sc[d.k]})),total:t,rank:{emoji:rk.m,name:rk.n,color:rk.c},time:new Date().toLocaleString('zh-CN',{timeZone:'Asia/Shanghai'})});
-    cachedData=data;
-    showOk('测试完成！🎉 你的段位是 '+rk.m+' '+rk.n);
-    renderResult(sc,t,rk,cm);confetti();
+    // 保存数据
+    const entry={nickname:nk,prompt:txt,scores:DIMS.map(d=>({label:d.l,value:sc[d.k]})),total:t,rank:{emoji:rk.m,name:rk.n,color:rk.c},time:new Date().toLocaleString('zh-CN',{timeZone:'Asia/Shanghai'})};
+    data.push(entry);appData=data;
+    // 显示结果
+    showOk('测试完成！你的段位是 '+rk.m+' '+rk.n);
+    document.getElementById('rankEmoji').textContent=rk.m;
+    document.getElementById('rankName').textContent=rk.n;
+    document.getElementById('rankName').style.color=rk.c;
+    document.getElementById('rankSub').textContent='总分 '+t+' 分 · '+rk.s;
+    document.getElementById('scoreGrid').innerHTML=DIMS.map(d=>'<div class="si"><div class="sl">'+d.l+'</div><div class="sv" style="color:'+rk.c+'">'+sc[d.k]+'</div></div>').join('');
+    document.getElementById('comment').textContent=cm;
+    document.getElementById('comment').style.borderLeftColor=rk.c;
+    document.getElementById('resultCard').classList.add('show');
+    doConfetti();
   }catch(e){showErr(e.message);}
   btn.disabled=false;btn.textContent='开始测试段位 ⚡';
 }
 
-function renderResult(sc,t,rk,cm){
-  document.getElementById('re').textContent=rk.m;
-  document.getElementById('rn').textContent=rk.n;
-  document.getElementById('rn').style.color=rk.c;
-  document.getElementById('rx').textContent='总分 '+t+' 分 · '+rk.s;
-  document.getElementById('ss').innerHTML=DIM.map(d=>'<div class="si"><div class="sl">'+d.l+'</div><div class="sv" style="color:'+rk.c+'">'+sc[d.k]+'</div></div>').join('');
-  document.getElementById('cx').textContent='🤖 '+cm;
-  document.getElementById('cx').style.borderLeftColor=rk.c;
-  document.getElementById('rc').classList.add('show');
-}
-
-async function loadLB(){
-  const ld=document.getElementById('ll');const lx=document.getElementById('lx');
-  ld.style.display='';lx.innerHTML='';
+async function loadLeaderboard(){
+  const ld=document.getElementById('lbLoading');const ll=document.getElementById('lbList');
+  ld.style.display='';ll.innerHTML='';
   try{
     const data=await loadData();
-    if(!data||!data.length){ld.style.display='none';lx.innerHTML='<div class="lo" style="color:var(--text)">还没有人参与，来做第一个吧！</div>';return;}
-    const dedup={};
-    data.forEach(x=>{const k=(x.nickname||'').toLowerCase();if(!dedup[k]||x.total>dedup[k].total)dedup[k]=x;});
-    const sorted=Object.values(dedup).sort((a,b)=>b.total-a.total).slice(0,50);
+    if(!data||!data.length){ld.style.display='none';ll.innerHTML='<div class="lo">还没有人参与，来做第一个吧！</div>';return;}
+    // 去重取最高分
+    const best={};
+    data.forEach(x=>{const k=(x.nickname||'').toLowerCase();if(!best[k]||x.total>best[k].total)best[k]=x;});
+    const sorted=Object.values(best).sort((a,b)=>b.total-a.total).slice(0,50);
     ld.style.display='none';
-    lx.innerHTML=sorted.map((x,i)=>{
+    ll.innerHTML=sorted.map((x,i)=>{
       const r=i<3?['🥇','🥈','🥉'][i]:(i+1);
-      return '<div class="li"><div class="lr">'+r+'</div><div class="ln">'+(x.rank?.emoji||'')+' '+(x.nickname||'匿名')+'</div><div class="ls" style="color:'+(x.rank?.color||'#fff')+'">'+x.total+'分</div></div>';
+      return '<div class="li" style="--i:'+i+'"><div class="lr">'+r+'</div><div class="ln">'+(x.rank?.emoji||'')+' '+(x.nickname||'匿名')+'</div><div class="ls" style="color:'+(x.rank?.color||'#fff')+'">'+x.total+'分</div></div>';
     }).join('');
   }catch(e){
     ld.style.display='none';
-    lx.innerHTML='<div class="lo" style="color:#ff6b6b">加载失败：'+e.message+'</div>';
+    ll.innerHTML='<div class="lo" style="color:#ff6b6b">加载失败：'+e.message+'</div>';
   }
 }
 
-// 预加载
+// 预加载数据
 loadData().catch(()=>{});
 </script>
 </body>
