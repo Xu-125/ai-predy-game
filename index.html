@@ -74,7 +74,7 @@ footer{text-align:center;padding:30px 0 20px;color:rgba(255,255,255,.2);font-siz
 <div class="c">
 <h1>🤖 Prompt 段位测试</h1>
 <p class="sub">AI predy 分享会 · 测测你的 Prompt 水平</p>
-<div class="pills"><span class="pill" id="pill">🎮 0人已参与</span></div>
+<div class="pills"><span class="pill" id="pill">🎮 2人已参与</span></div>
 <div class="notice">
 <strong>⚠️ 提醒：</strong>请填写<strong>真实薯名</strong>，奖品将在报名分享会的同学中产生。如遇分数相同，则优先选取<strong>发布时间较早</strong>的同学送出礼物。
 </div>
@@ -100,7 +100,7 @@ footer{text-align:center;padding:30px 0 20px;color:rgba(255,255,255,.2);font-siz
 </div>
 <div id="vl" style="display:none">
 <div class="lb"><h2>🏆 排行榜 · TOP 50</h2>
-<div class="lo">还没有人参与</div>
+<div class="li"><div class="li-header"><div class="lr">🥇</div><div class="ln">⚡ 徐皓萱</div><div class="ls" style="color:#a78bfa">65分</div></div><div class="li-prompt">帮我做一个打砖块游戏，带粒子特效和音效</div><div class="li-time">🕐 2026/4/16 12:55:58</div></div><div class="li"><div class="li-header"><div class="lr">🥈</div><div class="ln">⚡ a</div><div class="ls" style="color:#a78bfa">64分</div></div><div class="li-prompt">帮我做一个打砖块游戏，带粒子特效和音效</div><div class="li-time">🕐 2026/4/16 12:57:12</div></div>
 </div>
 </div>
 <footer>AI predy 分享会</footer>
@@ -134,7 +134,19 @@ function go(){
   var btn=document.getElementById('sb');
   btn.disabled=true;btn.innerHTML='<span class="loader"></span>AI 评估中...';
   var s=calc(txt),t=tot(s),r=getr(t);
-  var entry={nickname:nk,prompt:txt,scores:D.map(function(d){return{label:d.l,value:s[d.k]};}),total:t,rank:{emoji:r.m,name:r.n,color:r.c},time:new Date().toLocaleString('zh-CN',{timeZone:'Asia/Shanghai'})};
+  
+  // ★★★ 修复：用平铺字段，不用嵌套对象 ★★★
+  var entry={
+    nickname:nk,
+    prompt:txt,
+    total:t,
+    rank_emoji:r.m,
+    rank_name:r.n,
+    rank_color:r.c,
+    scores:D.map(function(d){return{label:d.l,value:s[d.k]};}),
+    time:new Date().toLocaleString('zh-CN',{timeZone:'Asia/Shanghai'})
+  };
+  
   var xhr=new XMLHttpRequest();
   xhr.open('POST',S.u+'/rest/v1/submissions',true);
   xhr.setRequestHeader('apikey',S.k);
