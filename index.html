@@ -2,233 +2,218 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Prompt 段位测试 · AI predy 分享会 v10</title>
-<style>
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:-apple-system,'PingFang SC',sans-serif;background:#0f0f1a;color:#fff;min-height:100vh;padding:16px}
-.c{max-width:480px;margin:0 auto}
-h1{text-align:center;font-size:24px;font-weight:900;margin:20px 0 4px;background:linear-gradient(135deg,#7c3aed,#2563eb);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.sub{text-align:center;color:rgba(255,255,255,.5);font-size:12px;margin-bottom:16px}
-.tb{display:flex;gap:6px;margin-bottom:16px;background:rgba(255,255,255,.04);border-radius:10px;padding:4px}
-.tt{flex:1;padding:8px;text-align:center;border-radius:8px;color:rgba(255,255,255,.5);font-size:13px;font-weight:600;cursor:pointer}
-.tt.a{background:linear-gradient(135deg,#7c3aed,#2563eb);color:#fff}
-.sec{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:16px;margin-bottom:12px}
-label{font-size:12px;color:rgba(255,255,255,.6);margin-bottom:6px;display:block}
-input,textarea{width:100%;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:11px;color:#fff;font-size:14px;outline:none}
-input:focus,textarea:focus{border-color:#7c3aed}
-textarea{min-height:80px;resize:vertical;line-height:1.5}
-.btn{width:100%;padding:13px;border:none;border-radius:12px;background:linear-gradient(135deg,#7c3aed,#2563eb);color:#fff;font-size:15px;font-weight:700;cursor:pointer;margin-top:12px}
-.btn:disabled{opacity:.4}
-.em{background:rgba(255,60,60,.08);border:1px solid rgba(255,60,60,.2);border-radius:10px;padding:10px;color:#ff6b6b;font-size:12px;margin-top:10px;display:none}
-.sm{background:rgba(60,255,60,.08);border:1px solid rgba(60,255,60,.2);border-radius:10px;padding:10px;color:#6bff6b;font-size:12px;margin-top:10px;display:none}
-.rc{display:none}.rc.show{display:block;text-align:center;padding:20px}
-.re{font-size:50px}.rn{font-size:22px;font-weight:900;margin:8px 0}
-.ss{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin:12px 0}
-.si{background:rgba(255,255,255,.04);border-radius:8px;padding:10px;text-align:center}
-.sl{font-size:10px;color:rgba(255,255,255,.5)}.sv{font-size:18px;font-weight:800}
-.cm{font-size:12px;color:rgba(255,255,255,.5);padding:12px;background:rgba(255,255,255,.03);border-radius:8px;border-left:3px solid #7c3aed}
-.lb{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:14px}
-.lb h2{font-size:15px;font-weight:800;margin-bottom:12px;text-align:center}
-.li{padding:10px 6px;border-bottom:1px solid rgba(255,255,255,.04)}
-.li:last-child{border-bottom:none}
-.lh{display:flex;align-items:center;gap:6px;margin-bottom:4px}
-.lr{width:28px;font-size:13px;font-weight:800;text-align:center;color:rgba(255,255,255,.4)}
-.ln{flex:1;font-size:13px}.ls{font-size:15px;font-weight:800}
-.lp{font-size:11px;color:rgba(255,255,255,.4);margin-top:4px;padding:6px 8px;background:rgba(255,255,255,.02);border-radius:6px;word-break:break-word}
-.lt{font-size:10px;color:rgba(255,255,255,.2);margin-top:2px;text-align:right}
-.lo{text-align:center;padding:16px;color:rgba(255,255,255,.4)}
-.sp{display:inline-block;width:16px;height:16px;border:2px solid rgba(255,255,255,.15);border-top-color:#7c3aed;border-radius:50%;animation:spin .6s linear infinite}
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>Prompt 段位测试 · AI predy 分享会 v11</title>
+<style>*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,'PingFang SC','Helvetica Neue',sans-serif;background:#0f0f1a;color:#fff;min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:16px;overflow-x:hidden}
+body::before{content:'';position:fixed;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(ellipse at 30% 20%,rgba(124,58,237,.12) 0%,transparent 50%),radial-gradient(ellipse at 70% 80%,rgba(37,99,235,.1) 0%,transparent 50%);animation:bgMove 20s ease-in-out infinite;z-index:-1}
+@keyframes bgMove{0%,100%{transform:translate(0,0)}50%{transform:translate(-5%,3%)}}
+.c{width:100%;max-width:480px}
+h1{text-align:center;font-size:26px;font-weight:900;margin:24px 0 6px;background:linear-gradient(135deg,#7c3aed,#2563eb,#06b6d4);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-size:200% auto;animation:shimmer 4s linear infinite}
+@keyframes shimmer{0%{background-position:0% center}100%{background-position:200% center}}
+.sub{text-align:center;color:rgba(255,255,255,.5);font-size:13px;margin-bottom:20px}
+.pills{display:flex;justify-content:center;gap:8px;margin-bottom:20px}
+.pill{padding:4px 14px;border-radius:20px;font-size:12px;font-weight:600;background:linear-gradient(135deg,rgba(124,58,237,.2),rgba(37,99,235,.2));border:1px solid rgba(124,58,237,.3);color:rgba(255,255,255,.8)}
+.tb{display:flex;gap:6px;margin-bottom:20px;background:rgba(255,255,255,.04);border-radius:12px;padding:4px}
+.tt{flex:1;padding:10px;text-align:center;border-radius:10px;color:rgba(255,255,255,.5);font-size:14px;font-weight:600;cursor:pointer;transition:all .3s}
+.tt.a{background:linear-gradient(135deg,#7c3aed,#2563eb);color:#fff;box-shadow:0 4px 15px rgba(124,58,237,.4)}
+.sec{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:18px;margin-bottom:14px;backdrop-filter:blur(10px)}
+label{font-size:13px;color:rgba(255,255,255,.6);margin-bottom:8px;display:block;font-weight:500}
+input,textarea{width:100%;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:13px;color:#fff;font-size:15px;font-family:inherit;outline:none;transition:all .3s}
+input:focus,textarea:focus{border-color:#7c3aed;box-shadow:0 0 0 3px rgba(124,58,237,.15)}
+textarea{min-height:90px;resize:vertical;line-height:1.6}
+.cc{text-align:right;font-size:11px;color:rgba(255,255,255,.3);margin-top:6px}
+.ep{margin-top:10px}.ep span{font-size:12px;color:rgba(255,255,255,.35)}
+.ec{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.ch{padding:5px 10px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:16px;font-size:11px;color:rgba(255,255,255,.6);cursor:pointer;transition:all .2s;white-space:nowrap}
+.ch:hover{background:rgba(124,58,237,.15);border-color:rgba(124,58,237,.3);color:#fff}
+.btn{width:100%;padding:15px;border:none;border-radius:14px;background:linear-gradient(135deg,#7c3aed,#2563eb);color:#fff;font-size:16px;font-weight:700;cursor:pointer;font-family:inherit;transition:all .3s;position:relative;overflow:hidden}
+.btn:hover{transform:translateY(-2px);box-shadow:0 8px 25px rgba(124,58,237,.4)}
+.btn:active{transform:scale(.97)}
+.btn:disabled{opacity:.4;cursor:not-allowed;transform:none!important;box-shadow:none!important}
+.loader{display:inline-block;width:18px;height:18px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .6s linear infinite;vertical-align:middle;margin-right:8px}
 @keyframes spin{to{transform:rotate(360deg)}}
-#view-lb{display:none}
-.debug{margin-top:12px;padding:10px;background:rgba(255,255,0,.05);border:1px solid rgba(255,255,0,.15);border-radius:8px;font-size:11px;color:rgba(255,255,100,.8);font-family:monospace;word-break:break-all;white-space:pre-wrap}
-.pill{display:inline-block;padding:3px 10px;border-radius:16px;font-size:11px;background:linear-gradient(135deg,rgba(124,58,237,.2),rgba(37,99,235,.2));border:1px solid rgba(124,58,237,.3);margin-bottom:12px}
-</style>
+.rc{display:none}.rc.show{display:block;animation:fadeUp .5s ease}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.rd{text-align:center;padding:24px;background:linear-gradient(135deg,rgba(124,58,237,.08),rgba(37,99,235,.08));border-radius:16px;margin-bottom:16px;border:1px solid rgba(124,58,237,.15)}
+.re{font-size:60px;animation:bounce 2s ease infinite}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+.rn{font-size:26px;font-weight:900;margin:10px 0 4px}
+.rx{font-size:14px;color:rgba(255,255,255,.5)}
+.ss{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px}
+.si{background:rgba(255,255,255,.04);border-radius:12px;padding:12px;text-align:center;border:1px solid rgba(255,255,255,.08)}
+.sl{font-size:11px;color:rgba(255,255,255,.5);margin-bottom:4px}.sv{font-size:20px;font-weight:800}
+.cm{font-size:13px;color:rgba(255,255,255,.6);line-height:1.7;padding:14px;background:rgba(255,255,255,.04);border-radius:12px;border-left:3px solid #7c3aed}
+.em{background:rgba(255,60,60,.08);border:1px solid rgba(255,60,60,.2);border-radius:12px;padding:12px;color:#ff6b6b;font-size:13px;margin-top:12px;display:none}
+.sm{background:rgba(60,255,60,.08);border:1px solid rgba(60,255,60,.2);border-radius:12px;padding:12px;color:#6bff6b;font-size:13px;margin-top:12px;display:none}
+.lb{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:16px}
+.lb h2{font-size:16px;font-weight:800;margin-bottom:14px;text-align:center}
+.li{padding:14px 10px;border-bottom:1px solid rgba(255,255,255,.04);animation:slideIn .4s ease both}
+.li:last-child{border-bottom:none}
+@keyframes slideIn{from{opacity:0;transform:translateX(-15px)}to{opacity:1;transform:translateX(0)}}
+.lh{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.lr{width:30px;font-size:14px;font-weight:800;text-align:center;color:rgba(255,255,255,.4);flex-shrink:0}
+.ln{flex:1;font-size:14px;font-weight:600}
+.ls{font-size:16px;font-weight:800;flex-shrink:0}
+.lp{font-size:12px;color:rgba(255,255,255,.45);line-height:1.5;margin-top:6px;padding:8px 10px;background:rgba(255,255,255,.03);border-radius:8px;border-left:2px solid rgba(124,58,237,.3);word-break:break-word}
+.lt{font-size:11px;color:rgba(255,255,255,.25);margin-top:4px;text-align:right}
+.lo{text-align:center;padding:24px;color:rgba(255,255,255,.4)}
+.sp{display:inline-block;width:20px;height:20px;border:2px solid rgba(255,255,255,.15);border-top-color:#7c3aed;border-radius:50%;animation:spin .8s linear infinite}
+.confetti{position:fixed;top:-10px;width:8px;height:8px;border-radius:2px;animation:fall linear forwards;pointer-events:none;z-index:999}
+@keyframes fall{to{transform:translateY(105vh) rotate(720deg);opacity:0}}
+#vl{display:none}
+footer{text-align:center;padding:30px 0 20px;color:rgba(255,255,255,.2);font-size:11px}</style>
 </head>
 <body>
 <div class="c">
-<h1>🤖 Prompt 段位测试</h1>
-<p class="sub">AI predy 分享会</p>
-<div style="text-align:center"><span class="pill" id="pill">🎮 加载中...</span></div>
-<div class="tb">
-<div class="tt a" id="t1" onclick="st('t')">⚡ 测试</div>
-<div class="tt" id="t2" onclick="st('l')">🏆 排行榜</div>
-</div>
-<div id="vt">
-<div class="sec"><label>你的薯名</label><input id="nk" maxlength="20" placeholder="输入薯名"/></div>
-<div class="sec"><label>Prompt（最多 300 字）</label><textarea id="pi" maxlength="300" placeholder="帮我做一个..."></textarea></div>
-<button class="btn" id="sb" onclick="go()">开始测试 ⚡</button>
-<div class="em" id="em"></div>
-<div class="sm" id="sm"></div>
-<div class="rc" id="rc">
-<div class="re" id="re"></div>
-<div class="rn" id="rn"></div>
-<div style="font-size:12px;color:rgba(255,255,255,.5)" id="rx"></div>
-<div class="ss" id="ss"></div>
-<div class="cm" id="cx"></div>
-</div>
-</div>
-<div id="vl">
-<div class="lb">
-<h2>🏆 排行榜</h2>
-<div class="lo" id="ll"><div class="sp"></div><br/>加载中...</div>
-<div id="lx"></div>
-</div>
-</div>
-<div class="debug" id="dbg">诊断信息加载中...</div>
+  <h1>🤖 Prompt 段位测试</h1>
+  <p class="sub">AI predy 分享会 · 测测你的 Prompt 水平</p>
+  <div class="pills"><span class="pill" id="pill">🎮 6人已参与</span><span class="pill">☁️ Supabase</span></div>
+  <div class="tb">
+    <div class="tt a" id="t1" onclick="st('t')">⚡ 测试</div>
+    <div class="tt" id="t2" onclick="st('l')">🏆 排行榜</div>
+  </div>
+  <div id="vt">
+    <div class="sec"><label>你的薯名</label><input id="nk" maxlength="20" placeholder="输入你的薯名" autocomplete="off"/></div>
+    <div class="sec"><label>写一句 Prompt（最多 300 字）</label><textarea id="pi" maxlength="300" placeholder="帮我做一个..." oninput="uc()"></textarea>
+      <div class="cc"><span id="cc">0</span>/300</div>
+      <div class="ep"><span>不知道写什么？试试：</span>
+        <div class="ec">
+          <span class="ch" onclick="fp(this)">帮我做一个打砖块游戏，带粒子特效和音效</span>
+          <span class="ch" onclick="fp(this)">生成赛博朋克风格个人主页，带霓虹灯动效</span>
+          <span class="ch" onclick="fp(this)">做一个像素风贪吃蛇，支持手机触屏操作</span>
+          <span class="ch" onclick="fp(this)">创建一个3D旋转地球仪，实时显示天气数据</span>
+        </div>
+      </div>
+    </div>
+    <button class="btn" id="sb" onclick="go()">开始测试段位 ⚡</button>
+    <div class="em" id="em"></div>
+    <div class="sm" id="sm"></div>
+    <div class="rc" id="rc"><div class="rd"><div class="re" id="re"></div><div class="rn" id="rn"></div><div class="rx" id="rx"></div></div>
+      <div class="ss" id="sg"></div><div class="cm" id="cx"></div></div>
+  </div>
+  <div id="vl">
+    <div class="lb"><h2>🏆 排行榜 · TOP 50</h2>
+      <div class="lo" id="ld" style="display:none"><div class="sp"></div><br/><span style="margin-top:8px;display:inline-block">加载中...</span></div>
+      <div id="lx"><div class="li"><div class="lh"><div class="lr">🥇</div><div class="ln">⚡ 测试1</div><div class="ls" style="color:#a78bfa">69分</div></div><div class="lp">帮我做一个打砖块游戏，带粒子特效和音效</div><div class="lt">2026/4/16 11:57:36</div></div><div class="li"><div class="lh"><div class="lr">🥈</div><div class="ln">⚡ 测试</div><div class="ls" style="color:#a78bfa">67分</div></div><div class="lp">帮我做一个打砖块游戏，带粒子特效和音效</div><div class="lt">2026/4/16 11:54:44</div></div><div class="li"><div class="lh"><div class="lr">🥉</div><div class="ln">⚡ 测试2</div><div class="ls" style="color:#a78bfa">67分</div></div><div class="lp">帮我做一个打砖块游戏，带粒子特效和音效</div><div class="lt">2026/4/16 12:00:53</div></div><div class="li"><div class="lh"><div class="lr">4</div><div class="ln">⚡ 测试3</div><div class="ls" style="color:#a78bfa">64分</div></div><div class="lp">帮我做一个打砖块游戏，带粒子特效和音效</div><div class="lt">2026/4/16 12:01:11</div></div><div class="li"><div class="lh"><div class="lr">5</div><div class="ln">⚡ 测试6</div><div class="ls" style="color:#a78bfa">64分</div></div><div class="lp">帮我做一个打砖块游戏，带粒子特效和音效</div><div class="lt">2026/4/16 12:12:01</div></div><div class="li"><div class="lh"><div class="lr">6</div><div class="ln">⚡ 测试5</div><div class="ls" style="color:#a78bfa">60分</div></div><div class="lp">生成赛博朋克风格个人主页，带霓虹灯动效</div><div class="lt">2026/4/16 12:01:37</div></div></div>
+    </div>
+  </div>
+  <footer>v11.0</footer>
 </div>
 <script>
-var S={
-  u:'https://hwsgawbvpkizpgwoybme.supabase.co',
-  k:'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh3c2dhd2J2cGtpenBnd295Ym1lIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYxNjU1NzgsImV4cCI6MjA5MTc0MTU3OH0.6AveHSFyHlBprWFaKp112TElHpdVQHXCx5rFOc2KUmw'
-};
-var D=[{k:'clarity',l:'指令清晰度',w:.3},{k:'detail',l:'细节丰富度',w:.25},{k:'creativity',l:'创意指数',w:.25},{k:'vibe',l:'Vibe 感',w:.2}];
-var R=[
-  {m:'🔥',n:'Vibe 大神',c:'#ff6b35',mn:80},
-  {m:'⚡',n:'Prompt 工程师',c:'#a78bfa',mn:60},
-  {m:'🚀',n:'进阶 Coder',c:'#38bdf8',mn:40},
-  {m:'🌱',n:'潜力新星',c:'#4ade80',mn:20},
-  {m:'🐣',n:'青铜 Coder',c:'#fbbf24',mn:0}
-];
-function sc(t){var s=t.trim(),l=s.length;var c=40;if(/做|生成|创建|写|设计|实现|帮我|给我/.test(s))c+=20;if(/游戏|页面|动画|效果|组件|界面|功能|系统/.test(s))c+=20;if(l>20)c+=5;if(l>40)c+=5;if(l>60)c+=5;if(l>80)c+=5;c=Math.min(c,100);var d=30;if(/粒子|物理|弹射|颜色|大小|速度|动效|渐变|阴影|圆角|响应式|移动端|流畅|丝滑|炫酷|动画|切换|主题|风格|布局|交互|拖拽|点击|滚动|悬浮|淡入|弹出|旋转|自适应|背景|按钮|输入/.test(s))d+=30;if(/\d/.test(s))d+=10;if(l>30)d+=5;if(l>50)d+=5;if(l>80)d+=5;if(l>100)d+=5;if(l>150)d+=5;d=Math.min(d,100);var r=35;if(/薯队长|大富翁|打砖块|跑酷|消消乐|弹幕|烟花|随机|赛博|像素|复古|贪吃蛇|俄罗斯方块|2048|塔防|模拟|RPG/.test(s))r+=30;if(s.indexOf(',')>=0||s.indexOf('，')>=0)r+=10;if(l>40)r+=10;if(l>80)r+=10;if(l>120)r+=5;r=Math.min(r,100);var v=40;if(/炸裂|爆炸|超酷|惊艳|漂亮|完美|绝了|有趣|好玩|丝滑|酷炫/.test(s))v+=25;if(/[吧呢哦呀嘛～！!✨🎉🔥]/.test(s))v+=15;if(l>30)v+=5;if(l>60)v+=5;if(l>100)v+=5;v=Math.min(v,100);var j=function(){return Math.round((Math.random()-.5)*10);};return{clarity:Math.min(100,Math.max(10,c+j())),detail:Math.min(100,Math.max(10,d+j())),creativity:Math.min(100,Math.max(10,r+j())),vibe:Math.min(100,Math.max(10,v+j()))};}
-function tot(s){return Math.round(D.reduce(function(a,x){return a+s[x.k]*x.w;},0));}
-function rk(t){for(var i=0;i<R.length;i++){if(t>=R[i].mn)return R[i];}return R[4];}
-
-// ★★★ 诊断 + 数据加载 ★★★
-var dbg=document.getElementById('dbg');
-dbg.textContent='[1/3] 正在连接 Supabase...\nURL: '+S.u;
-
-function api(method, url, body, cb){
-  var xhr=new XMLHttpRequest();
-  xhr.open(method, url, true);
-  xhr.setRequestHeader('apikey', S.k);
-  xhr.setRequestHeader('Authorization', 'Bearer '+S.k);
-  xhr.setRequestHeader('Content-Type', 'application/json');
-  xhr.setRequestHeader('Prefer', 'count=exact');
-  
-  var step = method==='GET' ? '读取数据' : '提交数据';
-  dbg.textContent += '\n[2/3] 正在'+step+'...';
-  dbg.textContent += '\n  → '+url;
-  
-  xhr.onreadystatechange = function(){
-    dbg.textContent += '\n  XHR readyState: '+xhr.readyState+', status: '+xhr.status;
-  };
-  
-  xhr.onload = function(){
-    dbg.textContent += '\n  最终状态: HTTP '+xhr.status;
-    dbg.textContent += '\n  响应长度: '+xhr.responseText.length+' 字符';
-    
-    if(xhr.status >= 400){
-      dbg.textContent += '\n  ❌ 错误: '+xhr.responseText.slice(0,200);
-      cb(new Error('HTTP '+xhr.status));
-      return;
-    }
-    try{
-      var txt = xhr.responseText;
-      if(!txt || txt===''){
-        dbg.textContent += '\n  ⚠️ 空响应，返回空数组';
-        cb(null, []);
-        return;
-      }
-      var data = JSON.parse(txt);
-      dbg.textContent += '\n  ✅ 解析成功，'+data.length+' 条数据';
-      if(data.length > 0){
-        dbg.textContent += '\n  示例: '+data[0].nickname+' - '+data[0].total+'分';
-      }
-      cb(null, data);
-    }catch(e){
-      dbg.textContent += '\n  ❌ JSON 解析失败: '+e.message;
-      dbg.textContent += '\n  原文: '+xhr.responseText.slice(0,100);
-      cb(e, []);
-    }
-  };
-  xhr.onerror = function(){
-    dbg.textContent += '\n  ❌ 网络错误';
-    cb(new Error('网络错误'));
-  };
-  xhr.ontimeout = function(){
-    dbg.textContent += '\n  ❌ 请求超时';
-    cb(new Error('超时'));
-  };
-  xhr.timeout = 15000;
-  if(body) xhr.send(JSON.stringify(body));
-  else xhr.send();
-}
-
-function loadData(cb){ api('GET', S.u+'/rest/v1/submissions?select=*&order=total.desc', null, cb); }
-
-function submit(entry, cb){
-  api('POST', S.u+'/rest/v1/submissions', {
-    nickname:entry.nickname, prompt:entry.prompt, total:entry.total,
-    rank_emoji:entry.rank.emoji, rank_name:entry.rank.name, rank_color:entry.rank.color,
-    scores:entry.scores, time:entry.time
-  }, cb);
-}
+var S={u:'https://hwsgawbvpkizpgwoybme.supabase.co',k:'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh3c2dhd2J2cGtpenBnd295Ym1lIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYxNjU1NzgsImV4cCI6MjA5MTc0MTU3OH0.6AveHSFyHlBprWFaKp112TElHpdVQHXCx5rFOc2KUmw'};
+var DIMS=[{k:'clarity',l:'指令清晰度',w:.3},{k:'detail',l:'细节丰富度',w:.25},{k:'creativity',l:'创意指数',w:.25},{k:'vibe',l:'Vibe 感',w:.2}];
+var RANKS=[{m:'🔥',n:'Vibe 大神',c:'#ff6b35',mn:80},{m:'⚡',n:'Prompt 工程师',c:'#a78bfa',mn:60},{m:'🚀',n:'进阶 Coder',c:'#38bdf8',mn:40},{m:'🌱',n:'潜力新星',c:'#4ade80',mn:20},{m:'🐣',n:'青铜 Coder',c:'#fbbf24',mn:0}];
+function calc(t){var s=t.trim(),l=s.length;var c=40;if(/做|生成|创建|写|设计|实现|帮我|给我/.test(s))c+=20;if(/游戏|页面|动画|效果|组件|界面|功能|系统/.test(s))c+=20;if(l>20)c+=5;if(l>40)c+=5;if(l>60)c+=5;if(l>80)c+=5;c=Math.min(c,100);var d=30;if(/粒子|物理|弹射|颜色|大小|速度|动效|渐变|阴影|圆角|响应式|移动端|流畅|丝滑|炫酷|动画|切换|主题|风格|布局|交互|拖拽|点击|滚动|悬浮|淡入|弹出|旋转|自适应|背景|按钮|输入/.test(s))d+=30;if(/\d/.test(s))d+=10;if(l>30)d+=5;if(l>50)d+=5;if(l>80)d+=5;if(l>100)d+=5;if(l>150)d+=5;d=Math.min(d,100);var r=35;if(/薯队长|大富翁|打砖块|跑酷|消消乐|弹幕|烟花|随机|赛博|像素|复古|贪吃蛇|俄罗斯方块|2048|塔防|模拟|RPG/.test(s))r+=30;if(s.indexOf(',')>=0||s.indexOf('\uFF0C')>=0)r+=10;if(l>40)r+=10;if(l>80)r+=10;if(l>120)r+=5;r=Math.min(r,100);var v=40;if(/炸裂|爆炸|超酷|惊艳|漂亮|完美|绝了|有趣|好玩|丝滑|酷炫/.test(s))v+=25;if(/[\u5427\u5462\u54E6\u5440\u561B\uFF5E\uFF01!]/.test(s))v+=15;if(l>30)v+=5;if(l>60)v+=5;if(l>100)v+=5;v=Math.min(v,100);var j=function(){return Math.round((Math.random()-.5)*10);};return{clarity:Math.min(100,Math.max(10,c+j())),detail:Math.min(100,Math.max(10,d+j())),creativity:Math.min(100,Math.max(10,r+j())),vibe:Math.min(100,Math.max(10,v+j()))};}
+function tot(s){return Math.round(DIMS.reduce(function(a,x){return a+s[x.k]*x.w;},0));}
+function getR(t){for(var i=0;i<RANKS.length;i++){if(t>=RANKS[i].mn)return RANKS[i];}return RANKS[4];}
 
 function st(t){
   document.getElementById('t1').className='tt'+(t==='t'?' a':'');
   document.getElementById('t2').className='tt'+(t==='l'?' a':'');
   document.getElementById('vt').style.display=t==='t'?'':'none';
   document.getElementById('vl').style.display=t==='l'?'':'none';
-  if(t==='l') loadLB();
+  if(t==='l')loadLB();
+}
+function uc(){document.getElementById('cc').textContent=document.getElementById('pi').value.length;}
+function fp(el){document.getElementById('pi').value=el.textContent;uc();}
+
+function confetti(){
+  var colors=['#7c3aed','#2563eb','#06b6d4','#f59e0b','#ef4444','#10b981','#ec4899'];
+  for(var i=0;i<40;i++){(function(idx){setTimeout(function(){var c=document.createElement('div');c.className='confetti';c.style.left=Math.random()*100+'vw';c.style.background=colors[Math.floor(Math.random()*colors.length)];c.style.animationDuration=(1.5+Math.random()*2)+'s';c.style.width=(6+Math.random()*6)+'px';c.style.height=c.style.width;document.body.appendChild(c);setTimeout(function(){c.remove();},4000);},idx*50);})(i);}
 }
 
 function go(){
   var nk=document.getElementById('nk').value.trim();
   var txt=document.getElementById('pi').value.trim();
-  if(!nk){document.getElementById('em').textContent='⚠️ 请输入薯名';document.getElementById('em').style.display='block';return;}
-  if(!txt||txt.length<5){document.getElementById('em').textContent='⚠️ 至少 5 个字';document.getElementById('em').style.display='block';return;}
-  document.getElementById('em').style.display='none';
+  if(!nk){showE('请输入薯名');return;}
+  if(!txt||txt.length<5){showE('Prompt 太短，至少 5 个字');return;}
   var btn=document.getElementById('sb');
-  btn.disabled=true;btn.textContent='评估中...';
-  var s=sc(txt),t=tot(s),r=rk(t);
-  var entry={nickname:nk,prompt:txt,scores:D.map(function(d){return{label:d.l,value:s[d.k]};}),total:t,rank:{emoji:r.m,name:r.n,color:r.c},time:new Date().toLocaleString('zh-CN',{timeZone:'Asia/Shanghai'})};
-  submit(entry, function(err){
-    btn.disabled=false;btn.textContent='开始测试 ⚡';
-    if(err){document.getElementById('em').textContent='⚠️ '+err.message;document.getElementById('em').style.display='block';return;}
-    document.getElementById('sm').textContent='✅ 成功！'+r.m+' '+r.n;document.getElementById('sm').style.display='block';
+  btn.disabled=true;btn.innerHTML='<span class="loader"></span>AI 评估中...';
+  document.getElementById('em').style.display='none';
+  var s=calc(txt),t=tot(s),r=getR(t);
+  var entry={nickname:nk,prompt:txt,scores:DIMS.map(function(d){return{label:d.l,value:s[d.k]};}),total:t,rank:{emoji:r.m,name:r.n,color:r.c},time:new Date().toLocaleString('zh-CN',{timeZone:'Asia/Shanghai'})};
+  var xhr=new XMLHttpRequest();
+  xhr.open('POST',S.u+'/rest/v1/submissions',true);
+  xhr.setRequestHeader('apikey',S.k);
+  xhr.setRequestHeader('Authorization','Bearer '+S.k);
+  xhr.setRequestHeader('Content-Type','application/json');
+  xhr.onload=function(){
+    btn.disabled=false;btn.textContent='开始测试段位 ⚡';
+    if(xhr.status===409||(xhr.responseText&&xhr.responseText.indexOf('unique')>=0)){showE('你已经提交过啦 🎉');return;}
+    if(xhr.status>=400){showE('提交失败('+xhr.status+')');return;}
+    showOk('提交成功！段位：'+r.m+' '+r.n);
     document.getElementById('re').textContent=r.m;
     document.getElementById('rn').textContent=r.n;
     document.getElementById('rn').style.color=r.c;
-    document.getElementById('rx').textContent=t+'分';
-    document.getElementById('ss').innerHTML=D.map(function(d){return '<div class="si"><div class="sl">'+d.l+'</div><div class="sv" style="color:'+r.c+'">'+s[d.k]+'</div></div>';}).join('');
+    document.getElementById('rx').textContent='总分 '+t+' 分';
+    document.getElementById('sg').innerHTML=DIMS.map(function(d){return '<div class="si"><div class="sl">'+d.l+'</div><div class="sv" style="color:'+r.c+'">'+s[d.k]+'</div></div>';}).join('');
     document.getElementById('cx').textContent=t>=75?'🎯 细节拉满！':t>=45?'💡 方向对了，加细节。':'🤔 再加细节吧。';
     document.getElementById('rc').classList.add('show');
-    // 自动刷新排行榜
-    loadLB();
-  });
+    confetti();
+    // 提交成功后刷新排行榜
+    refreshLB();
+  };
+  xhr.onerror=function(){btn.disabled=false;btn.textContent='开始测试段位 ⚡';showE('网络错误');};
+  xhr.ontimeout=function(){btn.disabled=false;btn.textContent='开始测试段位 ⚡';showE('超时');};
+  xhr.timeout=15000;
+  xhr.send(JSON.stringify(entry));
 }
+
+function showE(m){var e=document.getElementById('em');e.textContent='⚠️ '+m;e.style.display='block';document.getElementById('sm').style.display='none';}
+function showOk(m){var e=document.getElementById('sm');e.textContent='✅ '+m;e.style.display='block';document.getElementById('em').style.display='none';}
 
 function loadLB(){
-  var ld=document.getElementById('ll');
+  var ld=document.getElementById('ld');
   var lx=document.getElementById('lx');
   ld.style.display='';lx.innerHTML='';
-  loadData(function(err, data){
-    if(err){ld.style.display='none';lx.innerHTML='<div class="lo" style="color:#ff6b6b">错误: '+err.message+'</div>';return;}
-    document.getElementById('pill').textContent='🎮 '+data.length+'人已参与';
-    if(!data.length){ld.style.display='none';lx.innerHTML='<div class="lo">还没有人参与</div>';return;}
-    var best={};data.forEach(function(x){var k=(x.nickname||'').toLowerCase();if(!best[k]||x.total>best[k].total)best[k]=x;});
-    var arr=[];for(var k in best)arr.push(best[k]);
-    arr.sort(function(a,b){return b.total-a.total;});
-    arr=arr.slice(0,50);
+  var xhr=new XMLHttpRequest();
+  xhr.open('GET',S.u+'/rest/v1/submissions?select=*&order=total.desc',true);
+  xhr.setRequestHeader('apikey',S.k);
+  xhr.setRequestHeader('Authorization','Bearer '+S.k);
+  xhr.setRequestHeader('Content-Type','application/json');
+  xhr.onload=function(){
     ld.style.display='none';
-    lx.innerHTML=arr.map(function(x,i){
-      var r=i<3?['🥇','🥈','🥉'][i]:(i+1);
-      return '<div class="li"><div class="lh"><div class="lr">'+r+'</div><div class="ln">'+(x.rank_emoji||'')+' '+(x.nickname||'匿名')+'</div><div class="ls" style="color:'+(x.rank_color||'#fff')+'">'+x.total+'分</div></div><div class="lp">'+(x.prompt||'').replace(/</g,'&lt;')+'</div><div class="lt">'+(x.time||'')+'</div></div>';
-    }).join('');
-  });
+    if(xhr.status>=400||!xhr.responseText||xhr.responseText===''){lx.innerHTML='<div class="lo">加载失败，请稍后重试</div>';return;}
+    try{
+      var data=JSON.parse(xhr.responseText);
+      document.getElementById('pill').textContent='🎮 '+data.length+'人已参与';
+      if(!data.length){lx.innerHTML='<div class="lo">还没有人参与</div>';return;}
+      var best={};data.forEach(function(x){var k=(x.nickname||'').toLowerCase();if(!best[k]||x.total>best[k].total)best[k]=x;});
+      var arr=[];for(var k in best)arr.push(best[k]);
+      arr.sort(function(a,b){return b.total-a.total;});
+      arr=arr.slice(0,50);
+      lx.innerHTML=arr.map(function(x,i){var r=i<3?['🥇','🥈','🥉'][i]:(i+1);return '<div class="li"><div class="lh"><div class="lr">'+r+'</div><div class="ln">'+(x.rank_emoji||'')+' '+(x.nickname||'匿名')+'</div><div class="ls" style="color:'+(x.rank_color||'#fff')+'">'+x.total+'分</div></div><div class="lp">'+(x.prompt||'').replace(/</g,'&lt;')+'</div><div class="lt">'+(x.time||'')+'</div></div>';}).join('');
+    }catch(e){lx.innerHTML='<div class="lo">解析失败</div>';}
+  };
+  xhr.onerror=function(){ld.style.display='none';lx.innerHTML='<div class="lo">网络错误</div>';};
+  xhr.ontimeout=function(){ld.style.display='none';lx.innerHTML='<div class="lo">超时</div>';};
+  xhr.timeout=15000;
+  xhr.send();
 }
 
-// 初始加载
-loadData(function(err, data){
-  if(err){
-    dbg.textContent += '\n[3/3] 初始加载失败: '+err.message;
-    document.getElementById('pill').textContent='🎮 0人';
-  } else {
-    dbg.textContent += '\n[3/3] 初始加载完成: '+data.length+' 条';
-    document.getElementById('pill').textContent='🎮 '+data.length+'人已参与';
-  }
-});
+function refreshLB(){
+  var xhr=new XMLHttpRequest();
+  xhr.open('GET',S.u+'/rest/v1/submissions?select=*&order=total.desc',true);
+  xhr.setRequestHeader('apikey',S.k);
+  xhr.setRequestHeader('Authorization','Bearer '+S.k);
+  xhr.setRequestHeader('Content-Type','application/json');
+  xhr.onload=function(){
+    if(xhr.status>=200&&xhr.status<300&&xhr.responseText){
+      try{
+        var data=JSON.parse(xhr.responseText);
+        document.getElementById('pill').textContent='🎮 '+data.length+'人已参与';
+        var best={};data.forEach(function(x){var k=(x.nickname||'').toLowerCase();if(!best[k]||x.total>best[k].total)best[k]=x;});
+        var arr=[];for(var k in best)arr.push(best[k]);
+        arr.sort(function(a,b){return b.total-a.total;});arr=arr.slice(0,50);
+        document.getElementById('lx').innerHTML=arr.map(function(x,i){var r=i<3?['🥇','🥈','🥉'][i]:(i+1);return '<div class="li"><div class="lh"><div class="lr">'+r+'</div><div class="ln">'+(x.rank_emoji||'')+' '+(x.nickname||'匿名')+'</div><div class="ls" style="color:'+(x.rank_color||'#fff')+'">'+x.total+'分</div></div><div class="lp">'+(x.prompt||'').replace(/</g,'&lt;')+'</div><div class="lt">'+(x.time||'')+'</div></div>';}).join('');
+      }catch(e){}
+    }
+  };
+  xhr.onerror=function(){};
+  xhr.timeout=10000;
+  xhr.send();
+}
 </script>
 </body>
 </html>
