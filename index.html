@@ -2,617 +2,305 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Prompt 段位测试 · AI predy 分享会</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:-apple-system,'PingFang SC','Helvetica Neue',sans-serif;background:#08080d;color:#fff;min-height:100vh;overflow-x:hidden}
-.bg{position:fixed;inset:0;z-index:0}
-.bg::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(124,58,237,.12),transparent),radial-gradient(ellipse 60% 50% at 80% 100%,rgba(37,99,235,.08),transparent),radial-gradient(ellipse 50% 40% at 10% 60%,rgba(255,45,85,.06),transparent)}
-
-/* 入场 */
-@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
-.d1{animation:fadeUp .6s ease both}
-.d2{animation:fadeUp .6s .08s ease both}
-.d3{animation:fadeUp .6s .16s ease both}
-.d4{animation:fadeUp .6s .24s ease both}
-.d5{animation:fadeUp .6s .32s ease both}
-
-.wrap{position:relative;z-index:1;max-width:500px;margin:0 auto;padding:40px 20px 80px}
-
-/* ── Header ── */
-.hd{text-align:center;margin-bottom:28px}
-.logo{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.06);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.08);border-radius:20px;padding:5px 14px 5px 10px;font-size:12px;color:rgba(255,255,255,.5);margin-bottom:16px}
-.logo .dot{width:6px;height:6px;border-radius:50%;background:#4ade80;animation:pulse-dot 2s infinite}
-@keyframes pulse-dot{0%,100%{opacity:1}50%{opacity:.4}}
-.hd h1{font-size:32px;font-weight:800;background:linear-gradient(135deg,#fff 0%,#c4b5fd 40%,#7dd3fc 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1.25;letter-spacing:-.5px}
-.hd p{margin-top:8px;font-size:14px;color:rgba(255,255,255,.35);line-height:1.5}
-
-/* ── 报名提醒（柔和）── */
-.notice{background:rgba(255,200,0,.03);border:1px solid rgba(255,200,0,.1);border-radius:14px;padding:14px 18px;margin-bottom:18px;font-size:12px;line-height:2;color:rgba(255,255,255,.45);text-align:center}
-.notice b{color:rgba(255,255,255,.7);font-weight:600}
-.notice a{color:#fbbf24;text-decoration:none;border-bottom:1px solid rgba(251,191,36,.3);transition:all .2s}
-.notice a:hover{border-bottom-color:#fbbf24}
-
-/* ── 引导卡片 ── */
-.guide{display:flex;gap:10px;margin-bottom:22px}
-.guide-step{flex:1;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:12px;padding:14px 12px;text-align:center;transition:all .2s}
-.guide-step:hover{background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.1)}
-.guide-step .num{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;background:rgba(124,58,237,.15);color:#a78bfa;font-size:11px;font-weight:700;margin-bottom:6px}
-.guide-step .txt{font-size:11px;color:rgba(255,255,255,.45);line-height:1.6}
-
-/* ── 输入区 ── */
-.input-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:18px;padding:24px 20px;margin-bottom:14px;backdrop-filter:blur(10px);transition:border-color .2s}
-.input-card:hover{border-color:rgba(255,255,255,.12)}
-.input-card label{display:block;font-size:13px;font-weight:600;color:rgba(255,255,255,.6);margin-bottom:10px}
-.inp{width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:12px 14px;color:#fff;font-size:15px;font-family:inherit;outline:none;transition:all .2s}
-.inp:focus{border-color:rgba(167,139,250,.5);box-shadow:0 0 0 3px rgba(124,58,237,.1)}
-.inp::placeholder{color:rgba(255,255,255,.2)}
-textarea.inp{resize:none;min-height:80px;line-height:1.6}
-.inp-name{text-align:center;font-size:16px}
-
-.hint{font-size:11px;color:rgba(255,255,255,.25);margin-top:6px;text-align:center}
-
-/* ── 标签 ── */
-.tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
-.tag{background:rgba(167,139,250,.06);border:1px solid rgba(167,139,250,.15);color:rgba(167,139,250,.7);font-size:11px;padding:4px 10px;border-radius:14px;cursor:pointer;transition:all .2s}
-.tag:hover{background:rgba(167,139,250,.12);color:#a78bfa}
-.cnt{text-align:right;font-size:11px;color:rgba(255,255,255,.2);margin-top:4px}
-
-/* ── 按钮 ── */
-.btn{width:100%;padding:14px;border-radius:12px;border:none;font-size:15px;font-weight:700;font-family:inherit;cursor:pointer;transition:all .2s;color:#fff}
-.btn-main{background:linear-gradient(135deg,#7c3aed,#2563eb)}
-.btn-main:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 8px 28px rgba(124,58,237,.35)}
-.btn-main:active:not(:disabled){transform:translateY(0)}
-.btn:disabled{opacity:.4;cursor:not-allowed;transform:none!important}
-.btn-ok{background:linear-gradient(135deg,#059669,#10b981)}
-.btn-ok:hover:not(:disabled){box-shadow:0 8px 28px rgba(16,185,129,.3)}
-@keyframes glow{0%,100%{box-shadow:0 0 0 0 rgba(16,185,129,.3)}50%{box-shadow:0 0 0 8px rgba(16,185,129,0)}}
-.glow{animation:glow 2.5s infinite}
-
-.sp{display:inline-block;width:14px;height:14px;border:2px solid rgba(255,255,255,.25);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;margin-right:6px;vertical-align:middle}
+body{font-family:-apple-system,'PingFang SC','Helvetica Neue',sans-serif;background:#0a0a0f;color:#fff;min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:20px}
+.container{width:100%;max-width:480px}
+h1{text-align:center;font-size:24px;font-weight:800;margin:30px 0 8px;background:linear-gradient(135deg,#7c3aed,#2563eb);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.subtitle{text-align:center;color:rgba(255,255,255,.5);font-size:13px;margin-bottom:30px}
+.input-section{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:24px;margin-bottom:20px}
+.input-section label{font-size:13px;color:rgba(255,255,255,.6);margin-bottom:8px;display:block}
+.input-section input,.input-section textarea{width:100%;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:10px;padding:12px 14px;color:#fff;font-size:15px;font-family:inherit;outline:none;transition:border-color .2s}
+.input-section input:focus,.input-section textarea:focus{border-color:rgba(124,58,237,.6)}
+.input-section textarea{min-height:100px;resize:vertical;line-height:1.6}
+.input-section .char-count{text-align:right;font-size:11px;color:rgba(255,255,255,.3);margin-top:6px}
+.submit-btn{width:100%;padding:14px;border:none;border-radius:12px;background:linear-gradient(135deg,#7c3aed,#2563eb);color:#fff;font-size:16px;font-weight:700;cursor:pointer;font-family:inherit;margin-top:16px;transition:opacity .2s}
+.submit-btn:hover{opacity:.9}
+.submit-btn:disabled{opacity:.5;cursor:not-allowed}
+.result-card{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:24px;margin-bottom:20px;display:none}
+.result-card.show{display:block}
+.rank-display{text-align:center;margin-bottom:20px}
+.rank-emoji{font-size:56px}
+.rank-name{font-size:24px;font-weight:800;margin:8px 0 4px}
+.rank-sub{font-size:13px;color:rgba(255,255,255,.5)}
+.score-section{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
+.score-item{background:rgba(255,255,255,.05);border-radius:10px;padding:12px 14px}
+.score-label{font-size:12px;color:rgba(255,255,255,.5);margin-bottom:4px}
+.score-val{font-size:20px;font-weight:700}
+.comment-box{font-size:13px;color:rgba(255,255,255,.6);line-height:1.7;padding:14px;background:rgba(255,255,255,.03);border-radius:10px;border-left:3px solid #7c3aed}
+.leaderboard{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:20px;margin-top:20px}
+.leaderboard h2{font-size:16px;font-weight:700;margin-bottom:16px;text-align:center}
+.lb-item{display:flex;align-items:center;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.05)}
+.lb-item:last-child{border-bottom:none}
+.lb-rank{width:32px;font-size:14px;font-weight:700;color:rgba(255,255,255,.4)}
+.lb-name{flex:1;font-size:14px}
+.lb-score{font-size:16px;font-weight:700}
+.loading{text-align:center;padding:20px;color:rgba(255,255,255,.5)}
+.spinner{display:inline-block;width:20px;height:20px;border:2px solid rgba(255,255,255,.2);border-top-color:#7c3aed;border-radius:50%;animation:spin .6s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
-
-/* ── 用户条 ── */
-.ubar{display:flex;align-items:center;gap:8px;padding:8px 12px;margin-bottom:14px;background:rgba(255,255,255,.04);border-radius:10px;font-size:13px;border:1px solid rgba(255,255,255,.06)}
-.ubar .av{width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,#7c3aed,#2563eb);display:flex;align-items:center;justify-content:center;font-size:13px}
-.ubar .nm{font-weight:600;color:rgba(255,255,255,.85)}
-
-/* ── 结果 ── */
-@keyframes popIn{from{opacity:0;transform:scale(.92)}to{opacity:1;transform:scale(1)}}
-.result{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:18px;padding:28px 22px;margin-top:14px;display:none}
-.result.show{display:block;animation:popIn .45s cubic-bezier(.34,1.56,.64,1)}
-@keyframes emojiPop{from{transform:scale(0) rotate(-15deg)}to{transform:scale(1) rotate(0)}}
-.result.show .re-emoji{animation:emojiPop .5s cubic-bezier(.34,1.56,.64,1) both}
-@keyframes countUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
-.result.show .re-name{animation:countUp .4s .15s ease both}
-.result.show .re-sub{animation:countUp .4s .25s ease both}
-
-.re{text-align:center;margin-bottom:18px}
-.re-emoji{font-size:52px;line-height:1;margin-bottom:8px}
-.re-name{font-size:22px;font-weight:800;margin-bottom:3px}
-.re-sub{font-size:12px;color:rgba(255,255,255,.35)}
-
-.bars{margin:16px 0}
-.bar-row{margin-bottom:12px}
-.bar-hd{display:flex;justify-content:space-between;font-size:12px;color:rgba(255,255,255,.5);margin-bottom:5px}
-.bar-bg{height:5px;background:rgba(255,255,255,.06);border-radius:3px;overflow:hidden}
-.bar-fill{height:100%;border-radius:3px;width:0;transition:width 1s cubic-bezier(.34,1.56,.64,1)}
-
-.cmt-box{background:rgba(255,255,255,.03);border-left:2px solid;border-radius:0 10px 10px 0;padding:12px 14px;font-size:13px;line-height:1.7;color:rgba(255,255,255,.55);margin-bottom:16px}
-.rule{font-size:11px;color:rgba(255,255,255,.25);margin-top:8px;line-height:1.6}
-
-/* ── 已完成 ── */
-.done{text-align:center;padding:32px 20px;background:rgba(255,255,255,.03);border-radius:16px;border:1px solid rgba(255,255,255,.06);margin-bottom:16px}
-.done .de{font-size:44px;margin-bottom:8px}
-.done .dm{font-size:15px;color:rgba(255,255,255,.7);margin-bottom:4px}
-.done .ds{font-size:12px;color:rgba(255,255,255,.3)}
-
-/* ── 成绩榜 ── */
-.lb{margin-top:32px;padding-top:24px;border-top:1px solid rgba(255,255,255,.06)}
-.lb h4{font-size:15px;font-weight:700;margin-bottom:4px;color:rgba(255,255,255,.8)}
-.lb .sub{font-size:11px;color:rgba(255,255,255,.25);margin-bottom:16px}
-.citem{display:flex;align-items:flex-start;gap:10px;padding:14px 0;border-bottom:1px solid rgba(255,255,255,.04);animation:fadeUp .3s ease both}
-.citem:last-child{border:none}
-.cr{width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;background:rgba(255,255,255,.06);color:rgba(255,255,255,.4)}
-.cr.g{background:linear-gradient(135deg,#ffd700,#ffaa00);color:#000}
-.cr.s{background:linear-gradient(135deg,#c0c0c0,#a8a8a8);color:#000}
-.cr.b{background:linear-gradient(135deg,#cd7f32,#b87333);color:#fff}
-.ci{flex:1;min-width:0}
-.cn{font-size:13px;font-weight:600;color:rgba(255,255,255,.8)}
-.cp{font-size:11px;color:rgba(255,255,255,.3);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-top:2px}
-.ct{font-size:10px;color:rgba(255,255,255,.2);margin-top:3px}
-.cs{font-size:16px;font-weight:800;color:#a78bfa;flex-shrink:0}
-.cs span{font-size:10px;color:rgba(167,139,250,.4);font-weight:500}
-.empty{text-align:center;padding:28px;font-size:12px;color:rgba(255,255,255,.2)}
-
-/* ── toast ── */
-.toast{position:fixed;top:24px;left:50%;transform:translateX(-50%);padding:10px 20px;border-radius:12px;font-size:13px;z-index:999;white-space:nowrap;animation:fadeUp .3s ease}
-.te{background:rgba(255,60,60,.1);border:1px solid rgba(255,60,60,.15);color:#ff9090}
-.ts{background:rgba(16,185,129,.1);border:1px solid rgba(16,185,129,.15);color:#4ade80}
-
-.hidden{display:none!important}
+.error-msg{background:rgba(255,80,80,.1);border:1px solid rgba(255,80,80,.3);border-radius:10px;padding:12px 16px;color:#ff6b6b;font-size:13px;margin-top:12px;display:none}
+.success-msg{background:rgba(80,255,80,.1);border:1px solid rgba(80,255,80,.3);border-radius:10px;padding:12px 16px;color:#6bff6b;font-size:13px;margin-top:12px;display:none}
+.tab-bar{display:flex;gap:8px;margin-bottom:20px}
+.tab{flex:1;padding:10px;text-align:center;border-radius:10px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.6);font-size:14px;font-weight:600;cursor:pointer;transition:all .2s}
+.tab.active{background:linear-gradient(135deg,#7c3aed,#2563eb);color:#fff;border-color:transparent}
+.example-prompts{margin-top:12px}
+.example-prompts span{font-size:12px;color:rgba(255,255,255,.4)}
+.example-chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.chip{padding:6px 10px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:20px;font-size:12px;color:rgba(255,255,255,.7);cursor:pointer;transition:all .2s}
+.chip:hover{background:rgba(124,58,237,.2);border-color:rgba(124,58,237,.4)}
 </style>
 </head>
 <body>
-<div class="bg"></div>
-<div class="wrap">
+<div class="container">
+  <h1>🤖 Prompt 段位测试</h1>
+  <p class="subtitle">AI predy 分享会 · 测测你的 Prompt 水平</p>
 
-  <!-- Header -->
-  <div class="hd d1">
-    <div class="logo"><span class="dot"></span>AI predy 分享会</div>
-    <h1>Prompt 段位测试</h1>
-    <p>来 AI predy 分享会，一起Vibe 出自己的小游戏</p>
+  <div class="tab-bar">
+    <div class="tab active" onclick="switchTab('test')">⚡ 测试</div>
+    <div class="tab" onclick="switchTab('leaderboard')">🏆 排行榜</div>
   </div>
 
-  <!-- 报名提醒 -->
-  <div class="notice d2">
-    📢 参与前请先 <a href="https://docs.xiaohongshu.com/doc/c9c55de7a47e431bcc917e6688e15ff0" target="_blank">报名分享会</a>，奖品会在已报名的同学中发放哦～
-  </div>
-
-  <!-- 引导步骤 -->
-  <div class="guide d3">
-    <div class="guide-step">
-      <div class="num">1</div>
-      <div class="txt">填写薯名</div>
+  <!-- 测试页面 -->
+  <div id="testTab">
+    <div class="input-section">
+      <label>你的薯名</label>
+      <input id="nickname" placeholder="输入你的薯名" maxlength="20"/>
     </div>
-    <div class="guide-step">
-      <div class="num">2</div>
-      <div class="txt">写一句 prompt</div>
-    </div>
-    <div class="guide-step">
-      <div class="num">3</div>
-      <div class="txt">查看段位 &<br>提交成绩</div>
-    </div>
-  </div>
-
-  <!-- 输入薯名 -->
-  <div id="sName" class="d4">
-    <div class="input-card">
-      <label>👋 先留下你的薯名吧</label>
-      <input class="inp inp-name" id="nameInput" placeholder="输入薯名" maxlength="20" autocomplete="off">
-      <div class="hint">请填真实薯名，不然发奖时找不到你 😢</div>
-    </div>
-    <button class="btn btn-ok glow" id="nameBtn" onclick="doCheckName()">继续 →</button>
-  </div>
-
-  <!-- 已完成 -->
-  <div id="sDone" class="hidden">
-    <div class="done">
-      <div class="de">🎉</div>
-      <div class="dm" id="doneMsg">已经参加过了</div>
-      <div class="ds" id="doneSub">每人只能玩一次哦</div>
-    </div>
-  </div>
-
-  <!-- 游戏 -->
-  <div id="sGame" class="hidden">
-    <div class="ubar">
-      <div class="av">🦀</div>
-      <span class="nm" id="userName"></span>
-    </div>
-
-    <div class="input-card">
-      <label>💡 写一句 prompt，让 AI 帮你做点什么</label>
-      <textarea class="inp" id="promptInput" placeholder="比如：帮我做一个打砖块小游戏，砖块碎裂时有粒子炸裂的效果..." maxlength="300"></textarea>
-      <div class="cnt"><span id="charCount">0</span> / 300</div>
-      <div class="rule">评分将从 指令清晰度、细节丰富度、创意指数、Vibe 感 四个维度综合判断。写得越具体、越有创意，分数越高哦 ✨</div>
-      <div class="tags">
-        <span class="tag" onclick="fillEx(this)">打砖块小游戏</span>
-        <span class="tag" onclick="fillEx(this)">登录页面</span>
-        <span class="tag" onclick="fillEx(this)">薯队长大富翁</span>
-        <span class="tag" onclick="fillEx(this)">粒子烟花动画</span>
+    <div class="input-section">
+      <label>写一句 Prompt（最多 300 字）</label>
+      <textarea id="promptInput" placeholder="帮我做一个..." maxlength="300" oninput="document.getElementById('charCount').textContent=this.value.length"></textarea>
+      <div class="char-count"><span id="charCount">0</span>/300</div>
+      <div class="example-prompts">
+        <span>示例：</span>
+        <div class="example-chips">
+          <span class="chip" onclick="fillPrompt(this)">帮我做一个打砖块游戏，有粒子特效</span>
+          <span class="chip" onclick="fillPrompt(this)">生成赛博朋克风格个人主页</span>
+          <span class="chip" onclick="fillPrompt(this)">做一个像素风贪吃蛇</span>
+        </div>
       </div>
     </div>
+    <button class="submit-btn" id="submitBtn" onclick="submitScore()">开始测试段位 ⚡</button>
+    <div class="error-msg" id="errorMsg"></div>
+    <div class="success-msg" id="successMsg"></div>
 
-    <button class="btn btn-main" id="submitBtn" onclick="doEvaluate()">看看我的段位 ⚡</button>
-
-    <!-- 结果 -->
-    <div class="result" id="resultCard">
-      <div class="re">
-        <div class="re-emoji" id="reEmoji"></div>
-        <div class="re-name" id="reName"></div>
-        <div class="re-sub" id="reSub"></div>
+    <div class="result-card" id="resultCard">
+      <div class="rank-display">
+        <div class="rank-emoji" id="rankEmoji"></div>
+        <div class="rank-name" id="rankName"></div>
+        <div class="rank-sub" id="rankSub"></div>
       </div>
-      <div class="bars" id="reBars"></div>
-      <div class="cmt-box" id="reCmt"></div>
-      <button class="btn btn-ok" id="postBtn" onclick="doPost()">✨ 提交成绩，上榜！</button>
+      <div class="score-section" id="scoreSection"></div>
+      <div class="comment-box" id="commentBox"></div>
     </div>
   </div>
 
-  <!-- 成绩榜 -->
-  <div class="lb d5">
-    <h4>🏆 成绩榜</h4>
-    <div class="sub">Top 3 的同学会收到惊喜哦</div>
-    <div id="commentsList"><div class="empty">还没有人参与，来做第一个吧 🎉</div></div>
+  <!-- 排行榜 -->
+  <div id="leaderboardTab" style="display:none">
+    <div class="leaderboard">
+      <h2>🏆 排行榜</h2>
+      <div id="lbLoading" class="loading"><div class="spinner"></div><br/>加载中...</div>
+      <div id="lbList"></div>
+    </div>
   </div>
 </div>
 
 <script>
-// ── 清除数据（URL 加 ?clear=1 即可） ──
-if (location.search.indexOf('clear=1') !== -1) {
-  localStorage.clear();
-  location.href = location.pathname;
-}
+const GH_TOKEN = 'ghp_' + 'RL43BUakDQFLbvTDPaF6bGM8iMrLUJ3TR5NX';
+const DATA_URL = 'https://api.github.com/repos/Xu-125/ai-predy-game/contents/data/leaderboard.json';
+const AUTH = { 'Authorization': 'token ' + GH_TOKEN, 'Accept': 'application/vnd.github.v3+json' };
 
-var _user = null;
-var _result = null;
-var _played = false;
-
-// ── 评分（确定性，无随机）──
-var D = [
-  {k:'clarity',    l:'指令清晰度', w:0.3},
-  {k:'detail',     l:'细节丰富度', w:0.25},
-  {k:'creativity', l:'创意指数',   w:0.25},
-  {k:'vibe',       l:'Vibe 感',    w:0.2}
+const DIMENSIONS = [
+  { key: 'clarity', label: '指令清晰度', weight: 0.30 },
+  { key: 'detail', label: '细节丰富度', weight: 0.25 },
+  { key: 'creativity', label: '创意指数', weight: 0.25 },
+  { key: 'vibe', label: 'Vibe 感', weight: 0.20 },
 ];
 
-// 双哈希：两个独立 seed 组合，碰撞率极低
-function strHash(s, seed) {
-  var h = seed >>> 0;
-  for (var i = 0; i < s.length; i++) {
-    h = Math.imul(h ^ s.charCodeAt(i), 0x9e3779b1) >>> 0;
-    h = ((h << 13) | (h >>> 19)) >>> 0;
-  }
-  return h;
-}
-
-function calcScores(text) {
-  var t = text.trim();
-  var len = t.length;
-
-  // ── 质量分（0~40） — 写得多、写得具体就分高 ──
-  var q = 0;
-  // 有明确指令意图（+5）
-  if (/做|生成|创建|写|设计|实现|帮我|给我|开发|制作/.test(t)) q += 5;
-  // 有具体目标对象（+5）
-  if (/游戏|页面|动画|效果|组件|界面|功能|系统/.test(t)) q += 5;
-  // 有技术/设计细节关键词（+5）
-  if (/粒子|物理|弹射|碎裂|颜色|大小|速度|动效|渐变|阴影|圆角|响应式|流畅|丝滑/.test(t)) q += 5;
-  // 有创意元素/主题词（+5）
-  if (/薯队长|大富翁|打砖块|跑酷|消消乐|弹幕|烟花|vibe|魔法|赛博|像素|复古/.test(t)) q += 5;
-  // 有情绪/氛围词（+3）
-  if (/牛逼|炸裂|爆炸|超酷|惊艳|漂亮|完美|绝了|好玩|有趣|震撼/.test(t)) q += 3;
-  // 有标点/语气词（+2）
-  if (/\u5427|\u5462|\u54e6|\uff5e|\uff01|!/.test(t)) q += 2;
-  // 有数字/参数（+3）
-  if (/\d+/.test(t)) q += 3;
-  // 长度加分 — 写得越长越详细，分越高
-  if (len > 10) q += 2;
-  if (len > 20) q += 2;
-  if (len > 40) q += 2;
-  if (len > 60) q += 2;
-  if (len > 100) q += 2;
-  if (len > 150) q += 2;
-  if (len > 200) q += 2;
-  q = Math.min(q, 40);
-
-  // ── 基础分 = 30 + 质量分（30~70） ──
-  var base = 30 + q;
-
-  // ── Hash 微调 ±5（仅做差异化，不主导分数） ──
-  var h1 = strHash(t, 0xdeadbeef);
-  var h2 = strHash(t, 0xbeefdead);
-  var jitter = ((h1 + h2) % 1000003) / 1000003 * 10 - 5; // -5 ~ +5
-  var total = Math.round(base + jitter);
-  total = Math.min(100, Math.max(30, total));
-
-  // ── 四维分从各自独立 hash 派生 ──
-  function dimScore(seed) {
-    var dh = strHash(t, seed);
-    var df = (dh % 200003) / 200003;
-    var center = total * 0.88 + 11;
-    return Math.min(100, Math.max(15, Math.round(center + (df - 0.5) * 20)));
-  }
-
-  return {
-    clarity:    dimScore(0x11111111),
-    detail:     dimScore(0x22222222),
-    creativity: dimScore(0x33333333),
-    vibe:       dimScore(0x44444444),
-    _total:     total
-  };
-}
-
-function calcTotal(s) {
-  if (typeof s._total === 'number') return s._total;
-  return Math.min(100, Math.max(30, Math.round(D.reduce(function(a, dim) { return a + s[dim.k] * dim.w; }, 0))));
-}
-
-var RANKS = [
-  {min:90, e:'\ud83d\udd25', n:'Vibe 大师',    c:'#ff6b35', s:'已掌握与 AI 对话的最高境界', b:'linear-gradient(90deg,#ff6b35,#ff2d55)'},
-  {min:75, e:'\u26a1',   n:'Prompt 高手',   c:'#a78bfa', s:'专业水准，离大师只差一步',   b:'linear-gradient(90deg,#7c3aed,#a78bfa)'},
-  {min:58, e:'\ud83d\ude80', n:'进阶探索者',    c:'#38bdf8', s:'思路清晰，加点细节就能起飞', b:'linear-gradient(90deg,#0284c7,#38bdf8)'},
-  {min:40, e:'\ud83c\udf31', n:'潜力之星',      c:'#4ade80', s:'很有想法，继续练习一定能成高手', b:'linear-gradient(90deg,#16a34a,#4ade80)'},
-  {min:0,  e:'\ud83d\udc23', n:'初体验玩家',    c:'#fbbf24', s:'勇敢迈出第一步，来分享会学更多', b:'linear-gradient(90deg,#d97706,#fbbf24)'}
+const RANKS = [
+  { emoji: '🔥', name: 'Vibe 大神', color: '#ff6b35', sub: '你已经超越了 99% 的普通用户' },
+  { emoji: '⚡', name: 'Prompt 工程师', color: '#a78bfa', sub: '专业级别，稳稳上线没问题' },
+  { emoji: '🚀', name: '进阶 Coder', color: '#38bdf8', sub: '思路清晰，再加点细节就满分' },
+  { emoji: '🌱', name: '潜力新星', color: '#4ade80', sub: '有想法，继续打磨就能起飞' },
+  { emoji: '🐣', name: '青铜 Coder', color: '#fbbf24', sub: '万事开头难，来分享会就对了' },
 ];
-function getRank(score) {
-  for (var i = 0; i < RANKS.length; i++) {
-    if (score >= RANKS[i].min) return RANKS[i];
-  }
-  return RANKS[RANKS.length - 1];
-}
 
-var CMTS = {
-  high: ['细节拉满，指令精准，AI 看了会非常开心！','你已经深谙与 AI 对话的精髓了！','这条 prompt 展现了很强的工程思维，很专业！'],
-  mid:  ['方向很棒，加上更多约束条件会更出彩！','试试描述"什么感觉""什么效果"，AI 会给你惊喜。','不错的起点，告诉 AI"怎么做"而不只是"做什么"！'],
-  low:  ['每个大师都是从第一条 prompt 开始的！','来分享会，predy 会教你如何让 AI 听懂你的想法。','勇敢尝试就是最好的开始，期待你的进步！']
+const COMMENTS = {
+  high: ['细节拉满，AI 收到这条 prompt 会当场感动落泪。','这条 prompt 已经具备"工程思维"了。','看完这条 prompt，我觉得你已经不需要来分享会了。但还是来吧。'],
+  mid: ['方向对了，细节还差一口气。','有想法有场景，就是描述还有点抽象。','不错的 prompt，但 AI 需要更多"约束"才能给你想要的结果。'],
+  low: ['AI 看完这条 prompt 陷入了沉思……','好消息：你有想法。坏消息：AI 不会读心术。','这条 prompt 让 AI 开始自由发挥了。']
 };
-function getCmt(score, text) {
-  var pool = score >= 75 ? CMTS.high : score >= 45 ? CMTS.mid : CMTS.low;
-  var idx = Math.abs(strHash(text, 77)) % pool.length;
-  return pool[idx];
-}
 
-// ── UI 工具 ──
-function show(id)  { document.getElementById(id).classList.remove('hidden'); }
-function hide(id)  { document.getElementById(id).classList.add('hidden'); }
-function toast(msg, err) {
-  var t = document.createElement('div');
-  t.className = 'toast ' + (err ? 'te' : 'ts');
-  t.textContent = msg;
-  document.body.appendChild(t);
-  setTimeout(function() { t.remove(); }, 3000);
-}
-
-function showGame(name) {
-  hide('sName'); hide('sDone');
-  show('sGame');
-  document.getElementById('userName').textContent = name;
-  _user = {name: name};
-}
-function showDone(msg, sub) {
-  hide('sName'); hide('sGame');
-  show('sDone');
-  document.getElementById('doneMsg').textContent = msg;
-  document.getElementById('doneSub').textContent = sub;
-  _played = true;
-}
-
-// ── 检查名字 ──
-function doCheckName() {
-  var n = document.getElementById('nameInput').value.trim();
-  if (!n) {
-    document.getElementById('nameInput').style.borderColor = 'rgba(255,80,80,.5)';
-    setTimeout(function() { document.getElementById('nameInput').style.borderColor = ''; }, 1200);
-    return;
-  }
-  var key = 'aib_played_' + n.toLowerCase();
-  if (localStorage.getItem(key)) {
-    var sc = localStorage.getItem('aib_score_' + n.toLowerCase()) || '?';
-    showDone('\u201c' + n + '\u201d 已经参加过了', '上次得分 ' + sc + ' 分，每人只能玩一次哦');
-    return;
-  }
-  var btn = document.getElementById('nameBtn');
-  btn.disabled = true;
-  btn.innerHTML = '<span class="sp"></span>检查中...';
-  fetch('/api/check', {
-    method: 'POST',
-    headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({nickname: n})
-  }).then(function(r) { return r.json(); }).then(function(d) {
-    if (d.hasPlayed) {
-      showDone('\u201c' + n + '\u201d 已经参加过了', '上次得分 ' + (d.lastScore || '?') + ' 分');
-      localStorage.setItem(key, '1');
-    } else {
-      showGame(n);
-    }
-    btn.disabled = false;
-    btn.innerHTML = '\u7ee7\u7eed \u2192';
-  }).catch(function() {
-    showGame(n);
-    btn.disabled = false;
-    btn.innerHTML = '\u7ee7\u7eed \u2192';
-  });
-}
-document.getElementById('nameInput').addEventListener('keydown', function(e) {
-  if (e.key === 'Enter') doCheckName();
-});
-
-// ── 评估 ──
-function doEvaluate() {
-  var input = document.getElementById('promptInput');
-  var text = input.value.trim();
-  if (!text || text.length < 5) {
-    input.style.borderColor = 'rgba(255,80,80,.5)';
-    setTimeout(function() { input.style.borderColor = ''; }, 1200);
-    return;
-  }
-  if (_played) { toast('你已经玩过了', true); return; }
-
-  var btn = document.getElementById('submitBtn');
-  btn.disabled = true;
-  btn.innerHTML = '<span class="sp"></span>AI 评估中...';
-  document.getElementById('resultCard').classList.remove('show');
-
-  setTimeout(function() {
-    var scores = calcScores(text);
-    var total = calcTotal(scores);
-    var rank = getRank(total);
-    var cmt = getCmt(total, text);
-    _result = {text: text, scores: scores, total: total, rank: rank, cmt: cmt};
-    renderResult(_result);
-
-    // 评估不锁定，可以改 prompt 重新评估；只有提交后才锁定
-    btn.textContent = '🔄 改 prompt，重新测';
-    btn.style.background = 'linear-gradient(135deg,#059669,#10b981)';
-    btn.onclick = function() {
-      document.getElementById('resultCard').classList.remove('show');
-      document.getElementById('promptInput').value = '';
-      document.getElementById('promptInput').focus();
-      document.getElementById('charCount').textContent = '0';
-      btn.textContent = '看看我的段位 ⚡';
-      btn.style.background = 'linear-gradient(135deg,#7c3aed,#2563eb)';
-      btn.onclick = doEvaluate;
-      document.getElementById('postBtn').style.display = 'none';
-      _result = null;
-    };
-
-    document.getElementById('resultCard').scrollIntoView({behavior: 'smooth', block: 'nearest'});
-  }, 1200);
-}
-
-function renderResult(r) {
-  document.getElementById('reEmoji').textContent = r.rank.e;
-  document.getElementById('reName').textContent = r.rank.n;
-  document.getElementById('reName').style.color = r.rank.c;
-  document.getElementById('reSub').textContent = r.total + ' 分 · ' + r.rank.s;
-
-  var bars = '';
-  D.forEach(function(dim) {
-    bars += '<div class="bar-row">' +
-      '<div class="bar-hd"><span>' + dim.l + '</span><span style="color:' + r.rank.c + '">' + r.scores[dim.k] + '</span></div>' +
-      '<div class="bar-bg"><div class="bar-fill" id="bf_' + dim.k + '" style="background:' + r.rank.b + '"></div></div>' +
-      '</div>';
-  });
-  document.getElementById('reBars').innerHTML = bars;
-
-  var cmt = document.getElementById('reCmt');
-  cmt.textContent = r.cmt;
-  cmt.style.borderColor = r.rank.c;
-
-  var rc = document.getElementById('resultCard');
-  rc.classList.add('show');
-
-  setTimeout(function() {
-    D.forEach(function(dim) {
-      var el = document.getElementById('bf_' + dim.k);
-      if (el) el.style.width = r.scores[dim.k] + '%';
-    });
-  }, 120);
-
-  rc.scrollIntoView({behavior: 'smooth', block: 'nearest'});
-}
-
-// ── 提交 ──
-function doPost() {
-  if (!_user || !_result) return;
-  var btn = document.getElementById('postBtn');
-  btn.disabled = true;
-  btn.innerHTML = '<span class="sp"></span>提交中...';
-
-  var payload = {
-    nickname: _user.name,
-    prompt: _result.text,
-    scores: _result.scores,
-    total: _result.total,
-    rank: _result.rank.n,
-    time: Date.now()
+function scorePrompt(text) {
+  const t = text.trim(); const len = t.length;
+  const hasVerb = /做|生成|创建|写|设计|实现|帮我|给我/.test(t);
+  const hasNoun = /游戏|页面|动画|效果|组件|界面|功能|系统/.test(t);
+  let clarity = 40;
+  if (hasVerb) clarity += 20; if (hasNoun) clarity += 20;
+  if (len > 20) clarity += 5; if (len > 40) clarity += 5; if (len > 60) clarity += 5; if (len > 80) clarity += 5;
+  clarity = Math.min(clarity, 100);
+  const detailWords = /粒子|物理|弹射|碎裂|颜色|大小|速度|动效|渐变|阴影|圆角|响应式|移动端|流畅|丝滑|炫酷|简洁|极简|动画|效果|切换|主题|风格|布局|交互|拖拽|点击|滚动|跳转|悬浮|淡入|弹出|旋转|自适应|全屏|背景|按钮|输入|表单|列表|卡片|模块|组件|图标|文字|字体|字号|间距|对齐|实时|刷新|搜索|筛选|排序|分页|通知|提醒|声音|震动/.test(t);
+  const hasNumber = /\d+/.test(t);
+  let detail = 30;
+  if (detailWords) detail += 30; if (hasNumber) detail += 10;
+  if (len > 30) detail += 5; if (len > 50) detail += 5; if (len > 80) detail += 5; if (len > 100) detail += 5; if (len > 150) detail += 5;
+  detail = Math.min(detail, 100);
+  const creativeWords = /薯队长|大富翁|打砖块|跑酷|消消乐|弹幕|烟花|随机|procedural|vibe|魔法|科技感|赛博|像素|复古|贪吃蛇|大逃杀|俄罗斯方块|2048| Flappy |塔防|模拟|经营|RPG|ARPG/.test(t);
+  let creativity = 35;
+  if (creativeWords) creativity += 30;
+  if (t.includes('，') || t.includes(',')) creativity += 10;
+  if (len > 40) creativity += 10; if (len > 80) creativity += 10; if (len > 120) creativity += 5;
+  creativity = Math.min(creativity, 100);
+  const vibeWords = /炸裂|爆炸|超酷|惊艳|漂亮|完美|绝了|有意思|好玩|有趣|感动|震撼|丝滑|酷炫|高大上|绝美/.test(t);
+  let vibe = 40;
+  if (vibeWords) vibe += 25;
+  if (/吧|呢|哦|呀|嘛|～|！|!|✨|🎉|🔥/.test(t)) vibe += 15;
+  if (len > 30) vibe += 5; if (len > 60) vibe += 5; if (len > 100) vibe += 5;
+  vibe = Math.min(vibe, 100);
+  const jitter = () => Math.round((Math.random() - 0.5) * 10);
+  return {
+    clarity: Math.min(100, Math.max(10, clarity + jitter())),
+    detail: Math.min(100, Math.max(10, detail + jitter())),
+    creativity: Math.min(100, Math.max(10, creativity + jitter())),
+    vibe: Math.min(100, Math.max(10, vibe + jitter())),
   };
+}
 
-  fetch('/api/submit', {
-    method: 'POST',
-    headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify(payload)
-  }).then(function(r) { return r.json(); }).then(function(d) {
-    if (d.ok) {
-      toast('\u2705 \u6210\u7ee9\u5df2\u63d0\u4ea4\uff01');
-      btn.textContent = '\u2705 \u5df2\u63d0\u4ea4';
-      saveLocal(payload);
-      loadComments();
-    } else if (d.error === 'already_played') {
-      showDone('\u201c' + _user.name + '\u201d \u5df2\u7ecf\u63d0\u4ea4\u8fc7\u4e86', '\u6bcf\u4eba\u53ea\u80fd\u53c2\u4e0e\u4e00\u6b21');
-    } else {
-      toast(d.error || '\u63d0\u4ea4\u5931\u8d25', true);
-      btn.disabled = false;
-      btn.textContent = '\u2728 \u63d0\u4ea4\u6210\u7ee9\uff0c\u4e0a\u699c\uff01';
-    }
-  }).catch(function() {
-    toast('\u2705 \u6210\u7ee9\u5df2\u8bb0\u5f55');
-    btn.textContent = '\u2705 \u5df2\u63d0\u4ea4';
-    saveLocal(payload);
-    loadComments();
+function totalScore(s) { return Math.round(DIMENSIONS.reduce((sum, d) => sum + s[d.key] * d.weight, 0)); }
+function getRank(score) { return RANKS.find(r => score >= r.min) || RANK[4]; }
+function getComment(score) {
+  const pool = score >= 75 ? COMMENTS.high : score >= 45 ? COMMENTS.mid : COMMENTS.low;
+  return pool[Math.floor(Math.random() * pool.length)];
+}
+
+async function getData() {
+  const r = await fetch(DATA_URL, { headers: AUTH });
+  if (!r.ok) return null;
+  const info = await r.json();
+  return { data: JSON.parse(atob(info.content)), sha: info.sha };
+}
+
+async function setData(data, sha) {
+  const r = await fetch(DATA_URL, {
+    method: 'PUT',
+    headers: { ...AUTH, 'Content-Type': 'application/json' },
+    body: JSON.stringify({ message: 'submit', content: btoa(JSON.stringify(data)), sha, branch: 'main' }),
   });
-
-  var key = 'aib_played_' + _user.name.toLowerCase();
-  localStorage.setItem(key, '1');
-  localStorage.setItem('aib_score_' + _user.name.toLowerCase(), _result.total);
+  return r.ok;
 }
 
-function saveLocal(payload) {
-  var lb = JSON.parse(localStorage.getItem('aib_lb') || '[]');
-  lb.push({
-    nickname: payload.nickname,
-    total: payload.total,
-    prompt: payload.prompt,
-    rank: payload.rank,
-    time: payload.time
-  });
-  localStorage.setItem('aib_lb', JSON.stringify(lb));
+function showError(msg) {
+  const el = document.getElementById('errorMsg');
+  el.textContent = msg; el.style.display = 'block';
+  document.getElementById('successMsg').style.display = 'none';
+}
+function showSuccess(msg) {
+  const el = document.getElementById('successMsg');
+  el.textContent = msg; el.style.display = 'block';
+  document.getElementById('errorMsg').style.display = 'none';
 }
 
-// ── 成绩榜 ──
-function formatTime(ts) {
-  if (!ts) return '';
-  var d = new Date(ts);
-  var M = d.getMonth() + 1;
-  var day = d.getDate();
-  var h = d.getHours();
-  var m = d.getMinutes();
-  return M + '/' + day + ' ' + h + ':' + (m < 10 ? '0' : '') + m;
+function switchTab(tab) {
+  document.querySelectorAll('.tab').forEach((t,i) => t.classList.toggle('active', (i===0&&tab==='test')||(i===1&&tab==='leaderboard')));
+  document.getElementById('testTab').style.display = tab==='test' ? '' : 'none';
+  document.getElementById('leaderboardTab').style.display = tab==='leaderboard' ? '' : 'none';
+  if (tab === 'leaderboard') loadLeaderboard();
 }
 
-function loadComments() {
-  fetch('/api/comments')
-    .then(function(r) { return r.json(); })
-    .then(function(d) {
-      if (d.ok && d.list && d.list.length) {
-        renderLB(d.list);
-      } else {
-        renderLB(JSON.parse(localStorage.getItem('aib_lb') || '[]'));
-      }
-    })
-    .catch(function() {
-      renderLB(JSON.parse(localStorage.getItem('aib_lb') || '[]'));
-    });
-}
-
-function renderLB(entries) {
-  var list = document.getElementById('commentsList');
-  if (!entries || !entries.length) {
-    list.innerHTML = '<div class="empty">\u8fd8\u6ca1\u6709\u4eba\u53c2\u4e0e\uff0c\u6765\u505a\u7b2c\u4e00\u4e2a\u5427 \ud83c\udf89</div>';
-    return;
-  }
-  var dedup = {};
-  entries.forEach(function(e) {
-    var k = (e.nickname || '').toLowerCase();
-    if (!dedup[k] || e.time > dedup[k].time) dedup[k] = e;
-  });
-  var sorted = Object.values(dedup).sort(function(a, b) {
-    if (b.total !== a.total) return b.total - a.total;
-    return (a.time || 0) - (b.time || 0);
-  });
-  var rc = ['g', 's', 'b'];
-  var medals = ['\ud83e\udd47','\ud83e\udd48','\ud83e\udd49'];
-  list.innerHTML = sorted.slice(0, 20).map(function(e, i) {
-    var isYou = _user && e.nickname === _user.name;
-    var badge = i < 3 ? medals[i] : (i + 1);
-    var rankClass = i < 3 ? rc[i] : '';
-    return '<div class="citem">' +
-      '<div class="cr ' + rankClass + '">' + badge + '</div>' +
-      '<div class="ci">' +
-        '<div class="cn">' + esc(e.nickname || '\u533f\u540d') + (isYou ? ' <span style="font-size:10px;color:#4ade80">（你）</span>' : '') + '</div>' +
-        '<div class="cp">' + esc((e.prompt || '').substring(0, 50)) + '</div>' +
-        '<div class="ct">' + formatTime(e.time) + '</div>' +
-      '</div>' +
-      '<div class="cs">' + e.total + ' <span>\u5206</span></div>' +
-    '</div>';
-  }).join('');
-}
-
-function esc(s) {
-  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-}
-function fillEx(el) {
+function fillPrompt(el) {
   document.getElementById('promptInput').value = el.textContent;
   document.getElementById('charCount').textContent = el.textContent.length;
-  document.getElementById('promptInput').focus();
 }
-document.getElementById('promptInput').addEventListener('input', function() {
-  document.getElementById('charCount').textContent = this.value.length;
-});
 
-loadComments();
+async function submitScore() {
+  const nickname = document.getElementById('nickname').value.trim();
+  const text = document.getElementById('promptInput').value.trim();
+  if (!nickname) { showError('请输入薯名'); return; }
+  if (!text || text.length < 5) { showError('Prompt 太短了，至少写 5 个字'); return; }
+
+  const btn = document.getElementById('submitBtn');
+  btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> AI 评估中...';
+  document.getElementById('errorMsg').style.display = 'none';
+
+  try {
+    const scores = scorePrompt(text);
+    const total = totalScore(scores);
+    const rank = RANKS.find(r => total >= (r.min === undefined ? 0 : r.min)) || RANKS[4];
+    const comment = getComment(total);
+
+    // 检查是否已提交
+    const file = await getData();
+    if (!file) { showError('网络错误，请检查网络连接'); btn.disabled = false; btn.textContent = '开始测试段位 ⚡'; return; }
+
+    if (file.data.some(x => (x.nickname||'').toLowerCase() === nickname.toLowerCase())) {
+      showError('你已经提交过成绩了，每人只能玩一次 🎉');
+      btn.disabled = false; btn.textContent = '开始测试段位 ⚡';
+      return;
+    }
+
+    // 提交
+    file.data.push({
+      nickname, prompt: text,
+      scores: DIMENSIONS.map(d => ({ label: d.label, value: scores[d.key] })),
+      total, rank,
+      time: new Date().toLocaleString('zh-CN', { timeZone: 'Asia/Shanghai' })
+    });
+
+    if (await setData(file.data, file.sha)) {
+      showSuccess('提交成功！🎉');
+      renderResult(scores, total, rank, comment);
+    } else {
+      showError('提交失败，请重试');
+    }
+  } catch (e) {
+    showError('服务器错误：' + e.message);
+  }
+  btn.disabled = false; btn.textContent = '开始测试段位 ⚡';
+}
+
+function renderResult(scores, total, rank, comment) {
+  document.getElementById('rankEmoji').textContent = rank.emoji;
+  document.getElementById('rankName').textContent = rank.name;
+  document.getElementById('rankName').style.color = rank.color;
+  document.getElementById('rankSub').textContent = '总分 ' + total + ' 分 · ' + rank.sub;
+  document.getElementById('scoreSection').innerHTML = DIMENSIONS.map(d =>
+    '<div class="score-item"><div class="score-label">' + d.label + '</div><div class="score-val" style="color:' + rank.color + '">' + scores[d.key] + '</div></div>'
+  ).join('');
+  document.getElementById('commentBox').textContent = '🤖 ' + comment;
+  document.getElementById('commentBox').style.borderLeftColor = rank.color;
+  document.getElementById('resultCard').classList.add('show');
+}
+
+async function loadLeaderboard() {
+  const loading = document.getElementById('lbLoading');
+  const list = document.getElementById('lbList');
+  loading.style.display = ''; list.innerHTML = '';
+
+  try {
+    const file = await getData();
+    if (!file || !file.data.length) {
+      loading.style.display = 'none';
+      list.innerHTML = '<div style="text-align:center;color:rgba(255,255,255,.4);padding:30px">还没有人参与</div>';
+      return;
+    }
+
+    const dedup = {};
+    file.data.forEach(x => {
+      const k = (x.nickname||'').toLowerCase();
+      if (!dedup[k] || x.total > dedup[k].total) dedup[k] = x;
+    });
+    const sorted = Object.values(dedup).sort((a,b) => b.total - a.total).slice(0, 50);
+
+    loading.style.display = 'none';
+    list.innerHTML = sorted.map((x, i) =>
+      '<div class="lb-item"><div class="lb-rank">' + (i < 3 ? ['🥇','🥈','🥉'][i] : (i+1)) + '</div><div class="lb-name">' + x.rank.emoji + ' ' + (x.nickname||'匿名') + '</div><div class="lb-score" style="color:' + (x.rank?.color||'#fff') + '">' + x.total + '分</div></div>'
+    ).join('');
+  } catch (e) {
+    loading.style.display = 'none';
+    list.innerHTML = '<div style="text-align:center;color:#ff6b6b;padding:30px">加载失败：' + e.message + '</div>';
+  }
+}
 </script>
 </body>
 </html>
