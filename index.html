@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<title>Prompt 段位测试 · AI predy 分享会 v7</title>
+<title>Prompt 段位测试 · AI predy 分享会 v8</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{--bg:#0f0f1a;--card:rgba(255,255,255,.06);--border:rgba(255,255,255,.08);--accent:#7c3aed;--accent2:#2563eb}
@@ -14,6 +14,7 @@ body::before{content:'';position:fixed;top:-50%;left:-50%;width:200%;height:200%
 h1{text-align:center;font-size:26px;font-weight:900;margin:24px 0 6px;background:linear-gradient(135deg,#7c3aed,#2563eb,#06b6d4);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-size:200% auto;animation:shimmer 4s linear infinite}
 @keyframes shimmer{0%{background-position:0% center}100%{background-position:200% center}}
 .sub{text-align:center;color:rgba(255,255,255,.5);font-size:13px;margin-bottom:20px}
+.ver{text-align:center;font-size:11px;color:rgba(255,255,255,.2);margin-bottom:12px}
 .pills{display:flex;justify-content:center;gap:8px;margin-bottom:20px}
 .pill{padding:4px 14px;border-radius:20px;font-size:12px;font-weight:600;background:linear-gradient(135deg,rgba(124,58,237,.2),rgba(37,99,235,.2));border:1px solid rgba(124,58,237,.3);color:rgba(255,255,255,.8)}
 .tb{display:flex;gap:6px;margin-bottom:20px;background:rgba(255,255,255,.04);border-radius:12px;padding:4px}
@@ -69,14 +70,14 @@ textarea{min-height:90px;resize:vertical;line-height:1.6}
 @keyframes fall{to{transform:translateY(105vh) rotate(720deg);opacity:0}}
 #view-lb{display:none}
 #view-lb.show{display:block;animation:fadeUp .4s ease}
-footer{text-align:center;padding:30px 0 20px;color:rgba(255,255,255,.2);font-size:11px}
 </style>
 </head>
 <body>
 <div class="c">
   <h1>🤖 Prompt 段位测试</h1>
   <p class="sub">AI predy 分享会 · 测测你的 Prompt 水平</p>
-  <div class="pills"><span class="pill" id="countPill">🎮 加载中...</span><span class="pill">☁️ Supabase 云端</span></div>
+  <div class="ver" id="verTag">v8.0</div>
+  <div class="pills"><span class="pill" id="countPill">🎮 加载中...</span><span class="pill">☁️ Supabase</span></div>
   <div class="tb">
     <div class="tt a" id="tab-test" onclick="switchTab('test')">⚡ 测试</div>
     <div class="tt" id="tab-lb" onclick="switchTab('lb')">🏆 排行榜</div>
@@ -119,12 +120,12 @@ footer{text-align:center;padding:30px 0 20px;color:rgba(255,255,255,.2);font-siz
       <div id="lbList"></div>
     </div>
   </div>
-  <footer>v7.0 · Supabase 云端持久化</footer>
 </div>
 <script>
-const SB_URL = 'https://hwsgawbvpkizpgwoybme.supabase.co';
-const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh3c2dhd2J2cGtpenBnd295Ym1lIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYxNjU1NzgsImV4cCI6MjA5MTc0MTU3OH0.6AveHSFyHlBprWFaKp112TElHpdVQHXCx5rFOc2KUmw';
-const SB_H = {'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY,'Content-Type':'application/json'};
+console.log('%c✅ v8.0 已加载','color:#6bff6b;font-size:16px;font-weight:bold');
+const SB_URL='https://hwsgawbvpkizpgwoybme.supabase.co';
+const SB_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh3c2dhd2J2cGtpenBnd295Ym1lIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYxNjU1NzgsImV4cCI6MjA5MTc0MTU3OH0.6AveHSFyHlBprWFaKp112TElHpdVQHXCx5rFOc2KUmw';
+const SB_H={'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY,'Content-Type':'application/json','Prefer':'count=exact'};
 
 const DIMS=[{k:'clarity',l:'指令清晰度',w:.3},{k:'detail',l:'细节丰富度',w:.25},{k:'creativity',l:'创意指数',w:.25},{k:'vibe',l:'Vibe 感',w:.2}];
 const RANKS=[
@@ -153,44 +154,49 @@ function calcScore(t){
 }
 function calcTotal(s){return Math.round(DIMS.reduce((a,d)=>a+s[d.k]*d.w,0));}
 function getRank(t){return RANKS.find(r=>t>=r.mn)||RANKS[4];}
-function getComment(t){return t>=75?'🎯 细节拉满，AI 收到这条 prompt 会感动落泪。':t>=45?'💡 方向对了，细节差一口气。':'🤔 AI 不会读心术，再加点细节吧。';}
+function getComment(t){return t>=75?'🎯 细节拉满！':t>=45?'💡 方向对了，加点细节。':'🤔 再加点细节吧。';}
 
-// 安全的 fetch 封装
-async function sbFetch(url, opts){
-  const r = await fetch(url, {...opts, headers:{...SB_H,...(opts&&opts.headers||{})}});
-  if(!r.ok) throw new Error('网络请求失败('+r.status+')');
-  const text = await r.text();
-  if(!text) return [];
-  return JSON.parse(text);
+// ★★★ 核心修复：手动 JSON 解析，绝不 crash ★★★
+async function safeJson(url, method, body){
+  try{
+    const opts={method,headers:SB_H};
+    if(body)opts.body=JSON.stringify(body);
+    const r=await fetch(url,opts);
+    if(!r.ok){
+      const t=await r.text();
+      throw new Error('HTTP '+r.status+(t?': '+t.slice(0,100):''));
+    }
+    const text=await r.text();
+    if(!text||text.trim()==='')return[];
+    return JSON.parse(text);
+  }catch(e){
+    console.error('safeJson error for',url,':',e.message);
+    throw e;
+  }
 }
 
 async function loadData(){
-  return sbFetch(SB_URL+'/rest/v1/submissions?select=*&order=total.desc');
+  return safeJson(SB_URL+'/rest/v1/submissions?select=*&order=total.desc','GET');
 }
 
 async function checkPlayed(nk){
   try{
-    const r = await sbFetch(SB_URL+'/rest/v1/submissions?select=nickname&nickname=eq.'+encodeURIComponent(nk)+'&limit=1');
-    return r.length > 0;
-  }catch(e){ return false; }
+    const r=await safeJson(SB_URL+'/rest/v1/submissions?select=nickname&nickname=eq.'+encodeURIComponent(nk)+'&limit=1','GET');
+    return r.length>0;
+  }catch(e){return false;}
 }
 
 async function submitData(entry){
-  const r = await fetch(SB_URL+'/rest/v1/submissions',{
-    method:'POST',
-    headers:SB_H,
-    body:JSON.stringify({nickname:entry.nickname,prompt:entry.prompt,total:entry.total,rank_emoji:entry.rank.emoji,rank_name:entry.rank.name,rank_color:entry.rank.color,scores:entry.scores,time:entry.time})
-  });
-  if(!r.ok){
-    const t=await r.text();
-    if(r.status===409||t.includes('unique'))throw new Error('你已经提交过啦 🎉');
-    throw new Error('提交失败('+r.status+')：'+(t.slice(0,80)));
-  }
-  return r.text().then(t=>t?JSON.parse(t):null);
+  try{
+    const r=await fetch(SB_URL+'/rest/v1/submissions',{method:'POST',headers:SB_H,body:JSON.stringify({nickname:entry.nickname,prompt:entry.prompt,total:entry.total,rank_emoji:entry.rank.emoji,rank_name:entry.rank.name,rank_color:entry.rank.color,scores:entry.scores,time:entry.time})});
+    if(!r.ok){const t=await r.text();if(t.includes('unique'))throw new Error('你已经提交过啦 🎉');throw new Error('提交失败('+r.status+')');}
+    const text=await r.text();
+    return text?JSON.parse(text):null;
+  }catch(e){throw e;}
 }
 
-function showErr(m){document.getElementById('errorMsg').textContent='⚠️ '+m;document.getElementById('errorMsg').style.display='block';document.getElementById('successMsg').style.display='none';}
-function showOk(m){document.getElementById('successMsg').textContent='✅ '+m;document.getElementById('successMsg').style.display='block';document.getElementById('errorMsg').style.display='none';}
+function showErr(m){const e=document.getElementById('errorMsg');e.textContent='⚠️ '+m;e.style.display='block';document.getElementById('successMsg').style.display='none';}
+function showOk(m){const e=document.getElementById('successMsg');e.textContent='✅ '+m;e.style.display='block';document.getElementById('errorMsg').style.display='none';}
 function switchTab(tab){
   document.getElementById('tab-test').classList.toggle('a',tab==='test');
   document.getElementById('tab-lb').classList.toggle('a',tab==='lb');
@@ -216,7 +222,7 @@ async function submitScore(){
   try{
     const sc=calcScore(txt);const t=calcTotal(sc);const rk=getRank(t);const cm=getComment(t);
     const played=await checkPlayed(nk);
-    if(played){showErr('你已经提交过啦，每人只能一次 🎉');btn.disabled=false;btn.textContent='开始测试段位 ⚡';return;}
+    if(played){showErr('你已经提交过啦 🎉');btn.disabled=false;btn.textContent='开始测试段位 ⚡';return;}
     const entry={nickname:nk,prompt:txt,scores:DIMS.map(d=>({label:d.l,value:sc[d.k]})),total:t,rank:{emoji:rk.m,name:rk.n,color:rk.c},time:new Date().toLocaleString('zh-CN',{timeZone:'Asia/Shanghai'})};
     await submitData(entry);
     showOk('提交成功！段位：'+rk.m+' '+rk.n);
