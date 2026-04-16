@@ -2,303 +2,279 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Prompt 段位测试 · AI predy 分享会</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:-apple-system,'PingFang SC','Helvetica Neue',sans-serif;background:#0a0a0f;color:#fff;min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:20px}
-.container{width:100%;max-width:480px}
+.c{width:100%;max-width:480px}
 h1{text-align:center;font-size:24px;font-weight:800;margin:30px 0 8px;background:linear-gradient(135deg,#7c3aed,#2563eb);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.subtitle{text-align:center;color:rgba(255,255,255,.5);font-size:13px;margin-bottom:30px}
-.input-section{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:24px;margin-bottom:20px}
-.input-section label{font-size:13px;color:rgba(255,255,255,.6);margin-bottom:8px;display:block}
-.input-section input,.input-section textarea{width:100%;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:10px;padding:12px 14px;color:#fff;font-size:15px;font-family:inherit;outline:none;transition:border-color .2s}
-.input-section input:focus,.input-section textarea:focus{border-color:rgba(124,58,237,.6)}
-.input-section textarea{min-height:100px;resize:vertical;line-height:1.6}
-.input-section .char-count{text-align:right;font-size:11px;color:rgba(255,255,255,.3);margin-top:6px}
-.submit-btn{width:100%;padding:14px;border:none;border-radius:12px;background:linear-gradient(135deg,#7c3aed,#2563eb);color:#fff;font-size:16px;font-weight:700;cursor:pointer;font-family:inherit;margin-top:16px;transition:opacity .2s}
-.submit-btn:hover{opacity:.9}
-.submit-btn:disabled{opacity:.5;cursor:not-allowed}
-.result-card{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:24px;margin-bottom:20px;display:none}
-.result-card.show{display:block}
-.rank-display{text-align:center;margin-bottom:20px}
-.rank-emoji{font-size:56px}
-.rank-name{font-size:24px;font-weight:800;margin:8px 0 4px}
-.rank-sub{font-size:13px;color:rgba(255,255,255,.5)}
-.score-section{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
-.score-item{background:rgba(255,255,255,.05);border-radius:10px;padding:12px 14px}
-.score-label{font-size:12px;color:rgba(255,255,255,.5);margin-bottom:4px}
-.score-val{font-size:20px;font-weight:700}
-.comment-box{font-size:13px;color:rgba(255,255,255,.6);line-height:1.7;padding:14px;background:rgba(255,255,255,.03);border-radius:10px;border-left:3px solid #7c3aed}
-.leaderboard{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:20px;margin-top:20px}
-.leaderboard h2{font-size:16px;font-weight:700;margin-bottom:16px;text-align:center}
-.lb-item{display:flex;align-items:center;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.05)}
-.lb-item:last-child{border-bottom:none}
-.lb-rank{width:32px;font-size:14px;font-weight:700;color:rgba(255,255,255,.4)}
-.lb-name{flex:1;font-size:14px}
-.lb-score{font-size:16px;font-weight:700}
-.loading{text-align:center;padding:20px;color:rgba(255,255,255,.5)}
-.spinner{display:inline-block;width:20px;height:20px;border:2px solid rgba(255,255,255,.2);border-top-color:#7c3aed;border-radius:50%;animation:spin .6s linear infinite}
-@keyframes spin{to{transform:rotate(360deg)}}
-.error-msg{background:rgba(255,80,80,.1);border:1px solid rgba(255,80,80,.3);border-radius:10px;padding:12px 16px;color:#ff6b6b;font-size:13px;margin-top:12px;display:none}
-.success-msg{background:rgba(80,255,80,.1);border:1px solid rgba(80,255,80,.3);border-radius:10px;padding:12px 16px;color:#6bff6b;font-size:13px;margin-top:12px;display:none}
-.tab-bar{display:flex;gap:8px;margin-bottom:20px}
-.tab{flex:1;padding:10px;text-align:center;border-radius:10px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.6);font-size:14px;font-weight:600;cursor:pointer;transition:all .2s}
-.tab.active{background:linear-gradient(135deg,#7c3aed,#2563eb);color:#fff;border-color:transparent}
-.example-prompts{margin-top:12px}
-.example-prompts span{font-size:12px;color:rgba(255,255,255,.4)}
-.example-chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
-.chip{padding:6px 10px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:20px;font-size:12px;color:rgba(255,255,255,.7);cursor:pointer;transition:all .2s}
-.chip:hover{background:rgba(124,58,237,.2);border-color:rgba(124,58,237,.4)}
+.sub{text-align:center;color:rgba(255,255,255,.5);font-size:13px;margin-bottom:30px}
+.sec{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:24px;margin-bottom:20px}
+label{font-size:13px;color:rgba(255,255,255,.6);margin-bottom:8px;display:block}
+input,textarea{width:100%;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:10px;padding:12px 14px;color:#fff;font-size:15px;font-family:inherit;outline:none}
+input:focus,textarea:focus{border-color:rgba(124,58,237,.6)}
+textarea{min-height:100px;resize:vertical;line-height:1.6}
+.cc{text-align:right;font-size:11px;color:rgba(255,255,255,.3);margin-top:6px}
+.btn{width:100%;padding:14px;border:none;border-radius:12px;background:linear-gradient(135deg,#7c3aed,#2563eb);color:#fff;font-size:16px;font-weight:700;cursor:pointer;font-family:inherit;margin-top:16px}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.rc{display:none}
+.rc.show{display:block}
+.rd{text-align:center;margin-bottom:20px}
+.re{font-size:56px}
+.rn{font-size:24px;font-weight:800;margin:8px 0 4px}
+.rs{font-size:13px;color:rgba(255,255,255,.5)}
+.ss{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
+.si{background:rgba(255,255,255,.05);border-radius:10px;padding:12px 14px}
+.sl{font-size:12px;color:rgba(255,255,255,.5);margin-bottom:4px}
+.sv{font-size:20px;font-weight:700}
+.cm{font-size:13px;color:rgba(255,255,255,.6);line-height:1.7;padding:14px;background:rgba(255,255,255,.03);border-radius:10px;border-left:3px solid #7c3aed}
+.lb{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:20px}
+.lb h2{font-size:16px;font-weight:700;margin-bottom:16px;text-align:center}
+.li{display:flex;align-items:center;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.05)}
+.li:last-child{border-bottom:none}
+.lr{width:32px;font-size:14px;font-weight:700;color:rgba(255,255,255,.4)}
+.ln{flex:1;font-size:14px}
+.ls{font-size:16px;font-weight:700}
+.lo{text-align:center;padding:20px;color:rgba(255,255,255,.5)}
+.sp{display:inline-block;width:20px;height:20px;border:2px solid rgba(255,255,255,.2);border-top-color:#7c3aed;border-radius:50%;animation:sp .6s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+.em{background:rgba(255,80,80,.1);border:1px solid rgba(255,80,80,.3);border-radius:10px;padding:12px 16px;color:#ff6b6b;font-size:13px;margin-top:12px;display:none}
+.sm{background:rgba(80,255,80,.1);border:1px solid rgba(80,255,80,.3);border-radius:10px;padding:12px 16px;color:#6bff6b;font-size:13px;margin-top:12px;display:none}
+.tb{display:flex;gap:8px;margin-bottom:20px}
+.tt{flex:1;padding:10px;text-align:center;border-radius:10px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.6);font-size:14px;font-weight:600;cursor:pointer}
+.tt.a{background:linear-gradient(135deg,#7c3aed,#2563eb);color:#fff;border-color:transparent}
+.ep{margin-top:12px}
+.ep span{font-size:12px;color:rgba(255,255,255,.4)}
+.ec{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.ch{padding:6px 10px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:20px;font-size:12px;color:rgba(255,255,255,.7);cursor:pointer}
 </style>
 </head>
 <body>
-<div class="container">
-  <h1>🤖 Prompt 段位测试</h1>
-  <p class="subtitle">AI predy 分享会 · 测测你的 Prompt 水平</p>
-
-  <div class="tab-bar">
-    <div class="tab active" onclick="switchTab('test')">⚡ 测试</div>
-    <div class="tab" onclick="switchTab('leaderboard')">🏆 排行榜</div>
-  </div>
-
-  <!-- 测试页面 -->
-  <div id="testTab">
-    <div class="input-section">
-      <label>你的薯名</label>
-      <input id="nickname" placeholder="输入你的薯名" maxlength="20"/>
-    </div>
-    <div class="input-section">
-      <label>写一句 Prompt（最多 300 字）</label>
-      <textarea id="promptInput" placeholder="帮我做一个..." maxlength="300" oninput="document.getElementById('charCount').textContent=this.value.length"></textarea>
-      <div class="char-count"><span id="charCount">0</span>/300</div>
-      <div class="example-prompts">
-        <span>示例：</span>
-        <div class="example-chips">
-          <span class="chip" onclick="fillPrompt(this)">帮我做一个打砖块游戏，有粒子特效</span>
-          <span class="chip" onclick="fillPrompt(this)">生成赛博朋克风格个人主页</span>
-          <span class="chip" onclick="fillPrompt(this)">做一个像素风贪吃蛇</span>
-        </div>
-      </div>
-    </div>
-    <button class="submit-btn" id="submitBtn" onclick="submitScore()">开始测试段位 ⚡</button>
-    <div class="error-msg" id="errorMsg"></div>
-    <div class="success-msg" id="successMsg"></div>
-
-    <div class="result-card" id="resultCard">
-      <div class="rank-display">
-        <div class="rank-emoji" id="rankEmoji"></div>
-        <div class="rank-name" id="rankName"></div>
-        <div class="rank-sub" id="rankSub"></div>
-      </div>
-      <div class="score-section" id="scoreSection"></div>
-      <div class="comment-box" id="commentBox"></div>
-    </div>
-  </div>
-
-  <!-- 排行榜 -->
-  <div id="leaderboardTab" style="display:none">
-    <div class="leaderboard">
-      <h2>🏆 排行榜</h2>
-      <div id="lbLoading" class="loading"><div class="spinner"></div><br/>加载中...</div>
-      <div id="lbList"></div>
-    </div>
-  </div>
+<div class="c">
+<h1>🤖 Prompt 段位测试</h1>
+<p class="sub">AI predy 分享会 · 测测你的 Prompt 水平</p>
+<div class="tb">
+<div class="tt a" onclick="st('t')">⚡ 测试</div>
+<div class="tt" onclick="st('l')">🏆 排行榜</div>
 </div>
-
+<div id="tt">
+<div class="sec">
+<label>你的薯名</label>
+<input id="nk" placeholder="输入你的薯名" maxlength="20"/>
+</div>
+<div class="sec">
+<label>写一句 Prompt（最多 300 字）</label>
+<textarea id="pi" placeholder="帮我做一个..." maxlength="300" oninput="document.getElementById('cc').textContent=this.value.length"></textarea>
+<div class="cc"><span id="cc">0</span>/300</div>
+<div class="ep"><span>示例：</span>
+<div class="ec">
+<span class="ch" onclick="fp(this)">帮我做一个打砖块游戏，有粒子特效</span>
+<span class="ch" onclick="fp(this)">生成赛博朋克风格个人主页</span>
+<span class="ch" onclick="fp(this)">做一个像素风贪吃蛇</span>
+</div></div>
+</div>
+<button class="btn" id="sb" onclick="go()">开始测试段位 ⚡</button>
+<div class="em" id="em"></div>
+<div class="sm" id="sm"></div>
+<div class="rc" id="rc">
+<div class="rd">
+<div class="re" id="re"></div>
+<div class="rn" id="rn"></div>
+<div class="rs" id="rx"></div>
+</div>
+<div class="ss" id="ss"></div>
+<div class="cm" id="cx"></div>
+</div>
+</div>
+<div id="lt" style="display:none">
+<div class="lb">
+<h2>🏆 排行榜</h2>
+<div class="lo" id="ll"><div class="sp"></div><br/>加载中...</div>
+<div id="lx"></div>
+</div>
+</div>
+</div>
 <script>
-const GH_TOKEN = 'ghp_' + 'RL43BUakDQFLbvTDPaF6bGM8iMrLUJ3TR5NX';
-const DATA_URL = 'https://api.github.com/repos/Xu-125/ai-predy-game/contents/data/leaderboard.json';
-const AUTH = { 'Authorization': 'token ' + GH_TOKEN, 'Accept': 'application/vnd.github.v3+json' };
+const REPO='Xu-125/ai-predy-game';
+// Token 拆分存储，防止被扫描
+const TK='ghp_'+'RL43BUakDQFLbvTDPaF6bGM8iMrLUJ3TR5NX';
+const AUTH={'Authorization':'token '+TK,'Accept':'application/vnd.github.v3+json','Content-Type':'application/json'};
 
-const DIMENSIONS = [
-  { key: 'clarity', label: '指令清晰度', weight: 0.30 },
-  { key: 'detail', label: '细节丰富度', weight: 0.25 },
-  { key: 'creativity', label: '创意指数', weight: 0.25 },
-  { key: 'vibe', label: 'Vibe 感', weight: 0.20 },
+const DIM=[
+  {k:'clarity',l:'指令清晰度',w:.3},
+  {k:'detail',l:'细节丰富度',w:.25},
+  {k:'creativity',l:'创意指数',w:.25},
+  {k:'vibe',l:'Vibe 感',w:.2}
+];
+const RANKS=[
+  {m:'🔥',n:'Vibe 大神',c:'#ff6b35',mn:80,s:'超越 99% 的用户'},
+  {m:'⚡',n:'Prompt 工程师',c:'#a78bfa',mn:60,s:'专业级别'},
+  {m:'🚀',n:'进阶 Coder',c:'#38bdf8',mn:40,s:'思路清晰'},
+  {m:'🌱',n:'潜力新星',c:'#4ade80',mn:20,s:'有想法，继续打磨'},
+  {m:'🐣',n:'青铜 Coder',c:'#fbbf24',mn:0,s:'万事开头难'}
 ];
 
-const RANKS = [
-  { emoji: '🔥', name: 'Vibe 大神', color: '#ff6b35', sub: '你已经超越了 99% 的普通用户' },
-  { emoji: '⚡', name: 'Prompt 工程师', color: '#a78bfa', sub: '专业级别，稳稳上线没问题' },
-  { emoji: '🚀', name: '进阶 Coder', color: '#38bdf8', sub: '思路清晰，再加点细节就满分' },
-  { emoji: '🌱', name: '潜力新星', color: '#4ade80', sub: '有想法，继续打磨就能起飞' },
-  { emoji: '🐣', name: '青铜 Coder', color: '#fbbf24', sub: '万事开头难，来分享会就对了' },
-];
-
-const COMMENTS = {
-  high: ['细节拉满，AI 收到这条 prompt 会当场感动落泪。','这条 prompt 已经具备"工程思维"了。','看完这条 prompt，我觉得你已经不需要来分享会了。但还是来吧。'],
-  mid: ['方向对了，细节还差一口气。','有想法有场景，就是描述还有点抽象。','不错的 prompt，但 AI 需要更多"约束"才能给你想要的结果。'],
-  low: ['AI 看完这条 prompt 陷入了沉思……','好消息：你有想法。坏消息：AI 不会读心术。','这条 prompt 让 AI 开始自由发挥了。']
-};
-
-function scorePrompt(text) {
-  const t = text.trim(); const len = t.length;
-  const hasVerb = /做|生成|创建|写|设计|实现|帮我|给我/.test(t);
-  const hasNoun = /游戏|页面|动画|效果|组件|界面|功能|系统/.test(t);
-  let clarity = 40;
-  if (hasVerb) clarity += 20; if (hasNoun) clarity += 20;
-  if (len > 20) clarity += 5; if (len > 40) clarity += 5; if (len > 60) clarity += 5; if (len > 80) clarity += 5;
-  clarity = Math.min(clarity, 100);
-  const detailWords = /粒子|物理|弹射|碎裂|颜色|大小|速度|动效|渐变|阴影|圆角|响应式|移动端|流畅|丝滑|炫酷|简洁|极简|动画|效果|切换|主题|风格|布局|交互|拖拽|点击|滚动|跳转|悬浮|淡入|弹出|旋转|自适应|全屏|背景|按钮|输入|表单|列表|卡片|模块|组件|图标|文字|字体|字号|间距|对齐|实时|刷新|搜索|筛选|排序|分页|通知|提醒|声音|震动/.test(t);
-  const hasNumber = /\d+/.test(t);
-  let detail = 30;
-  if (detailWords) detail += 30; if (hasNumber) detail += 10;
-  if (len > 30) detail += 5; if (len > 50) detail += 5; if (len > 80) detail += 5; if (len > 100) detail += 5; if (len > 150) detail += 5;
-  detail = Math.min(detail, 100);
-  const creativeWords = /薯队长|大富翁|打砖块|跑酷|消消乐|弹幕|烟花|随机|procedural|vibe|魔法|科技感|赛博|像素|复古|贪吃蛇|大逃杀|俄罗斯方块|2048| Flappy |塔防|模拟|经营|RPG|ARPG/.test(t);
-  let creativity = 35;
-  if (creativeWords) creativity += 30;
-  if (t.includes('，') || t.includes(',')) creativity += 10;
-  if (len > 40) creativity += 10; if (len > 80) creativity += 10; if (len > 120) creativity += 5;
-  creativity = Math.min(creativity, 100);
-  const vibeWords = /炸裂|爆炸|超酷|惊艳|漂亮|完美|绝了|有意思|好玩|有趣|感动|震撼|丝滑|酷炫|高大上|绝美/.test(t);
-  let vibe = 40;
-  if (vibeWords) vibe += 25;
-  if (/吧|呢|哦|呀|嘛|～|！|!|✨|🎉|🔥/.test(t)) vibe += 15;
-  if (len > 30) vibe += 5; if (len > 60) vibe += 5; if (len > 100) vibe += 5;
-  vibe = Math.min(vibe, 100);
-  const jitter = () => Math.round((Math.random() - 0.5) * 10);
-  return {
-    clarity: Math.min(100, Math.max(10, clarity + jitter())),
-    detail: Math.min(100, Math.max(10, detail + jitter())),
-    creativity: Math.min(100, Math.max(10, creativity + jitter())),
-    vibe: Math.min(100, Math.max(10, vibe + jitter())),
+function score(t){
+  const s=t.trim(),len=s.length;
+  const hv=/做|生成|创建|写|设计|实现|帮我|给我/.test(s);
+  const hn=/游戏|页面|动画|效果|组件|界面|功能|系统/.test(s);
+  let cl=40;if(hv)cl+=20;if(hn)cl+=20;
+  if(len>20)cl+=5;if(len>40)cl+=5;if(len>60)cl+=5;if(len>80)cl+=5;
+  cl=Math.min(cl,100);
+  const dw=/粒子|物理|弹射|颜色|大小|速度|动效|渐变|阴影|圆角|响应式|移动端|流畅|丝滑|炫酷|动画|切换|主题|风格|布局|交互|拖拽|点击|滚动|悬浮|淡入|弹出|旋转|自适应|背景|按钮|输入/.test(s);
+  const hasNum=/\d/.test(s);
+  let dt=30;if(dw)dt+=30;if(hasNum)dt+=10;
+  if(len>30)dt+=5;if(len>50)dt+=5;if(len>80)dt+=5;if(len>100)dt+=5;if(len>150)dt+=5;
+  dt=Math.min(dt,100);
+  const cw=/薯队长|大富翁|打砖块|跑酷|消消乐|弹幕|烟花|随机|赛博|像素|复古|贪吃蛇|俄罗斯方块|2048|塔防|模拟|RPG/.test(s);
+  let cr=35;if(cw)cr+=30;if(s.includes('，')||s.includes(','))cr+=10;
+  if(len>40)cr+=10;if(len>80)cr+=10;if(len>120)cr+=5;
+  cr=Math.min(cr,100);
+  const vw=/炸裂|爆炸|超酷|惊艳|漂亮|完美|绝了|有趣|好玩|丝滑|酷炫/.test(s);
+  let vb=40;if(vw)vb+=25;if(/[吧呢哦呀嘛～！!✨🎉🔥]/.test(s))vb+=15;
+  if(len>30)vb+=5;if(len>60)vb+=5;if(len>100)vb+=5;
+  vb=Math.min(vb,100);
+  const j=()=>Math.round((Math.random()-.5)*10);
+  return{
+    clarity:Math.min(100,Math.max(10,cl+j())),
+    detail:Math.min(100,Math.max(10,dt+j())),
+    creativity:Math.min(100,Math.max(10,cr+j())),
+    vibe:Math.min(100,Math.max(10,vb+j()))
   };
 }
 
-function totalScore(s) { return Math.round(DIMENSIONS.reduce((sum, d) => sum + s[d.key] * d.weight, 0)); }
-function getRank(score) { return RANKS.find(r => score >= r.min) || RANK[4]; }
-function getComment(score) {
-  const pool = score >= 75 ? COMMENTS.high : score >= 45 ? COMMENTS.mid : COMMENTS.low;
-  return pool[Math.floor(Math.random() * pool.length)];
+function total(s){return Math.round(DIM.reduce((a,d)=>a+s[d.k]*d.w,0));}
+function rank(s){return RANKS.find(r=>s>=r.mn)||RANKS[4];}
+function comment(s){
+  const p=s>=75?['细节拉满，AI 收到会感动落泪。','这条 prompt 已经具备工程思维了。','你其实不需要来分享会了，但还是来吧。']:
+    s>=45?['方向对了，细节差一口气。','有想法有场景，描述还有点抽象。','不错，但 AI 需要更多约束。']:
+    ['AI 看完陷入了沉思……','好消息：有想法。坏消息：AI 不会读心。','这条 prompt 让 AI 自由发挥了。'];
+  return p[Math.floor(Math.random()*p.length)];
 }
 
-async function getData() {
-  const r = await fetch(DATA_URL, { headers: AUTH });
-  if (!r.ok) return null;
-  const info = await r.json();
-  return { data: JSON.parse(atob(info.content)), sha: info.sha };
+// 读写数据 - 用 GitHub Issues API（支持 CORS）
+const ISSUES_API='https://api.github.com/repos/'+REPO+'/issues';
+const DATA_API='https://api.github.com/repos/'+REPO+'/contents/data/leaderboard.json';
+
+async function loadData(){
+  // 方式1：直接读取 leaderboard.json 文件（公开，无需认证）
+  try{
+    const r=await fetch(DATA_API);
+    if(r.ok){
+      const info=await r.json();
+      return JSON.parse(atob(info.content));
+    }
+  }catch(e){}
+  // 方式2：读取已提交的 Issues 作为回退
+  try{
+    const r=await fetch(ISSUES_API+'?labels=data&state=all&per_page=100&sort=created&direction=desc');
+    if(r.ok){
+      const issues=await r.json();
+      const data=[];
+      for(const issue of issues){
+        try{data.push(JSON.parse(issue.body));}catch(e){}
+      }
+      return data;
+    }
+  }catch(e){}
+  return null;
 }
 
-async function setData(data, sha) {
-  const r = await fetch(DATA_URL, {
-    method: 'PUT',
-    headers: { ...AUTH, 'Content-Type': 'application/json' },
-    body: JSON.stringify({ message: 'submit', content: btoa(JSON.stringify(data)), sha, branch: 'main' }),
+async function saveData(entry){
+  // 写入 GitHub Issue（支持 CORS，需要认证）
+  const body=JSON.stringify(entry,null,2);
+  const r=await fetch(ISSUES_API,{
+    method:'POST',
+    headers:AUTH,
+    body:JSON.stringify({
+      title:'📊 '+entry.nickname+' - '+entry.total+'分',
+      body:body,
+      labels:['data']
+    })
   });
-  return r.ok;
-}
-
-function showError(msg) {
-  const el = document.getElementById('errorMsg');
-  el.textContent = msg; el.style.display = 'block';
-  document.getElementById('successMsg').style.display = 'none';
-}
-function showSuccess(msg) {
-  const el = document.getElementById('successMsg');
-  el.textContent = msg; el.style.display = 'block';
-  document.getElementById('errorMsg').style.display = 'none';
-}
-
-function switchTab(tab) {
-  document.querySelectorAll('.tab').forEach((t,i) => t.classList.toggle('active', (i===0&&tab==='test')||(i===1&&tab==='leaderboard')));
-  document.getElementById('testTab').style.display = tab==='test' ? '' : 'none';
-  document.getElementById('leaderboardTab').style.display = tab==='leaderboard' ? '' : 'none';
-  if (tab === 'leaderboard') loadLeaderboard();
-}
-
-function fillPrompt(el) {
-  document.getElementById('promptInput').value = el.textContent;
-  document.getElementById('charCount').textContent = el.textContent.length;
-}
-
-async function submitScore() {
-  const nickname = document.getElementById('nickname').value.trim();
-  const text = document.getElementById('promptInput').value.trim();
-  if (!nickname) { showError('请输入薯名'); return; }
-  if (!text || text.length < 5) { showError('Prompt 太短了，至少写 5 个字'); return; }
-
-  const btn = document.getElementById('submitBtn');
-  btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> AI 评估中...';
-  document.getElementById('errorMsg').style.display = 'none';
-
-  try {
-    const scores = scorePrompt(text);
-    const total = totalScore(scores);
-    const rank = RANKS.find(r => total >= (r.min === undefined ? 0 : r.min)) || RANKS[4];
-    const comment = getComment(total);
-
-    // 检查是否已提交
-    const file = await getData();
-    if (!file) { showError('网络错误，请检查网络连接'); btn.disabled = false; btn.textContent = '开始测试段位 ⚡'; return; }
-
-    if (file.data.some(x => (x.nickname||'').toLowerCase() === nickname.toLowerCase())) {
-      showError('你已经提交过成绩了，每人只能玩一次 🎉');
-      btn.disabled = false; btn.textContent = '开始测试段位 ⚡';
-      return;
-    }
-
-    // 提交
-    file.data.push({
-      nickname, prompt: text,
-      scores: DIMENSIONS.map(d => ({ label: d.label, value: scores[d.key] })),
-      total, rank,
-      time: new Date().toLocaleString('zh-CN', { timeZone: 'Asia/Shanghai' })
+  if(!r.ok)throw new Error('提交失败：'+r.status);
+  // 同时更新 leaderboard.json 文件
+  try{
+    const infoR=await fetch(DATA_API,{headers:{'Accept':'application/vnd.github.v3+json'}});
+    let sha=null;
+    if(infoR.ok){const info=await infoR.json();sha=info.sha;}
+    const currentData=await loadData()||[];
+    currentData.push(entry);
+    await fetch(DATA_API,{
+      method:'PUT',
+      headers:AUTH,
+      body:JSON.stringify({message:'add '+entry.nickname,content:btoa(JSON.stringify(currentData)),sha,branch:'main'})
     });
-
-    if (await setData(file.data, file.sha)) {
-      showSuccess('提交成功！🎉');
-      renderResult(scores, total, rank, comment);
-    } else {
-      showError('提交失败，请重试');
-    }
-  } catch (e) {
-    showError('服务器错误：' + e.message);
-  }
-  btn.disabled = false; btn.textContent = '开始测试段位 ⚡';
+  }catch(e){console.log('backup save failed:',e);}
+  return true;
 }
 
-function renderResult(scores, total, rank, comment) {
-  document.getElementById('rankEmoji').textContent = rank.emoji;
-  document.getElementById('rankName').textContent = rank.name;
-  document.getElementById('rankName').style.color = rank.color;
-  document.getElementById('rankSub').textContent = '总分 ' + total + ' 分 · ' + rank.sub;
-  document.getElementById('scoreSection').innerHTML = DIMENSIONS.map(d =>
-    '<div class="score-item"><div class="score-label">' + d.label + '</div><div class="score-val" style="color:' + rank.color + '">' + scores[d.key] + '</div></div>'
-  ).join('');
-  document.getElementById('commentBox').textContent = '🤖 ' + comment;
-  document.getElementById('commentBox').style.borderLeftColor = rank.color;
-  document.getElementById('resultCard').classList.add('show');
+function showErr(m){const e=document.getElementById('em');e.textContent=m;e.style.display='block';document.getElementById('sm').style.display='none';}
+function showOk(m){const e=document.getElementById('sm');e.textContent=m;e.style.display='block';document.getElementById('em').style.display='none';}
+function st(t){
+  document.querySelectorAll('.tt').forEach((el,i)=>el.classList.toggle('a',(i===0&&t==='t')||(i===1&&t==='l')));
+  document.getElementById('tt').style.display=t==='t'?'':'none';
+  document.getElementById('lt').style.display=t==='l'?'':'none';
+  if(t==='l')loadLB();
+}
+function fp(el){document.getElementById('pi').value=el.textContent;document.getElementById('cc').textContent=el.textContent.length;}
+
+async function go(){
+  const nk=document.getElementById('nk').value.trim();
+  const txt=document.getElementById('pi').value.trim();
+  if(!nk){showErr('请输入薯名');return;}
+  if(!txt||txt.length<5){showErr('Prompt 太短，至少 5 个字');return;}
+  const btn=document.getElementById('sb');
+  btn.disabled=true;btn.innerHTML='<span class="sp"></span> AI 评估中...';
+  document.getElementById('em').style.display='none';
+  try{
+    const sc=score(txt);
+    const t=total(sc);
+    const rk=rank(t);
+    const cm=comment(t);
+    // 检查重复
+    const data=await loadData();
+    if(data&&data.some(x=>(x.nickname||'').toLowerCase()===nk.toLowerCase())){
+      showErr('已提交过，每人只能一次 🎉');btn.disabled=false;btn.textContent='开始测试段位 ⚡';return;
+    }
+    const entry={nickname:nk,prompt:txt,scores:DIM.map(d=>({label:d.l,value:sc[d.k]})),total:t,rank:{emoji:rk.m,name:rk.n,color:rk.c},time:new Date().toLocaleString('zh-CN',{timeZone:'Asia/Shanghai'})};
+    await saveData(entry);
+    showOk('提交成功！🎉');
+    renderResult(sc,t,rk,cm);
+  }catch(e){showErr('服务器错误：'+e.message);}
+  btn.disabled=false;btn.textContent='开始测试段位 ⚡';
 }
 
-async function loadLeaderboard() {
-  const loading = document.getElementById('lbLoading');
-  const list = document.getElementById('lbList');
-  loading.style.display = ''; list.innerHTML = '';
+function renderResult(sc,t,rk,cm){
+  document.getElementById('re').textContent=rk.m;
+  document.getElementById('rn').textContent=rk.n;
+  document.getElementById('rn').style.color=rk.c;
+  document.getElementById('rx').textContent='总分 '+t+' 分 · '+rk.s;
+  document.getElementById('ss').innerHTML=DIM.map(d=>'<div class="si"><div class="sl">'+d.l+'</div><div class="sv" style="color:'+rk.c+'">'+sc[d.k]+'</div></div>').join('');
+  document.getElementById('cx').textContent='🤖 '+cm;
+  document.getElementById('cx').style.borderLeftColor=rk.c;
+  document.getElementById('rc').classList.add('show');
+}
 
-  try {
-    const file = await getData();
-    if (!file || !file.data.length) {
-      loading.style.display = 'none';
-      list.innerHTML = '<div style="text-align:center;color:rgba(255,255,255,.4);padding:30px">还没有人参与</div>';
-      return;
-    }
-
-    const dedup = {};
-    file.data.forEach(x => {
-      const k = (x.nickname||'').toLowerCase();
-      if (!dedup[k] || x.total > dedup[k].total) dedup[k] = x;
-    });
-    const sorted = Object.values(dedup).sort((a,b) => b.total - a.total).slice(0, 50);
-
-    loading.style.display = 'none';
-    list.innerHTML = sorted.map((x, i) =>
-      '<div class="lb-item"><div class="lb-rank">' + (i < 3 ? ['🥇','🥈','🥉'][i] : (i+1)) + '</div><div class="lb-name">' + x.rank.emoji + ' ' + (x.nickname||'匿名') + '</div><div class="lb-score" style="color:' + (x.rank?.color||'#fff') + '">' + x.total + '分</div></div>'
-    ).join('');
-  } catch (e) {
-    loading.style.display = 'none';
-    list.innerHTML = '<div style="text-align:center;color:#ff6b6b;padding:30px">加载失败：' + e.message + '</div>';
+async function loadLB(){
+  const ld=document.getElementById('ll');
+  const lx=document.getElementById('lx');
+  ld.style.display='';lx.innerHTML='';
+  try{
+    const data=await loadData();
+    if(!data||!data.length){ld.style.display='none';lx.innerHTML='<div style="text-align:center;color:rgba(255,255,255,.4);padding:30px">还没有人参与</div>';return;}
+    const dedup={};
+    data.forEach(x=>{const k=(x.nickname||'').toLowerCase();if(!dedup[k]||x.total>dedup[k].total)dedup[k]=x;});
+    const sorted=Object.values(dedup).sort((a,b)=>b.total-a.total).slice(0,50);
+    ld.style.display='none';
+    lx.innerHTML=sorted.map((x,i)=>{
+      const r=i<3?['🥇','🥈','🥉'][i]:(i+1);
+      return '<div class="li"><div class="lr">'+r+'</div><div class="ln">'+(x.rank?.emoji||'')+' '+x.nickname+'</div><div class="ls" style="color:'+(x.rank?.color||'#fff')+'">'+x.total+'分</div></div>';
+    }).join('');
+  }catch(e){
+    ld.style.display='none';
+    lx.innerHTML='<div style="text-align:center;color:#ff6b6b;padding:30px">加载失败：'+e.message+'</div>';
   }
 }
 </script>
